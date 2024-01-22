@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.htnova.mt.order.mapper.TSysKxPayMapper">
+
+    <resultMap id="BaseResultMap" type="com.htnova.mt.order.entity.TSysKxPay">
+            <id property="orderid" column="orderid" jdbcType="VARCHAR"/>
+            <result property="service" column="service" jdbcType="VARCHAR"/>
+            <result property="mchOrderid" column="mch_orderid" jdbcType="VARCHAR"/>
+            <result property="orderTime" column="order_time" jdbcType="INTEGER"/>
+            <result property="url" column="url" jdbcType="VARCHAR"/>
+            <result property="version" column="version" jdbcType="VARCHAR"/>
+            <result property="charset" column="charset" jdbcType="VARCHAR"/>
+            <result property="message" column="message" jdbcType="VARCHAR"/>
+            <result property="status" column="status" jdbcType="INTEGER"/>
+            <result property="signType" column="sign_type" jdbcType="VARCHAR"/>
+            <result property="sign" column="sign" jdbcType="VARCHAR"/>
+            <result property="tradeNo" column="trade_no" jdbcType="VARCHAR"/>
+            <result property="paystatus" column="paystatus" jdbcType="VARCHAR"/>
+            <result property="paymoney" column="paymoney" jdbcType="DOUBLE"/>
+            <result property="priPaymoney" column="pri_paymoney" jdbcType="DOUBLE"/>
+            <result property="receiptAmount" column="receipt_amount" jdbcType="DOUBLE"/>
+            <result property="buyerPayAmount" column="buyer_pay_amount" jdbcType="DOUBLE"/>
+            <result property="couponFee" column="coupon_fee" jdbcType="DOUBLE"/>
+            <result property="buyerAccount" column="buyer_account" jdbcType="VARCHAR"/>
+            <result property="mPaytype" column="m_paytype" jdbcType="VARCHAR"/>
+            <result property="userId" column="user_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        orderid,user_id,service,mch_orderid,
+        order_time,url,version,
+        charset,message,status,
+        sign_type,sign,trade_no,
+        paystatus,paymoney,pri_paymoney,
+        receipt_amount,buyer_pay_amount,coupon_fee,
+        buyer_account,m_paytype
+    </sql>
+</mapper>

@@ -1,0 +1,705 @@
+2023-10-17 11:05:00.105  INFO 21480 --- [main] com.htnova.Application                   : Starting Application on WANGSHENG with PID 21480 (E:\eclipse-workspace\submarine-admin-backend\target\classes started by RISE in E:\eclipse-workspace\submarine-admin-backend)
+2023-10-17 11:05:00.110  INFO 21480 --- [main] com.htnova.Application                   : The following profiles are active: prod
+2023-10-17 11:05:01.157  INFO 21480 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2023-10-17 11:05:01.159  INFO 21480 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2023-10-17 11:05:01.225  INFO 21480 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 43ms. Found 0 Redis repository interfaces.
+2023-10-17 11:05:01.731  INFO 21480 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@47148f3f' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-17 11:05:01.737  INFO 21480 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-17 11:05:01.775  INFO 21480 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'server-org.springframework.boot.autoconfigure.web.ServerProperties' of type [org.springframework.boot.autoconfigure.web.ServerProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-17 11:05:01.777  INFO 21480 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'socketConfig' of type [com.htnova.common.socket.SocketConfig$$EnhancerBySpringCGLIB$$74eec195] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-17 11:05:01.836  INFO 21480 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'socketIOServer' of type [com.corundumstudio.socketio.SocketIOServer] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-17 11:05:02.102  INFO 21480 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 19687 (http)
+2023-10-17 11:05:02.116  INFO 21480 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-10-17 11:05:02.116  INFO 21480 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.36]
+2023-10-17 11:05:02.257  INFO 21480 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring embedded WebApplicationContext
+2023-10-17 11:05:02.257  INFO 21480 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2122 ms
+2023-10-17 11:05:03.136  INFO 21480 --- [main] c.a.d.s.b.a.DruidDataSourceAutoConfigure : Init DruidDataSource
+2023-10-17 11:05:03.208  INFO 21480 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2023-10-17 11:05:03.620  WARN 21480 --- [main] c.b.m.core.metadata.TableInfoHelper      : Can not find table primary key in Class: "com.htnova.mt.order.entity.OrderLogList".
+2023-10-17 11:05:03.620  WARN 21480 --- [main] c.b.m.core.injector.DefaultSqlInjector   : class com.htnova.mt.order.entity.OrderLogList ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-10-17 11:05:04.266  INFO 21480 --- [main] c.htnova.common.socket.SocketServerInit  : SocketIO Server starting...
+2023-10-17 11:05:04.266  INFO 21480 --- [main] c.c.socketio.SocketIOServer              : Session store / pubsub factory used: MemoryStoreFactory (local session store only)
+2023-10-17 11:05:05.100  INFO 21480 --- [nioEventLoopGroup-4-1] c.c.socketio.SocketIOServer              : SocketIO server started at port: 19688
+2023-10-17 11:05:05.357  INFO 21480 --- [main] c.c.s.a.SpringAnnotationScanner          : socketController bean listeners added
+2023-10-17 11:05:05.602  INFO 21480 --- [main] c.c.s.a.SpringAnnotationScanner          : redisManageController bean listeners added
+2023-10-17 11:05:05.658  INFO 21480 --- [main] o.f.s.b.f.FormEngineAutoConfiguration    : No deployment resources were found for autodeployment
+2023-10-17 11:05:05.690  INFO 21480 --- [main] o.f.s.b.e.EventRegistryAutoConfiguration : No deployment resources were found for autodeployment
+2023-10-17 11:05:05.744  INFO 21480 --- [main] o.f.s.b.ProcessEngineAutoConfiguration   : No deployment resources were found for autodeployment
+2023-10-17 11:05:05.757  INFO 21480 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2023-10-17 11:05:06.224  INFO 21480 --- [main] o.f.s.SpringProcessEngineConfiguration   : Found 3 Engine Configurators in total:
+2023-10-17 11:05:06.225  INFO 21480 --- [main] o.f.s.SpringProcessEngineConfiguration   : class org.flowable.eventregistry.spring.configurator.SpringEventRegistryConfigurator (priority:100000)
+2023-10-17 11:05:06.225  INFO 21480 --- [main] o.f.s.SpringProcessEngineConfiguration   : class org.flowable.form.spring.configurator.SpringFormEngineConfigurator (priority:300000)
+2023-10-17 11:05:06.225  INFO 21480 --- [main] o.f.s.SpringProcessEngineConfiguration   : class org.flowable.content.spring.configurator.SpringContentEngineConfigurator (priority:400000)
+2023-10-17 11:05:06.225  INFO 21480 --- [main] o.f.s.SpringProcessEngineConfiguration   : Executing beforeInit() of class org.flowable.eventregistry.spring.configurator.SpringEventRegistryConfigurator (priority:100000)
+2023-10-17 11:05:06.230  INFO 21480 --- [main] o.f.s.SpringProcessEngineConfiguration   : Executing beforeInit() of class org.flowable.form.spring.configurator.SpringFormEngineConfigurator (priority:300000)
+2023-10-17 11:05:06.232  INFO 21480 --- [main] o.f.s.SpringProcessEngineConfiguration   : Executing beforeInit() of class org.flowable.content.spring.configurator.SpringContentEngineConfigurator (priority:400000)
+2023-10-17 11:05:06.439  INFO 21480 --- [Druid-ConnectionPool-Create-729787591] p6spy                                    :  Consume Time：33 ms 2023-10-17 11:05:06
+ Execute SQL：SELECT 1
+
+2023-10-17 11:05:07.086  INFO 21480 --- [main] o.f.s.SpringProcessEngineConfiguration   : Executing configure() of class org.flowable.eventregistry.spring.configurator.SpringEventRegistryConfigurator (priority:100000)
+2023-10-17 11:05:08.919  INFO 21480 --- [main] liquibase.executor.jvm.JdbcExecutor      : SELECT COUNT(*) FROM submarine.FLW_EV_DATABASECHANGELOG
+2023-10-17 11:05:08.920  INFO 21480 --- [main] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:05:08
+ Execute SQL：SELECT COUNT(*) FROM submarine.FLW_EV_DATABASECHANGELOG
+
+2023-10-17 11:05:08.923  INFO 21480 --- [main] l.c.StandardChangeLogHistoryService      : Reading from submarine.FLW_EV_DATABASECHANGELOG
+2023-10-17 11:05:08.924  INFO 21480 --- [main] liquibase.executor.jvm.JdbcExecutor      : SELECT * FROM submarine.FLW_EV_DATABASECHANGELOG ORDER BY DATEEXECUTED ASC, ORDEREXECUTED ASC
+2023-10-17 11:05:08.925  INFO 21480 --- [main] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:05:08
+ Execute SQL：SELECT * FROM submarine.FLW_EV_DATABASECHANGELOG ORDER BY DATEEXECUTED ASC, ORDEREXECUTED ASC
+
+2023-10-17 11:05:08.927  INFO 21480 --- [main] p6spy                                    : 
+2023-10-17 11:05:08.936  INFO 21480 --- [main] o.f.e.impl.EventRegistryEngineImpl       : EventRegistryEngine default created
+2023-10-17 11:05:08.937  INFO 21480 --- [main] o.f.s.SpringProcessEngineConfiguration   : Executing configure() of class org.flowable.form.spring.configurator.SpringFormEngineConfigurator (priority:300000)
+2023-10-17 11:05:08.978  INFO 21480 --- [main] liquibase.executor.jvm.JdbcExecutor      : SELECT COUNT(*) FROM submarine.ACT_FO_DATABASECHANGELOG
+2023-10-17 11:05:08.979  INFO 21480 --- [main] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:05:08
+ Execute SQL：SELECT COUNT(*) FROM submarine.ACT_FO_DATABASECHANGELOG
+
+2023-10-17 11:05:08.979  INFO 21480 --- [main] l.c.StandardChangeLogHistoryService      : Reading from submarine.ACT_FO_DATABASECHANGELOG
+2023-10-17 11:05:08.980  INFO 21480 --- [main] liquibase.executor.jvm.JdbcExecutor      : SELECT * FROM submarine.ACT_FO_DATABASECHANGELOG ORDER BY DATEEXECUTED ASC, ORDEREXECUTED ASC
+2023-10-17 11:05:08.980  INFO 21480 --- [main] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:05:08
+ Execute SQL：SELECT * FROM submarine.ACT_FO_DATABASECHANGELOG ORDER BY DATEEXECUTED ASC, ORDEREXECUTED ASC
+
+2023-10-17 11:05:08.981  INFO 21480 --- [main] p6spy                                    : 
+2023-10-17 11:05:08.986  INFO 21480 --- [main] o.f.form.engine.impl.FormEngineImpl      : FormEngine default created
+2023-10-17 11:05:08.987  INFO 21480 --- [main] o.f.s.SpringProcessEngineConfiguration   : Executing configure() of class org.flowable.content.spring.configurator.SpringContentEngineConfigurator (priority:400000)
+2023-10-17 11:05:08.989  INFO 21480 --- [main] o.f.c.s.SpringContentEngineConfiguration : Content file system root : C:\Users\RISE\content
+2023-10-17 11:05:09.313  INFO 21480 --- [main] liquibase.executor.jvm.JdbcExecutor      : SELECT COUNT(*) FROM submarine.ACT_CO_DATABASECHANGELOG
+2023-10-17 11:05:09.313  INFO 21480 --- [main] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:05:09
+ Execute SQL：SELECT COUNT(*) FROM submarine.ACT_CO_DATABASECHANGELOG
+
+2023-10-17 11:05:09.313  INFO 21480 --- [main] l.c.StandardChangeLogHistoryService      : Reading from submarine.ACT_CO_DATABASECHANGELOG
+2023-10-17 11:05:09.315  INFO 21480 --- [main] liquibase.executor.jvm.JdbcExecutor      : SELECT * FROM submarine.ACT_CO_DATABASECHANGELOG ORDER BY DATEEXECUTED ASC, ORDEREXECUTED ASC
+2023-10-17 11:05:09.315  INFO 21480 --- [main] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:05:09
+ Execute SQL：SELECT * FROM submarine.ACT_CO_DATABASECHANGELOG ORDER BY DATEEXECUTED ASC, ORDEREXECUTED ASC
+
+2023-10-17 11:05:09.316  INFO 21480 --- [main] p6spy                                    : 
+2023-10-17 11:05:09.319  INFO 21480 --- [main] o.f.c.engine.impl.ContentEngineImpl      : ContentEngine default created
+2023-10-17 11:05:09.340  INFO 21480 --- [main] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:05:09
+ Execute SQL：select VALUE_ from ACT_GE_PROPERTY where NAME_ = 'schema.version'
+
+2023-10-17 11:05:09.351  INFO 21480 --- [main] o.f.engine.impl.ProcessEngineImpl        : ProcessEngine default created
+2023-10-17 11:05:09.375  INFO 21480 --- [main] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:05:09
+ Execute SQL：select count(RES.ID_) from ACT_RE_DEPLOYMENT RES WHERE RES.ENGINE_VERSION_ = 'v5'
+
+2023-10-17 11:05:09.376  INFO 21480 --- [main] o.f.e.impl.cmd.ValidateV5EntitiesCmd     : Total of v5 deployments found: 0
+2023-10-17 11:05:09.379  INFO 21480 --- [main] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:05:09
+ Execute SQL：select * from ACT_GE_PROPERTY where NAME_ = 'cfg.execution-related-entities-count'
+
+2023-10-17 11:05:09.382  INFO 21480 --- [main] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:05:09
+ Execute SQL：select * from ACT_GE_PROPERTY where NAME_ = 'cfg.task-related-entities-count'
+
+2023-10-17 11:05:09.722  INFO 21480 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2023-10-17 11:05:09.819  INFO 21480 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: Ant [pattern='/error'], []
+2023-10-17 11:05:09.819  INFO 21480 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: Ant [pattern='/app/**'], []
+2023-10-17 11:05:09.843  INFO 21480 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@796687de, org.springframework.security.web.context.SecurityContextPersistenceFilter@74832504, org.springframework.security.web.header.HeaderWriterFilter@346e76ad, org.springframework.security.web.authentication.logout.LogoutFilter@3c2188b0, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@4beec7a1, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@1a4340f2, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@14997cb9, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@225d93aa, org.springframework.security.web.session.SessionManagementFilter@3fae1ec9, org.springframework.security.web.access.ExceptionTranslationFilter@5d04adc1, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@4cdb7fd9]
+2023-10-17 11:05:10.236  INFO 21480 --- [main] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
+2023-10-17 11:05:10.245  INFO 21480 --- [main] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2023-10-17 11:05:10.245  INFO 21480 --- [main] org.quartz.core.QuartzScheduler          : Quartz Scheduler v.2.3.2 created.
+2023-10-17 11:05:10.246  INFO 21480 --- [main] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
+2023-10-17 11:05:10.247  INFO 21480 --- [main] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.3.2) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2023-10-17 11:05:10.247  INFO 21480 --- [main] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2023-10-17 11:05:10.247  INFO 21480 --- [main] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.3.2
+2023-10-17 11:05:10.247  INFO 21480 --- [main] org.quartz.core.QuartzScheduler          : JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@38fc2c39
+2023-10-17 11:05:10.465  INFO 21480 --- [main] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:05:10
+ Execute SQL：select RES.* from FLW_CHANNEL_DEFINITION RES WHERE RES.VERSION_ = (select max(VERSION_) from FLW_CHANNEL_DEFINITION where KEY_ = RES.KEY_ and ( (TENANT_ID_ IS NOT NULL and TENANT_ID_ = RES.TENANT_ID_) or (TENANT_ID_ IS NULL and RES.TENANT_ID_ IS NULL) ) ) order by RES.ID_ asc
+
+2023-10-17 11:05:10.466  INFO 21480 --- [main] o.s.s.c.ThreadPoolTaskScheduler          : Initializing ExecutorService
+2023-10-17 11:05:10.483  INFO 21480 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 19687 (http) with context path '/api'
+2023-10-17 11:05:10.485  INFO 21480 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2023-10-17 11:05:10.499  INFO 21480 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2023-10-17 11:05:10.521  INFO 21480 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2023-10-17 11:05:10.697  INFO 21480 --- [main] o.s.s.quartz.SchedulerFactoryBean        : Starting Quartz Scheduler now
+2023-10-17 11:05:10.697  INFO 21480 --- [main] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2023-10-17 11:05:11.291  INFO 21480 --- [main] s.a.ScheduledAnnotationBeanPostProcessor : No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
+2023-10-17 11:05:11.298  INFO 21480 --- [main] com.htnova.Application                   : Started Application in 11.717 seconds (JVM running for 12.478)
+2023-10-17 11:05:11.345  INFO 21480 --- [main] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:05:11
+ Execute SQL：SELECT id,job_name,bean_name,method_name,params,cron_expression,status,remark,create_by,creator_name,create_time,update_by,update_time,del_flag FROM t_sys_quartz_job WHERE del_flag=0 AND (status = 'enable')
+
+2023-10-17 11:05:13.742  INFO 21480 --- [http-nio-19687-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-10-17 11:05:13.742  INFO 21480 --- [http-nio-19687-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2023-10-17 11:05:13.751  INFO 21480 --- [http-nio-19687-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 9 ms
+2023-10-17 11:05:13.858  INFO 21480 --- [http-nio-19687-exec-1] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:05:13
+ Execute SQL：SELECT order_id,sig,app_poi_code,order_tag_list,mt_pkg_id,dispatcher_mobile,time,logistics_code,app_id,logistics_status,dispatcher_name,timestamp FROM t_mt_delivery_personnel WHERE order_id='1300769620675715304' 
+
+2023-10-17 11:05:13.863  INFO 21480 --- [http-nio-19687-exec-1] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:05:13
+ Execute SQL：INSERT INTO t_mt_delivery_personnel ( order_id, sig, app_poi_code, order_tag_list, mt_pkg_id, dispatcher_mobile, time, logistics_code, app_id, logistics_status, dispatcher_name, timestamp ) VALUES ( '1300769620675715304', 'd4a256f084186ebe9c8f3ff85e9b456d', '17154783', '[8]', '1697511918360288535', '', '1697511918', '3001', '5430', '0', '', '1697511918' )
+
+2023-10-17 11:05:13.922  INFO 21480 --- [http-nio-19687-exec-1] p6spy                                    :  Consume Time：40 ms 2023-10-17 11:05:13
+ Execute SQL：update completedorder SET status = '0' where order_id = '1300769620675715304'
+
+2023-10-17 11:05:13.930  INFO 21480 --- [http-nio-19687-exec-1] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:05:13
+ Execute SQL：INSERT INTO t_order_log_list ( order_id, title, code, content, created_time ) VALUES ( 1300769620675715304, '配送单发往配送', 0, '', '2023-10-17T11:05:13.923' )
+
+2023-10-17 11:05:13.942  INFO 21480 --- [http-nio-19687-exec-1] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:05:13
+ Execute SQL：SELECT id,u_id,user_name,name,poi_id,poi_name,remark,create_by,creator_name,create_time,update_by,update_time,del_flag FROM t_sys_user_poi WHERE del_flag=0 AND (poi_id = '17154783') LIMIT 1
+
+2023-10-17 11:05:14.346  INFO 21480 --- [http-nio-19687-exec-2] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:05:14
+ Execute SQL：SELECT order_id,sig,app_poi_code,order_tag_list,mt_pkg_id,dispatcher_mobile,time,logistics_code,app_id,logistics_status,dispatcher_name,timestamp FROM t_mt_delivery_personnel WHERE order_id='1300769620599354951' 
+
+2023-10-17 11:05:14.351  INFO 21480 --- [http-nio-19687-exec-2] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:05:14
+ Execute SQL：UPDATE t_mt_delivery_personnel SET sig='4d66d9b75f7e225c53acdebbaab5445c', app_poi_code='9735307', order_tag_list='[]', mt_pkg_id='1697511797311294192', dispatcher_mobile='13034956948_6580', time='1697511918', logistics_code='30011001', app_id='5430', logistics_status='20', dispatcher_name='羊文豪', timestamp='1697511918' WHERE order_id='1300769620599354951'
+
+2023-10-17 11:05:14.448  INFO 21480 --- [http-nio-19687-exec-2] p6spy                                    :  Consume Time：79 ms 2023-10-17 11:05:14
+ Execute SQL：update completedorder SET status = '0' where order_id = '1300769620599354951'
+
+2023-10-17 11:05:14.458  INFO 21480 --- [http-nio-19687-exec-2] p6spy                                    :  Consume Time：6 ms 2023-10-17 11:05:14
+ Execute SQL：INSERT INTO t_order_log_list ( order_id, title, code, content, created_time ) VALUES ( 1300769620599354951, '骑手已取货', 20, '羊文豪', '2023-10-17T11:05:14.450' )
+
+2023-10-17 11:05:14.466  INFO 21480 --- [http-nio-19687-exec-2] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:05:14
+ Execute SQL：SELECT id,u_id,user_name,name,poi_id,poi_name,remark,create_by,creator_name,create_time,update_by,update_time,del_flag FROM t_sys_user_poi WHERE del_flag=0 AND (poi_id = '9735307') LIMIT 1
+
+2023-10-17 11:05:20.483  INFO 21480 --- [flowable-event-change-detector-1] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:05:20
+ Execute SQL：select RES.* from FLW_CHANNEL_DEFINITION RES WHERE RES.VERSION_ = (select max(VERSION_) from FLW_CHANNEL_DEFINITION where KEY_ = RES.KEY_ and ( (TENANT_ID_ IS NOT NULL and TENANT_ID_ = RES.TENANT_ID_) or (TENANT_ID_ IS NULL and RES.TENANT_ID_ IS NULL) ) ) order by RES.ID_ asc
+
+2023-10-17 11:05:23.926  INFO 21480 --- [http-nio-19687-exec-3] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:05:23
+ Execute SQL：SELECT order_id,sig,app_poi_code,order_tag_list,mt_pkg_id,dispatcher_mobile,time,logistics_code,app_id,logistics_status,dispatcher_name,timestamp FROM t_mt_delivery_personnel WHERE order_id='1100769612903377744' 
+
+2023-10-17 11:05:23.928  INFO 21480 --- [http-nio-19687-exec-3] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:05:23
+ Execute SQL：UPDATE t_mt_delivery_personnel SET sig='4b8e209c0a49e0f96645ca5109b4036b', app_poi_code='18467436', order_tag_list='[]', mt_pkg_id='1697511568082127300', dispatcher_mobile='15683451705_4645', time='1697511928', logistics_code='2002', app_id='5430', logistics_status='10', dispatcher_name='杨黎', timestamp='1697511928' WHERE order_id='1100769612903377744'
+
+2023-10-17 11:05:23.994  INFO 21480 --- [http-nio-19687-exec-3] p6spy                                    :  Consume Time：38 ms 2023-10-17 11:05:23
+ Execute SQL：update completedorder SET status = '5' where order_id = '1100769612903377744'
+
+2023-10-17 11:05:23.997  INFO 21480 --- [http-nio-19687-exec-3] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:05:23
+ Execute SQL：INSERT INTO t_order_log_list ( order_id, title, code, content, created_time ) VALUES ( 1100769612903377744, '配送单已确认', 10, '杨黎', '2023-10-17T11:05:23.995' )
+
+2023-10-17 11:05:24.001  INFO 21480 --- [http-nio-19687-exec-3] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:05:24
+ Execute SQL：SELECT id,u_id,user_name,name,poi_id,poi_name,remark,create_by,creator_name,create_time,update_by,update_time,del_flag FROM t_sys_user_poi WHERE del_flag=0 AND (poi_id = '18467436') LIMIT 1
+
+2023-10-17 11:05:24.927  INFO 21480 --- [http-nio-19687-exec-4] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:05:24
+ Execute SQL：SELECT order_id,sig,app_poi_code,order_tag_list,mt_pkg_id,dispatcher_mobile,time,logistics_code,app_id,logistics_status,dispatcher_name,timestamp FROM t_mt_delivery_personnel WHERE order_id='1300769620675715304' 
+
+2023-10-17 11:05:24.931  INFO 21480 --- [http-nio-19687-exec-4] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:05:24
+ Execute SQL：UPDATE t_mt_delivery_personnel SET sig='194d40388efef416f9da766c79504ac9', app_poi_code='17154783', order_tag_list='[8]', mt_pkg_id='1697511918360288535', dispatcher_mobile='15595711004_6602', time='1697511929', logistics_code='30011001', app_id='5430', logistics_status='10', dispatcher_name='陈秋旺', timestamp='1697511929' WHERE order_id='1300769620675715304'
+
+2023-10-17 11:05:24.997  INFO 21480 --- [http-nio-19687-exec-4] p6spy                                    :  Consume Time：63 ms 2023-10-17 11:05:24
+ Execute SQL：update completedorder SET status = '5' where order_id = '1300769620675715304'
+
+2023-10-17 11:05:25.001  INFO 21480 --- [http-nio-19687-exec-4] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:05:25
+ Execute SQL：INSERT INTO t_order_log_list ( order_id, title, code, content, created_time ) VALUES ( 1300769620675715304, '配送单已确认', 10, '陈秋旺', '2023-10-17T11:05:24.999' )
+
+2023-10-17 11:05:25.006  INFO 21480 --- [http-nio-19687-exec-4] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:05:25
+ Execute SQL：SELECT id,u_id,user_name,name,poi_id,poi_name,remark,create_by,creator_name,create_time,update_by,update_time,del_flag FROM t_sys_user_poi WHERE del_flag=0 AND (poi_id = '17154783') LIMIT 1
+
+2023-10-17 11:05:25.468  INFO 21480 --- [http-nio-19687-exec-6] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:05:25
+ Execute SQL：SELECT order_id,sig,app_poi_code,order_tag_list,mt_pkg_id,dispatcher_mobile,time,logistics_code,app_id,logistics_status,dispatcher_name,timestamp FROM t_mt_delivery_personnel WHERE order_id='800769621232982437' 
+
+2023-10-17 11:05:25.470  INFO 21480 --- [http-nio-19687-exec-6] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:05:25
+ Execute SQL：UPDATE t_mt_delivery_personnel SET sig='be00787858dafcfa2bf69521c2782bc4', app_poi_code='10670033', order_tag_list='[8]', mt_pkg_id='1697511857057191312', dispatcher_mobile='13263553054_9406', time='1697511929', logistics_code='30012002', app_id='5430', logistics_status='10', dispatcher_name='姜扬鹏', timestamp='1697511929' WHERE order_id='800769621232982437'
+
+2023-10-17 11:05:25.541  INFO 21480 --- [http-nio-19687-exec-6] p6spy                                    :  Consume Time：57 ms 2023-10-17 11:05:25
+ Execute SQL：update completedorder SET status = '5' where order_id = '800769621232982437'
+
+2023-10-17 11:05:25.544  INFO 21480 --- [http-nio-19687-exec-6] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:05:25
+ Execute SQL：INSERT INTO t_order_log_list ( order_id, title, code, content, created_time ) VALUES ( 800769621232982437, '配送单已确认', 10, '姜扬鹏', '2023-10-17T11:05:25.542' )
+
+2023-10-17 11:05:25.548  INFO 21480 --- [http-nio-19687-exec-6] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:05:25
+ Execute SQL：SELECT id,u_id,user_name,name,poi_id,poi_name,remark,create_by,creator_name,create_time,update_by,update_time,del_flag FROM t_sys_user_poi WHERE del_flag=0 AND (poi_id = '10670033') LIMIT 1
+
+2023-10-17 11:05:27.375  INFO 21480 --- [http-nio-19687-exec-5] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:05:27
+ Execute SQL：SELECT order_id,sig,app_poi_code,order_tag_list,mt_pkg_id,dispatcher_mobile,time,logistics_code,app_id,logistics_status,dispatcher_name,timestamp FROM t_mt_delivery_personnel WHERE order_id='1100769610073163243' 
+
+2023-10-17 11:05:27.379  INFO 21480 --- [http-nio-19687-exec-5] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:05:27
+ Execute SQL：UPDATE t_mt_delivery_personnel SET sig='e835bd49c04fd1d5d42f939b36c76c8a', app_poi_code='9870054', order_tag_list='[]', mt_pkg_id='1697511493423290764', dispatcher_mobile='13022996437_3420', time='1697511931', logistics_code='1004', app_id='5430', logistics_status='20', dispatcher_name='雷鹏强', timestamp='1697511931' WHERE order_id='1100769610073163243'
+
+2023-10-17 11:05:27.489  INFO 21480 --- [http-nio-19687-exec-5] p6spy                                    :  Consume Time：92 ms 2023-10-17 11:05:27
+ Execute SQL：update completedorder SET status = '0' where order_id = '1100769610073163243'
+
+2023-10-17 11:05:27.496  INFO 21480 --- [http-nio-19687-exec-5] p6spy                                    :  Consume Time：2 ms 2023-10-17 11:05:27
+ Execute SQL：INSERT INTO t_order_log_list ( order_id, title, code, content, created_time ) VALUES ( 1100769610073163243, '骑手已取货', 20, '雷鹏强', '2023-10-17T11:05:27.491' )
+
+2023-10-17 11:05:27.502  INFO 21480 --- [http-nio-19687-exec-5] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:05:27
+ Execute SQL：SELECT id,u_id,user_name,name,poi_id,poi_name,remark,create_by,creator_name,create_time,update_by,update_time,del_flag FROM t_sys_user_poi WHERE del_flag=0 AND (poi_id = '9870054') LIMIT 1
+
+2023-10-17 11:05:29.380  INFO 21480 --- [http-nio-19687-exec-7] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:05:29
+ Execute SQL：SELECT order_id,sig,app_poi_code,order_tag_list,mt_pkg_id,dispatcher_mobile,time,logistics_code,app_id,logistics_status,dispatcher_name,timestamp FROM t_mt_delivery_personnel WHERE order_id='1100769620016481060' 
+
+2023-10-17 11:05:29.382  INFO 21480 --- [http-nio-19687-exec-7] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:05:29
+ Execute SQL：UPDATE t_mt_delivery_personnel SET sig='cbd75b13da63c66397e7654b5a5d332b', app_poi_code='15029484', order_tag_list='[8]', mt_pkg_id='1697511779057353817', dispatcher_mobile='15661279114_2709', time='1697511793', logistics_code='1004', app_id='5430', logistics_status='15', dispatcher_name='张志容', timestamp='1697511933' WHERE order_id='1100769620016481060'
+
+2023-10-17 11:05:29.443  INFO 21480 --- [http-nio-19687-exec-7] p6spy                                    :  Consume Time：44 ms 2023-10-17 11:05:29
+ Execute SQL：update completedorder SET status = '6' where order_id = '1100769620016481060'
+
+2023-10-17 11:05:29.446  INFO 21480 --- [http-nio-19687-exec-7] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:05:29
+ Execute SQL：INSERT INTO t_order_log_list ( order_id, title, code, content, created_time ) VALUES ( 1100769620016481060, '骑手已到店', 15, '张志容', '2023-10-17T11:05:29.444' )
+
+2023-10-17 11:05:29.449  INFO 21480 --- [http-nio-19687-exec-7] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:05:29
+ Execute SQL：SELECT id,u_id,user_name,name,poi_id,poi_name,remark,create_by,creator_name,create_time,update_by,update_time,del_flag FROM t_sys_user_poi WHERE del_flag=0 AND (poi_id = '15029484') LIMIT 1
+
+2023-10-17 11:05:47.275  INFO 21480 --- [http-nio-19687-exec-10] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:05:47
+ Execute SQL：SELECT order_id,sig,app_poi_code,order_tag_list,mt_pkg_id,dispatcher_mobile,time,logistics_code,app_id,logistics_status,dispatcher_name,timestamp FROM t_mt_delivery_personnel WHERE order_id='1300769622413526079' 
+
+2023-10-17 11:05:47.278  INFO 21480 --- [http-nio-19687-exec-10] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:05:47
+ Execute SQL：UPDATE t_mt_delivery_personnel SET sig='57226ab73c367d85b5be2441b1cd15f6', app_poi_code='11340204', order_tag_list='[8]', mt_pkg_id='1697511707096288168', dispatcher_mobile='17898942598_0469', time='1697511951', logistics_code='2002', app_id='5430', logistics_status='15', dispatcher_name='杨秋海', timestamp='1697511951' WHERE order_id='1300769622413526079'
+
+2023-10-17 11:05:47.367  INFO 21480 --- [http-nio-19687-exec-10] p6spy                                    :  Consume Time：72 ms 2023-10-17 11:05:47
+ Execute SQL：update completedorder SET status = '6' where order_id = '1300769622413526079'
+
+2023-10-17 11:05:47.372  INFO 21480 --- [http-nio-19687-exec-10] p6spy                                    :  Consume Time：2 ms 2023-10-17 11:05:47
+ Execute SQL：INSERT INTO t_order_log_list ( order_id, title, code, content, created_time ) VALUES ( 1300769622413526079, '骑手已到店', 15, '杨秋海', '2023-10-17T11:05:47.368' )
+
+2023-10-17 11:05:47.379  INFO 21480 --- [http-nio-19687-exec-10] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:05:47
+ Execute SQL：SELECT id,u_id,user_name,name,poi_id,poi_name,remark,create_by,creator_name,create_time,update_by,update_time,del_flag FROM t_sys_user_poi WHERE del_flag=0 AND (poi_id = '11340204') LIMIT 1
+
+2023-10-17 11:05:47.552  INFO 21480 --- [http-nio-19687-exec-8] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:05:47
+ Execute SQL：SELECT order_id,sig,app_poi_code,order_tag_list,mt_pkg_id,dispatcher_mobile,time,logistics_code,app_id,logistics_status,dispatcher_name,timestamp FROM t_mt_delivery_personnel WHERE order_id='1100769592183779660' 
+
+2023-10-17 11:05:47.555  INFO 21480 --- [http-nio-19687-exec-8] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:05:47
+ Execute SQL：UPDATE t_mt_delivery_personnel SET sig='219a4519dcce95d1ad7209c05bc643e7', app_poi_code='13423516', order_tag_list='[]', mt_pkg_id='1697510312626018195', dispatcher_mobile='15621929945_9592', time='1697511951', logistics_code='1004', app_id='5430', logistics_status='40', dispatcher_name='高正', timestamp='1697511952' WHERE order_id='1100769592183779660'
+
+2023-10-17 11:05:47.624  INFO 21480 --- [http-nio-19687-exec-8] p6spy                                    :  Consume Time：66 ms 2023-10-17 11:05:47
+ Execute SQL：update completedorder SET status = '8' where order_id = '1100769592183779660'
+
+2023-10-17 11:05:47.629  INFO 21480 --- [http-nio-19687-exec-8] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:05:47
+ Execute SQL：INSERT INTO t_order_log_list ( order_id, title, code, content, created_time ) VALUES ( 1100769592183779660, '骑手已送达', 40, '高正', '2023-10-17T11:05:47.626' )
+
+2023-10-17 11:05:47.634  INFO 21480 --- [http-nio-19687-exec-8] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:05:47
+ Execute SQL：SELECT id,u_id,user_name,name,poi_id,poi_name,remark,create_by,creator_name,create_time,update_by,update_time,del_flag FROM t_sys_user_poi WHERE del_flag=0 AND (poi_id = '13423516') LIMIT 1
+
+2023-10-17 11:05:52.354  INFO 21480 --- [http-nio-19687-exec-3] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:05:52
+ Execute SQL：SELECT order_id,sig,app_poi_code,order_tag_list,mt_pkg_id,dispatcher_mobile,time,logistics_code,app_id,logistics_status,dispatcher_name,timestamp FROM t_mt_delivery_personnel WHERE order_id='1300769622648640807' 
+
+2023-10-17 11:05:52.359  INFO 21480 --- [http-nio-19687-exec-3] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:05:52
+ Execute SQL：INSERT INTO t_mt_delivery_personnel ( order_id, sig, app_poi_code, order_tag_list, mt_pkg_id, dispatcher_mobile, time, logistics_code, app_id, logistics_status, dispatcher_name, timestamp ) VALUES ( '1300769622648640807', 'fc368d8acf44d407496742d158044157', '11340204', '[]', '1697511956096288880', '', '1697511956', '2002', '5430', '0', '', '1697511956' )
+
+2023-10-17 11:05:52.484  INFO 21480 --- [http-nio-19687-exec-3] p6spy                                    :  Consume Time：107 ms 2023-10-17 11:05:52
+ Execute SQL：update completedorder SET status = '0' where order_id = '1300769622648640807'
+
+2023-10-17 11:05:52.488  INFO 21480 --- [http-nio-19687-exec-3] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:05:52
+ Execute SQL：INSERT INTO t_order_log_list ( order_id, title, code, content, created_time ) VALUES ( 1300769622648640807, '配送单发往配送', 0, '', '2023-10-17T11:05:52.485' )
+
+2023-10-17 11:05:52.494  INFO 21480 --- [http-nio-19687-exec-3] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:05:52
+ Execute SQL：SELECT id,u_id,user_name,name,poi_id,poi_name,remark,create_by,creator_name,create_time,update_by,update_time,del_flag FROM t_sys_user_poi WHERE del_flag=0 AND (poi_id = '11340204') LIMIT 1
+
+2023-10-17 11:05:53.150  INFO 21480 --- [http-nio-19687-exec-9] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:05:53
+ Execute SQL：SELECT order_id,sig,app_poi_code,order_tag_list,mt_pkg_id,dispatcher_mobile,time,logistics_code,app_id,logistics_status,dispatcher_name,timestamp FROM t_mt_delivery_personnel WHERE order_id='1100769613343740205' 
+
+2023-10-17 11:05:53.156  INFO 21480 --- [http-nio-19687-exec-9] p6spy                                    :  Consume Time：3 ms 2023-10-17 11:05:53
+ Execute SQL：UPDATE t_mt_delivery_personnel SET sig='1a8124f5d8ed4556d8dd345130206ec4', app_poi_code='10709258', order_tag_list='[8]', mt_pkg_id='1697511339784023812', dispatcher_mobile='15529675064_7384', time='1697511912', logistics_code='1001', app_id='5430', logistics_status='15', dispatcher_name='董小龙', timestamp='1697511957' WHERE order_id='1100769613343740205'
+
+2023-10-17 11:05:53.213  INFO 21480 --- [http-nio-19687-exec-9] p6spy                                    :  Consume Time：53 ms 2023-10-17 11:05:53
+ Execute SQL：update completedorder SET status = '6' where order_id = '1100769613343740205'
+
+2023-10-17 11:05:53.218  INFO 21480 --- [http-nio-19687-exec-9] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:05:53
+ Execute SQL：INSERT INTO t_order_log_list ( order_id, title, code, content, created_time ) VALUES ( 1100769613343740205, '骑手已到店', 15, '董小龙', '2023-10-17T11:05:53.214' )
+
+2023-10-17 11:05:53.224  INFO 21480 --- [http-nio-19687-exec-9] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:05:53
+ Execute SQL：SELECT id,u_id,user_name,name,poi_id,poi_name,remark,create_by,creator_name,create_time,update_by,update_time,del_flag FROM t_sys_user_poi WHERE del_flag=0 AND (poi_id = '10709258') LIMIT 1
+
+2023-10-17 11:05:53.554  INFO 21480 --- [http-nio-19687-exec-5] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:05:53
+ Execute SQL：SELECT order_id,sig,app_poi_code,order_tag_list,mt_pkg_id,dispatcher_mobile,time,logistics_code,app_id,logistics_status,dispatcher_name,timestamp FROM t_mt_delivery_personnel WHERE order_id='1300769622413526079' 
+
+2023-10-17 11:05:53.558  INFO 21480 --- [http-nio-19687-exec-5] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:05:53
+ Execute SQL：UPDATE t_mt_delivery_personnel SET sig='9ad734723b358ce4e628f772576d7a49', app_poi_code='11340204', order_tag_list='[8]', mt_pkg_id='1697511707096288168', dispatcher_mobile='17898942598_0469', time='1697511957', logistics_code='2002', app_id='5430', logistics_status='20', dispatcher_name='杨秋海', timestamp='1697511958' WHERE order_id='1300769622413526079'
+
+2023-10-17 11:05:53.646  INFO 21480 --- [http-nio-19687-exec-5] p6spy                                    :  Consume Time：71 ms 2023-10-17 11:05:53
+ Execute SQL：update completedorder SET status = '0' where order_id = '1300769622413526079'
+
+2023-10-17 11:05:53.656  INFO 21480 --- [http-nio-19687-exec-5] p6spy                                    :  Consume Time：2 ms 2023-10-17 11:05:53
+ Execute SQL：INSERT INTO t_order_log_list ( order_id, title, code, content, created_time ) VALUES ( 1300769622413526079, '骑手已取货', 20, '杨秋海', '2023-10-17T11:05:53.652' )
+
+2023-10-17 11:05:53.662  INFO 21480 --- [http-nio-19687-exec-5] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:05:53
+ Execute SQL：SELECT id,u_id,user_name,name,poi_id,poi_name,remark,create_by,creator_name,create_time,update_by,update_time,del_flag FROM t_sys_user_poi WHERE del_flag=0 AND (poi_id = '11340204') LIMIT 1
+
+2023-10-17 11:05:55.352  INFO 21480 --- [http-nio-19687-exec-2] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:05:55
+ Execute SQL：SELECT order_id,sig,app_poi_code,order_tag_list,mt_pkg_id,dispatcher_mobile,time,logistics_code,app_id,logistics_status,dispatcher_name,timestamp FROM t_mt_delivery_personnel WHERE order_id='1300769620220464251' 
+
+2023-10-17 11:05:55.355  INFO 21480 --- [http-nio-19687-exec-2] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:05:55
+ Execute SQL：UPDATE t_mt_delivery_personnel SET sig='8da84b0865a38f96bf2679b578174611', app_poi_code='13466741', order_tag_list='[]', mt_pkg_id='1697511712311294442', dispatcher_mobile='17589711489_5050', time='1697511959', logistics_code='2002', app_id='5430', logistics_status='15', dispatcher_name='王康德', timestamp='1697511959' WHERE order_id='1300769620220464251'
+
+2023-10-17 11:05:55.406  INFO 21480 --- [http-nio-19687-exec-2] p6spy                                    :  Consume Time：33 ms 2023-10-17 11:05:55
+ Execute SQL：update completedorder SET status = '6' where order_id = '1300769620220464251'
+
+2023-10-17 11:05:55.411  INFO 21480 --- [http-nio-19687-exec-2] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:05:55
+ Execute SQL：INSERT INTO t_order_log_list ( order_id, title, code, content, created_time ) VALUES ( 1300769620220464251, '骑手已到店', 15, '王康德', '2023-10-17T11:05:55.407' )
+
+2023-10-17 11:05:55.416  INFO 21480 --- [http-nio-19687-exec-2] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:05:55
+ Execute SQL：SELECT id,u_id,user_name,name,poi_id,poi_name,remark,create_by,creator_name,create_time,update_by,update_time,del_flag FROM t_sys_user_poi WHERE del_flag=0 AND (poi_id = '13466741') LIMIT 1
+
+2023-10-17 11:05:58.209  INFO 21480 --- [http-nio-19687-exec-6] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:05:58
+ Execute SQL：SELECT order_id,sig,app_poi_code,order_tag_list,mt_pkg_id,dispatcher_mobile,time,logistics_code,app_id,logistics_status,dispatcher_name,timestamp FROM t_mt_delivery_personnel WHERE order_id='1300769623012296344' 
+
+2023-10-17 11:05:58.211  INFO 21480 --- [http-nio-19687-exec-6] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:05:58
+ Execute SQL：INSERT INTO t_mt_delivery_personnel ( order_id, sig, app_poi_code, order_tag_list, mt_pkg_id, dispatcher_mobile, time, logistics_code, app_id, logistics_status, dispatcher_name, timestamp ) VALUES ( '1300769623012296344', '13ef72c0d6f2dad0742d49e158a227e0', '9583917', '[]', '1697511900096288222', '', '1697511900', '1003', '5430', '0', '', '1697511962' )
+
+2023-10-17 11:05:58.290  INFO 21480 --- [http-nio-19687-exec-6] p6spy                                    :  Consume Time：64 ms 2023-10-17 11:05:58
+ Execute SQL：update completedorder SET status = '0' where order_id = '1300769623012296344'
+
+2023-10-17 11:05:58.294  INFO 21480 --- [http-nio-19687-exec-6] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:05:58
+ Execute SQL：INSERT INTO t_order_log_list ( order_id, title, code, content, created_time ) VALUES ( 1300769623012296344, '配送单发往配送', 0, '', '2023-10-17T11:05:58.292' )
+
+2023-10-17 11:05:58.301  INFO 21480 --- [http-nio-19687-exec-6] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:05:58
+ Execute SQL：SELECT id,u_id,user_name,name,poi_id,poi_name,remark,create_by,creator_name,create_time,update_by,update_time,del_flag FROM t_sys_user_poi WHERE del_flag=0 AND (poi_id = '9583917') LIMIT 1
+
+2023-10-17 11:05:58.775  INFO 21480 --- [http-nio-19687-exec-4] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:05:58
+ Execute SQL：SELECT order_id,sig,app_poi_code,order_tag_list,mt_pkg_id,dispatcher_mobile,time,logistics_code,app_id,logistics_status,dispatcher_name,timestamp FROM t_mt_delivery_personnel WHERE order_id='1100769613343740205' 
+
+2023-10-17 11:05:58.777  INFO 21480 --- [http-nio-19687-exec-4] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:05:58
+ Execute SQL：UPDATE t_mt_delivery_personnel SET sig='e743a974bba657789d452237fa9193e2', app_poi_code='10709258', order_tag_list='[8]', mt_pkg_id='1697511339784023812', dispatcher_mobile='15529675064_7384', time='1697511963', logistics_code='1001', app_id='5430', logistics_status='20', dispatcher_name='董小龙', timestamp='1697511963' WHERE order_id='1100769613343740205'
+
+2023-10-17 11:05:58.838  INFO 21480 --- [http-nio-19687-exec-4] p6spy                                    :  Consume Time：57 ms 2023-10-17 11:05:58
+ Execute SQL：update completedorder SET status = '0' where order_id = '1100769613343740205'
+
+2023-10-17 11:05:58.841  INFO 21480 --- [http-nio-19687-exec-4] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:05:58
+ Execute SQL：INSERT INTO t_order_log_list ( order_id, title, code, content, created_time ) VALUES ( 1100769613343740205, '骑手已取货', 20, '董小龙', '2023-10-17T11:05:58.839' )
+
+2023-10-17 11:05:58.845  INFO 21480 --- [http-nio-19687-exec-4] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:05:58
+ Execute SQL：SELECT id,u_id,user_name,name,poi_id,poi_name,remark,create_by,creator_name,create_time,update_by,update_time,del_flag FROM t_sys_user_poi WHERE del_flag=0 AND (poi_id = '10709258') LIMIT 1
+
+2023-10-17 11:05:58.962  INFO 21480 --- [http-nio-19687-exec-8] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:05:58
+ Execute SQL：SELECT order_id,sig,app_poi_code,order_tag_list,mt_pkg_id,dispatcher_mobile,time,logistics_code,app_id,logistics_status,dispatcher_name,timestamp FROM t_mt_delivery_personnel WHERE order_id='1100769590764705388' 
+
+2023-10-17 11:05:58.963  INFO 21480 --- [http-nio-19687-exec-8] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:05:58
+ Execute SQL：UPDATE t_mt_delivery_personnel SET sig='f44484ae0a33c8687cebdafec55d7908', app_poi_code='11854880', order_tag_list='[8]', mt_pkg_id='1697510460207023449', dispatcher_mobile='13022991420_3145', time='1697511963', logistics_code='1001', app_id='5430', logistics_status='15', dispatcher_name='樊胜辉', timestamp='1697511963' WHERE order_id='1100769590764705388'
+
+2023-10-17 11:05:59.009  INFO 21480 --- [http-nio-19687-exec-8] p6spy                                    :  Consume Time：42 ms 2023-10-17 11:05:59
+ Execute SQL：update completedorder SET status = '6' where order_id = '1100769590764705388'
+
+2023-10-17 11:05:59.012  INFO 21480 --- [http-nio-19687-exec-8] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:05:59
+ Execute SQL：INSERT INTO t_order_log_list ( order_id, title, code, content, created_time ) VALUES ( 1100769590764705388, '骑手已到店', 15, '樊胜辉', '2023-10-17T11:05:59.010' )
+
+2023-10-17 11:05:59.016  INFO 21480 --- [http-nio-19687-exec-8] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:05:59
+ Execute SQL：SELECT id,u_id,user_name,name,poi_id,poi_name,remark,create_by,creator_name,create_time,update_by,update_time,del_flag FROM t_sys_user_poi WHERE del_flag=0 AND (poi_id = '11854880') LIMIT 1
+
+2023-10-17 11:05:59.620  INFO 21480 --- [http-nio-19687-exec-1] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:05:59
+ Execute SQL：SELECT order_id,sig,app_poi_code,order_tag_list,mt_pkg_id,dispatcher_mobile,time,logistics_code,app_id,logistics_status,dispatcher_name,timestamp FROM t_mt_delivery_personnel WHERE order_id='1100769613956656295' 
+
+2023-10-17 11:05:59.622  INFO 21480 --- [http-nio-19687-exec-1] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:05:59
+ Execute SQL：UPDATE t_mt_delivery_personnel SET sig='5e31bfe12ca9149774cce424675ec773', app_poi_code='18603603', order_tag_list='[8]', mt_pkg_id='1697511203093023573', dispatcher_mobile='13087582418_7732', time='1697511964', logistics_code='30012002', app_id='5430', logistics_status='20', dispatcher_name='王晓敏', timestamp='1697511964' WHERE order_id='1100769613956656295'
+
+2023-10-17 11:05:59.668  INFO 21480 --- [http-nio-19687-exec-1] p6spy                                    :  Consume Time：44 ms 2023-10-17 11:05:59
+ Execute SQL：update completedorder SET status = '0' where order_id = '1100769613956656295'
+
+2023-10-17 11:05:59.671  INFO 21480 --- [http-nio-19687-exec-1] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:05:59
+ Execute SQL：INSERT INTO t_order_log_list ( order_id, title, code, content, created_time ) VALUES ( 1100769613956656295, '骑手已取货', 20, '王晓敏', '2023-10-17T11:05:59.669' )
+
+2023-10-17 11:05:59.675  INFO 21480 --- [http-nio-19687-exec-1] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:05:59
+ Execute SQL：SELECT id,u_id,user_name,name,poi_id,poi_name,remark,create_by,creator_name,create_time,update_by,update_time,del_flag FROM t_sys_user_poi WHERE del_flag=0 AND (poi_id = '18603603') LIMIT 1
+
+2023-10-17 11:06:01.647  INFO 21480 --- [http-nio-19687-exec-10] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:06:01
+ Execute SQL：SELECT order_id,sig,app_poi_code,order_tag_list,mt_pkg_id,dispatcher_mobile,time,logistics_code,app_id,logistics_status,dispatcher_name,timestamp FROM t_mt_delivery_personnel WHERE order_id='1100769590764705388' 
+
+2023-10-17 11:06:01.649  INFO 21480 --- [http-nio-19687-exec-10] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:06:01
+ Execute SQL：UPDATE t_mt_delivery_personnel SET sig='d281653b23ab759c9c4d9d959633fb76', app_poi_code='11854880', order_tag_list='[8]', mt_pkg_id='1697510460207023449', dispatcher_mobile='13022991420_3145', time='1697511966', logistics_code='1001', app_id='5430', logistics_status='20', dispatcher_name='樊胜辉', timestamp='1697511966' WHERE order_id='1100769590764705388'
+
+2023-10-17 11:06:01.756  INFO 21480 --- [http-nio-19687-exec-10] p6spy                                    :  Consume Time：93 ms 2023-10-17 11:06:01
+ Execute SQL：update completedorder SET status = '0' where order_id = '1100769590764705388'
+
+2023-10-17 11:06:01.760  INFO 21480 --- [http-nio-19687-exec-10] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:06:01
+ Execute SQL：INSERT INTO t_order_log_list ( order_id, title, code, content, created_time ) VALUES ( 1100769590764705388, '骑手已取货', 20, '樊胜辉', '2023-10-17T11:06:01.757' )
+
+2023-10-17 11:06:01.764  INFO 21480 --- [http-nio-19687-exec-10] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:06:01
+ Execute SQL：SELECT id,u_id,user_name,name,poi_id,poi_name,remark,create_by,creator_name,create_time,update_by,update_time,del_flag FROM t_sys_user_poi WHERE del_flag=0 AND (poi_id = '11854880') LIMIT 1
+
+2023-10-17 11:06:02.613  INFO 21480 --- [http-nio-19687-exec-7] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:06:02
+ Execute SQL：SELECT order_id,sig,app_poi_code,order_tag_list,mt_pkg_id,dispatcher_mobile,time,logistics_code,app_id,logistics_status,dispatcher_name,timestamp FROM t_mt_delivery_personnel WHERE order_id='1100769590813648381' 
+
+2023-10-17 11:06:02.619  INFO 21480 --- [http-nio-19687-exec-7] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:06:02
+ Execute SQL：UPDATE t_mt_delivery_personnel SET sig='12c7c2603ce5ccaeffde864f336f9bf8', app_poi_code='14724685', order_tag_list='[8]', mt_pkg_id='1697510397201305730', dispatcher_mobile='13259964573_9836', time='1697511967', logistics_code='1004', app_id='5430', logistics_status='20', dispatcher_name='师艳荣', timestamp='1697511967' WHERE order_id='1100769590813648381'
+
+2023-10-17 11:06:02.785  INFO 21480 --- [http-nio-19687-exec-7] p6spy                                    :  Consume Time：160 ms 2023-10-17 11:06:02
+ Execute SQL：update completedorder SET status = '0' where order_id = '1100769590813648381'
+
+2023-10-17 11:06:02.788  INFO 21480 --- [http-nio-19687-exec-7] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:06:02
+ Execute SQL：INSERT INTO t_order_log_list ( order_id, title, code, content, created_time ) VALUES ( 1100769590813648381, '骑手已取货', 20, '师艳荣', '2023-10-17T11:06:02.786' )
+
+2023-10-17 11:06:02.793  INFO 21480 --- [http-nio-19687-exec-7] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:06:02
+ Execute SQL：SELECT id,u_id,user_name,name,poi_id,poi_name,remark,create_by,creator_name,create_time,update_by,update_time,del_flag FROM t_sys_user_poi WHERE del_flag=0 AND (poi_id = '14724685') LIMIT 1
+
+2023-10-17 11:06:04.366  INFO 21480 --- [http-nio-19687-exec-3] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:06:04
+ Execute SQL：SELECT order_id,sig,app_poi_code,order_tag_list,mt_pkg_id,dispatcher_mobile,time,logistics_code,app_id,logistics_status,dispatcher_name,timestamp FROM t_mt_delivery_personnel WHERE order_id='1100769622984917494' 
+
+2023-10-17 11:06:04.368  INFO 21480 --- [http-nio-19687-exec-3] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:06:04
+ Execute SQL：INSERT INTO t_mt_delivery_personnel ( order_id, sig, app_poi_code, order_tag_list, mt_pkg_id, dispatcher_mobile, time, logistics_code, app_id, logistics_status, dispatcher_name, timestamp ) VALUES ( '1100769622984917494', 'e358b5541221fd9d37db33fffef98804', '17344463', '[8]', '1697511968308086358', '', '1697511968', '3001', '5430', '0', '', '1697511968' )
+
+2023-10-17 11:06:04.416  INFO 21480 --- [http-nio-19687-exec-3] p6spy                                    :  Consume Time：40 ms 2023-10-17 11:06:04
+ Execute SQL：update completedorder SET status = '0' where order_id = '1100769622984917494'
+
+2023-10-17 11:06:04.419  INFO 21480 --- [http-nio-19687-exec-3] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:06:04
+ Execute SQL：INSERT INTO t_order_log_list ( order_id, title, code, content, created_time ) VALUES ( 1100769622984917494, '配送单发往配送', 0, '', '2023-10-17T11:06:04.417' )
+
+2023-10-17 11:06:04.424  INFO 21480 --- [http-nio-19687-exec-3] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:06:04
+ Execute SQL：SELECT id,u_id,user_name,name,poi_id,poi_name,remark,create_by,creator_name,create_time,update_by,update_time,del_flag FROM t_sys_user_poi WHERE del_flag=0 AND (poi_id = '17344463') LIMIT 1
+
+2023-10-17 11:06:04.761  INFO 21480 --- [http-nio-19687-exec-9] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:06:04
+ Execute SQL：SELECT order_id,sig,app_poi_code,order_tag_list,mt_pkg_id,dispatcher_mobile,time,logistics_code,app_id,logistics_status,dispatcher_name,timestamp FROM t_mt_delivery_personnel WHERE order_id='1100769612557842524' 
+
+2023-10-17 11:06:04.763  INFO 21480 --- [http-nio-19687-exec-9] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:06:04
+ Execute SQL：UPDATE t_mt_delivery_personnel SET sig='a5fea3e2229a016b4ec2407c37134ec2', app_poi_code='18056494', order_tag_list='[8]', mt_pkg_id='1697511243184276517', dispatcher_mobile='17585466527_5662', time='1697511969', logistics_code='30012002', app_id='5430', logistics_status='40', dispatcher_name='王顺珍', timestamp='1697511969' WHERE order_id='1100769612557842524'
+
+2023-10-17 11:06:04.833  INFO 21480 --- [http-nio-19687-exec-9] p6spy                                    :  Consume Time：66 ms 2023-10-17 11:06:04
+ Execute SQL：update completedorder SET status = '8' where order_id = '1100769612557842524'
+
+2023-10-17 11:06:04.835  INFO 21480 --- [http-nio-19687-exec-9] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:06:04
+ Execute SQL：INSERT INTO t_order_log_list ( order_id, title, code, content, created_time ) VALUES ( 1100769612557842524, '骑手已送达', 40, '王顺珍', '2023-10-17T11:06:04.834' )
+
+2023-10-17 11:06:04.839  INFO 21480 --- [http-nio-19687-exec-9] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:06:04
+ Execute SQL：SELECT id,u_id,user_name,name,poi_id,poi_name,remark,create_by,creator_name,create_time,update_by,update_time,del_flag FROM t_sys_user_poi WHERE del_flag=0 AND (poi_id = '18056494') LIMIT 1
+
+2023-10-17 11:06:04.882  INFO 21480 --- [http-nio-19687-exec-5] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:06:04
+ Execute SQL：SELECT order_id,sig,app_poi_code,order_tag_list,mt_pkg_id,dispatcher_mobile,time,logistics_code,app_id,logistics_status,dispatcher_name,timestamp FROM t_mt_delivery_personnel WHERE order_id='1300769620220464251' 
+
+2023-10-17 11:06:04.883  INFO 21480 --- [http-nio-19687-exec-5] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:06:04
+ Execute SQL：UPDATE t_mt_delivery_personnel SET sig='bed68e6f2442c873205b26ce355496e4', app_poi_code='13466741', order_tag_list='[]', mt_pkg_id='1697511712311294442', dispatcher_mobile='17589711489_5050', time='1697511969', logistics_code='2002', app_id='5430', logistics_status='20', dispatcher_name='王康德', timestamp='1697511969' WHERE order_id='1300769620220464251'
+
+2023-10-17 11:06:04.948  INFO 21480 --- [http-nio-19687-exec-5] p6spy                                    :  Consume Time：63 ms 2023-10-17 11:06:04
+ Execute SQL：update completedorder SET status = '0' where order_id = '1300769620220464251'
+
+2023-10-17 11:06:04.951  INFO 21480 --- [http-nio-19687-exec-5] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:06:04
+ Execute SQL：INSERT INTO t_order_log_list ( order_id, title, code, content, created_time ) VALUES ( 1300769620220464251, '骑手已取货', 20, '王康德', '2023-10-17T11:06:04.949' )
+
+2023-10-17 11:06:04.955  INFO 21480 --- [http-nio-19687-exec-5] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:06:04
+ Execute SQL：SELECT id,u_id,user_name,name,poi_id,poi_name,remark,create_by,creator_name,create_time,update_by,update_time,del_flag FROM t_sys_user_poi WHERE del_flag=0 AND (poi_id = '13466741') LIMIT 1
+
+2023-10-17 11:06:06.273  INFO 21480 --- [http-nio-19687-exec-2] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:06:06
+ Execute SQL：SELECT order_id,sig,app_poi_code,order_tag_list,mt_pkg_id,dispatcher_mobile,time,logistics_code,app_id,logistics_status,dispatcher_name,timestamp FROM t_mt_delivery_personnel WHERE order_id='1100769582976573900' 
+
+2023-10-17 11:06:06.277  INFO 21480 --- [http-nio-19687-exec-2] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:06:06
+ Execute SQL：UPDATE t_mt_delivery_personnel SET sig='0d217a46f8dd53c2975a52ea0a0f423c', app_poi_code='14147301', order_tag_list='[8]', mt_pkg_id='1697509880093023731', dispatcher_mobile='15529675804_4108', time='1697511908', logistics_code='2002', app_id='5430', logistics_status='40', dispatcher_name='李彦平', timestamp='1697511970' WHERE order_id='1100769582976573900'
+
+2023-10-17 11:06:06.352  INFO 21480 --- [http-nio-19687-exec-2] p6spy                                    :  Consume Time：72 ms 2023-10-17 11:06:06
+ Execute SQL：update completedorder SET status = '8' where order_id = '1100769582976573900'
+
+2023-10-17 11:06:06.354  INFO 21480 --- [http-nio-19687-exec-2] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:06:06
+ Execute SQL：INSERT INTO t_order_log_list ( order_id, title, code, content, created_time ) VALUES ( 1100769582976573900, '骑手已送达', 40, '李彦平', '2023-10-17T11:06:06.353' )
+
+2023-10-17 11:06:06.359  INFO 21480 --- [http-nio-19687-exec-2] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:06:06
+ Execute SQL：SELECT id,u_id,user_name,name,poi_id,poi_name,remark,create_by,creator_name,create_time,update_by,update_time,del_flag FROM t_sys_user_poi WHERE del_flag=0 AND (poi_id = '14147301') LIMIT 1
+
+2023-10-17 11:06:06.375  INFO 21480 --- [http-nio-19687-exec-6] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:06:06
+ Execute SQL：SELECT order_id,sig,app_poi_code,order_tag_list,mt_pkg_id,dispatcher_mobile,time,logistics_code,app_id,logistics_status,dispatcher_name,timestamp FROM t_mt_delivery_personnel WHERE order_id='1100769611232702771' 
+
+2023-10-17 11:06:06.377  INFO 21480 --- [http-nio-19687-exec-6] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:06:06
+ Execute SQL：UPDATE t_mt_delivery_personnel SET sig='756aac8c14f76f94170ccd2ac9f6a934', app_poi_code='9987959', order_tag_list='[]', mt_pkg_id='1697511327404013111', dispatcher_mobile='13259717004_6750', time='1697511908', logistics_code='1001', app_id='5430', logistics_status='15', dispatcher_name='王晓舟', timestamp='1697511971' WHERE order_id='1100769611232702771'
+
+2023-10-17 11:06:06.428  INFO 21480 --- [http-nio-19687-exec-6] p6spy                                    :  Consume Time：48 ms 2023-10-17 11:06:06
+ Execute SQL：update completedorder SET status = '6' where order_id = '1100769611232702771'
+
+2023-10-17 11:06:06.431  INFO 21480 --- [http-nio-19687-exec-6] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:06:06
+ Execute SQL：INSERT INTO t_order_log_list ( order_id, title, code, content, created_time ) VALUES ( 1100769611232702771, '骑手已到店', 15, '王晓舟', '2023-10-17T11:06:06.429' )
+
+2023-10-17 11:06:06.434  INFO 21480 --- [http-nio-19687-exec-6] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:06:06
+ Execute SQL：SELECT id,u_id,user_name,name,poi_id,poi_name,remark,create_by,creator_name,create_time,update_by,update_time,del_flag FROM t_sys_user_poi WHERE del_flag=0 AND (poi_id = '9987959') LIMIT 1
+
+2023-10-17 11:06:08.619  INFO 21480 --- [http-nio-19687-exec-1] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:06:08
+ Execute SQL：SELECT order_id,sig,app_poi_code,order_tag_list,mt_pkg_id,dispatcher_mobile,time,logistics_code,app_id,logistics_status,dispatcher_name,timestamp FROM t_mt_delivery_personnel WHERE order_id='1100769611232702771' 
+
+2023-10-17 11:06:08.623  INFO 21480 --- [http-nio-19687-exec-1] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:06:08
+ Execute SQL：UPDATE t_mt_delivery_personnel SET sig='5c6023dda79ae2b24db474ae7c624ac9', app_poi_code='9987959', order_tag_list='[]', mt_pkg_id='1697511327404013111', dispatcher_mobile='13259717004_6750', time='1697511910', logistics_code='1001', app_id='5430', logistics_status='20', dispatcher_name='王晓舟', timestamp='1697511973' WHERE order_id='1100769611232702771'
+
+2023-10-17 11:06:08.704  INFO 21480 --- [http-nio-19687-exec-1] p6spy                                    :  Consume Time：65 ms 2023-10-17 11:06:08
+ Execute SQL：update completedorder SET status = '0' where order_id = '1100769611232702771'
+
+2023-10-17 11:06:08.709  INFO 21480 --- [http-nio-19687-exec-1] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:06:08
+ Execute SQL：INSERT INTO t_order_log_list ( order_id, title, code, content, created_time ) VALUES ( 1100769611232702771, '骑手已取货', 20, '王晓舟', '2023-10-17T11:06:08.706' )
+
+2023-10-17 11:06:08.716  INFO 21480 --- [http-nio-19687-exec-1] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:06:08
+ Execute SQL：SELECT id,u_id,user_name,name,poi_id,poi_name,remark,create_by,creator_name,create_time,update_by,update_time,del_flag FROM t_sys_user_poi WHERE del_flag=0 AND (poi_id = '9987959') LIMIT 1
+
+2023-10-17 11:06:09.072  INFO 21480 --- [http-nio-19687-exec-10] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:06:09
+ Execute SQL：SELECT order_id,sig,app_poi_code,order_tag_list,mt_pkg_id,dispatcher_mobile,time,logistics_code,app_id,logistics_status,dispatcher_name,timestamp FROM t_mt_delivery_personnel WHERE order_id='1300769623012296344' 
+
+2023-10-17 11:06:09.076  INFO 21480 --- [http-nio-19687-exec-10] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:06:09
+ Execute SQL：UPDATE t_mt_delivery_personnel SET sig='ebab812bf2d75c394f91d95a28992f52', app_poi_code='9583917', order_tag_list='[]', mt_pkg_id='1697511900096288222', dispatcher_mobile='', time='1697511911', logistics_code='1003', app_id='5430', logistics_status='100', dispatcher_name='', timestamp='1697511973' WHERE order_id='1300769623012296344'
+
+2023-10-17 11:06:09.165  INFO 21480 --- [http-nio-19687-exec-10] p6spy                                    :  Consume Time：72 ms 2023-10-17 11:06:09
+ Execute SQL：update completedorder SET status = '7' where order_id = '1300769623012296344'
+
+2023-10-17 11:06:09.168  INFO 21480 --- [http-nio-19687-exec-10] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:06:09
+ Execute SQL：INSERT INTO t_order_log_list ( order_id, title, code, content, created_time ) VALUES ( 1300769623012296344, '配送单已取消', 100, '', '2023-10-17T11:06:09.166' )
+
+2023-10-17 11:06:09.171  INFO 21480 --- [http-nio-19687-exec-10] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:06:09
+ Execute SQL：SELECT id,u_id,user_name,name,poi_id,poi_name,remark,create_by,creator_name,create_time,update_by,update_time,del_flag FROM t_sys_user_poi WHERE del_flag=0 AND (poi_id = '9583917') LIMIT 1
+
+2023-10-17 11:06:10.727  INFO 21480 --- [http-nio-19687-exec-7] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:06:10
+ Execute SQL：SELECT order_id,sig,app_poi_code,order_tag_list,mt_pkg_id,dispatcher_mobile,time,logistics_code,app_id,logistics_status,dispatcher_name,timestamp FROM t_mt_delivery_personnel WHERE order_id='1100769613956656295' 
+
+2023-10-17 11:06:10.731  INFO 21480 --- [http-nio-19687-exec-7] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:06:10
+ Execute SQL：UPDATE t_mt_delivery_personnel SET sig='23c962b2d6b3c58f89950bea32c686ee', app_poi_code='18603603', order_tag_list='[8]', mt_pkg_id='1697511203093023573', dispatcher_mobile='13087582418_7732', time='1697511912', logistics_code='30012002', app_id='5430', logistics_status='15', dispatcher_name='王晓敏', timestamp='1697511975' WHERE order_id='1100769613956656295'
+
+2023-10-17 11:06:10.787  INFO 21480 --- [http-nio-19687-exec-7] p6spy                                    :  Consume Time：51 ms 2023-10-17 11:06:10
+ Execute SQL：update completedorder SET status = '6' where order_id = '1100769613956656295'
+
+2023-10-17 11:06:10.791  INFO 21480 --- [http-nio-19687-exec-7] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:06:10
+ Execute SQL：INSERT INTO t_order_log_list ( order_id, title, code, content, created_time ) VALUES ( 1100769613956656295, '骑手已到店', 15, '王晓敏', '2023-10-17T11:06:10.788' )
+
+2023-10-17 11:06:10.796  INFO 21480 --- [http-nio-19687-exec-7] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:06:10
+ Execute SQL：SELECT id,u_id,user_name,name,poi_id,poi_name,remark,create_by,creator_name,create_time,update_by,update_time,del_flag FROM t_sys_user_poi WHERE del_flag=0 AND (poi_id = '18603603') LIMIT 1
+
+2023-10-17 11:06:13.398  INFO 21480 --- [http-nio-19687-exec-3] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:06:13
+ Execute SQL：SELECT order_id,sig,app_poi_code,order_tag_list,mt_pkg_id,dispatcher_mobile,time,logistics_code,app_id,logistics_status,dispatcher_name,timestamp FROM t_mt_delivery_personnel WHERE order_id='1100769613428923486' 
+
+2023-10-17 11:06:13.399  INFO 21480 --- [http-nio-19687-exec-3] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:06:13
+ Execute SQL：UPDATE t_mt_delivery_personnel SET sig='3270f83d6ebb914b2fc05c1b96ccfe72', app_poi_code='17327011', order_tag_list='[]', mt_pkg_id='1697511141268023835', dispatcher_mobile='13259774878_0709', time='1697511977', logistics_code='30012002', app_id='5430', logistics_status='10', dispatcher_name='罗泽城', timestamp='1697511977' WHERE order_id='1100769613428923486'
+
+2023-10-17 11:06:13.473  INFO 21480 --- [http-nio-19687-exec-3] p6spy                                    :  Consume Time：72 ms 2023-10-17 11:06:13
+ Execute SQL：update completedorder SET status = '5' where order_id = '1100769613428923486'
+
+2023-10-17 11:06:13.478  INFO 21480 --- [http-nio-19687-exec-3] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:06:13
+ Execute SQL：INSERT INTO t_order_log_list ( order_id, title, code, content, created_time ) VALUES ( 1100769613428923486, '配送单已确认', 10, '罗泽城', '2023-10-17T11:06:13.475' )
+
+2023-10-17 11:06:13.482  INFO 21480 --- [http-nio-19687-exec-3] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:06:13
+ Execute SQL：SELECT id,u_id,user_name,name,poi_id,poi_name,remark,create_by,creator_name,create_time,update_by,update_time,del_flag FROM t_sys_user_poi WHERE del_flag=0 AND (poi_id = '17327011') LIMIT 1
+
+2023-10-17 11:06:15.524  INFO 21480 --- [http-nio-19687-exec-5] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:06:15
+ Execute SQL：SELECT order_id,sig,app_poi_code,order_tag_list,mt_pkg_id,dispatcher_mobile,time,logistics_code,app_id,logistics_status,dispatcher_name,timestamp FROM t_mt_delivery_personnel WHERE order_id='1300769624103189922' 
+
+2023-10-17 11:06:15.525  INFO 21480 --- [http-nio-19687-exec-5] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:06:15
+ Execute SQL：INSERT INTO t_mt_delivery_personnel ( order_id, sig, app_poi_code, order_tag_list, mt_pkg_id, dispatcher_mobile, time, logistics_code, app_id, logistics_status, dispatcher_name, timestamp ) VALUES ( '1300769624103189922', '45937e4e1f75cd74ff5ccc04674e8101', '9583917', '[]', '1697511979183288680', '', '1697511980', '1003', '5430', '0', '', '1697511980' )
+
+2023-10-17 11:06:15.592  INFO 21480 --- [http-nio-19687-exec-5] p6spy                                    :  Consume Time：62 ms 2023-10-17 11:06:15
+ Execute SQL：update completedorder SET status = '0' where order_id = '1300769624103189922'
+
+2023-10-17 11:06:15.597  INFO 21480 --- [http-nio-19687-exec-5] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:06:15
+ Execute SQL：INSERT INTO t_order_log_list ( order_id, title, code, content, created_time ) VALUES ( 1300769624103189922, '配送单发往配送', 0, '', '2023-10-17T11:06:15.594' )
+
+2023-10-17 11:06:15.600  INFO 21480 --- [http-nio-19687-exec-5] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:06:15
+ Execute SQL：SELECT id,u_id,user_name,name,poi_id,poi_name,remark,create_by,creator_name,create_time,update_by,update_time,del_flag FROM t_sys_user_poi WHERE del_flag=0 AND (poi_id = '9583917') LIMIT 1
+
+2023-10-17 11:06:15.670  INFO 21480 --- [http-nio-19687-exec-2] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:06:15
+ Execute SQL：SELECT order_id,sig,app_poi_code,order_tag_list,mt_pkg_id,dispatcher_mobile,time,logistics_code,app_id,logistics_status,dispatcher_name,timestamp FROM t_mt_delivery_personnel WHERE order_id='1300769612516401513' 
+
+2023-10-17 11:06:15.674  INFO 21480 --- [http-nio-19687-exec-2] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:06:15
+ Execute SQL：UPDATE t_mt_delivery_personnel SET sig='9885cb385c0e86f5c9d873337e836e9a', app_poi_code='9583917', order_tag_list='[8]', mt_pkg_id='1697511129449288922', dispatcher_mobile='13016223454_6412', time='1697511980', logistics_code='1003', app_id='5430', logistics_status='40', dispatcher_name='李林帅', timestamp='1697511980' WHERE order_id='1300769612516401513'
+
+2023-10-17 11:06:15.755  INFO 21480 --- [http-nio-19687-exec-2] p6spy                                    :  Consume Time：78 ms 2023-10-17 11:06:15
+ Execute SQL：update completedorder SET status = '8' where order_id = '1300769612516401513'
+
+2023-10-17 11:06:15.759  INFO 21480 --- [http-nio-19687-exec-2] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:06:15
+ Execute SQL：INSERT INTO t_order_log_list ( order_id, title, code, content, created_time ) VALUES ( 1300769612516401513, '骑手已送达', 40, '李林帅', '2023-10-17T11:06:15.757' )
+
+2023-10-17 11:06:15.764  INFO 21480 --- [http-nio-19687-exec-2] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:06:15
+ Execute SQL：SELECT id,u_id,user_name,name,poi_id,poi_name,remark,create_by,creator_name,create_time,update_by,update_time,del_flag FROM t_sys_user_poi WHERE del_flag=0 AND (poi_id = '9583917') LIMIT 1
+
+2023-10-17 11:06:18.523  INFO 21480 --- [http-nio-19687-exec-4] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:06:18
+ Execute SQL：SELECT order_id,sig,app_poi_code,order_tag_list,mt_pkg_id,dispatcher_mobile,time,logistics_code,app_id,logistics_status,dispatcher_name,timestamp FROM t_mt_delivery_personnel WHERE order_id='1300769610882855259' 
+
+2023-10-17 11:06:18.525  INFO 21480 --- [http-nio-19687-exec-4] p6spy                                    :  Consume Time：0 ms 2023-10-17 11:06:18
+ Execute SQL：UPDATE t_mt_delivery_personnel SET sig='b6b9dfa46bb070f795d1f398bf02efb0', app_poi_code='9580191', order_tag_list='[8]', mt_pkg_id='1697511422017288868', dispatcher_mobile='17898929770_0940', time='1697511958', logistics_code='30011001', app_id='5430', logistics_status='15', dispatcher_name='周让桂', timestamp='1697511983' WHERE order_id='1300769610882855259'
+
+2023-10-17 11:06:18.567  INFO 21480 --- [http-nio-19687-exec-4] p6spy                                    :  Consume Time：38 ms 2023-10-17 11:06:18
+ Execute SQL：update completedorder SET status = '6' where order_id = '1300769610882855259'
+
+2023-10-17 11:06:18.571  INFO 21480 --- [http-nio-19687-exec-4] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:06:18
+ Execute SQL：INSERT INTO t_order_log_list ( order_id, title, code, content, created_time ) VALUES ( 1300769610882855259, '骑手已到店', 15, '周让桂', '2023-10-17T11:06:18.568' )
+
+2023-10-17 11:06:18.576  INFO 21480 --- [http-nio-19687-exec-4] p6spy                                    :  Consume Time：1 ms 2023-10-17 11:06:18
+ Execute SQL：SELECT id,u_id,user_name,name,poi_id,poi_name,remark,create_by,creator_name,create_time,update_by,update_time,del_flag FROM t_sys_user_poi WHERE del_flag=0 AND (poi_id = '9580191') LIMIT 1
+
+2023-10-17 11:06:20.502  INFO 21480 --- [flowable-event-change-detector-1] p6spy                                    :  Consume Time：2 ms 2023-10-17 11:06:20
+ Execute SQL：select RES.* from FLW_CHANNEL_DEFINITION RES WHERE RES.VERSION_ = (select max(VERSION_) from FLW_CHANNEL_DEFINITION where KEY_ = RES.KEY_ and ( (TENANT_ID_ IS NOT NULL and TENANT_ID_ = RES.TENANT_ID_) or (TENANT_ID_ IS NULL and RES.TENANT_ID_ IS NULL) ) ) order by RES.ID_ asc
+
+2023-10-17 11:06:20.723  INFO 21480 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2023-10-17 11:06:21.158  INFO 21480 --- [SpringContextShutdownHook] o.s.s.quartz.SchedulerFactoryBean        : Shutting down Quartz Scheduler
+2023-10-17 11:06:21.158  INFO 21480 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
+2023-10-17 11:06:21.158  INFO 21480 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2023-10-17 11:06:21.159  INFO 21480 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
+2023-10-17 11:06:21.165  INFO 21480 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2023-10-17 11:06:21.165  INFO 21480 --- [SpringContextShutdownHook] c.htnova.common.util.SpringContextUtil   : 清除SpringContextHolder中的ApplicationContext:org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@35a9782c, started on Tue Oct 17 11:05:00 CST 2023
+2023-10-17 11:06:21.166  INFO 21480 --- [SpringContextShutdownHook] c.htnova.common.socket.SocketServerInit  : SocketIO Server stopping...
+2023-10-17 11:06:25.373  INFO 21480 --- [SpringContextShutdownHook] c.c.socketio.SocketIOServer              : SocketIO server stopped
+2023-10-17 11:06:25.373  INFO 21480 --- [SpringContextShutdownHook] c.htnova.common.socket.SocketServerInit  : SocketIO Server stopped.
+2023-10-17 11:06:25.376  INFO 21480 --- [SpringContextShutdownHook] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closing ...
+2023-10-17 11:06:25.385  INFO 21480 --- [SpringContextShutdownHook] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closed
+2023-10-17 11:06:29.691  INFO 26456 --- [main] com.htnova.Application                   : Starting Application on WANGSHENG with PID 26456 (E:\eclipse-workspace\submarine-admin-backend\target\classes started by RISE in E:\eclipse-workspace\submarine-admin-backend)
+2023-10-17 11:06:29.693  INFO 26456 --- [main] com.htnova.Application                   : The following profiles are active: prod
+2023-10-17 11:06:30.727  INFO 26456 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2023-10-17 11:06:30.729  INFO 26456 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2023-10-17 11:06:30.779  INFO 26456 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 39ms. Found 0 Redis repository interfaces.
+2023-10-17 11:06:31.250  INFO 26456 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@2c829dbc' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-17 11:06:31.255  INFO 26456 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-17 11:06:31.282  INFO 26456 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'server-org.springframework.boot.autoconfigure.web.ServerProperties' of type [org.springframework.boot.autoconfigure.web.ServerProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-17 11:06:31.284  INFO 26456 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'socketConfig' of type [com.htnova.common.socket.SocketConfig$$EnhancerBySpringCGLIB$$24ca9627] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-17 11:06:31.325  INFO 26456 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'socketIOServer' of type [com.corundumstudio.socketio.SocketIOServer] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-17 11:06:31.518  INFO 26456 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 19687 (http)
+2023-10-17 11:06:31.532  INFO 26456 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-10-17 11:06:31.532  INFO 26456 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.36]
+2023-10-17 11:06:31.646  INFO 26456 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring embedded WebApplicationContext
+2023-10-17 11:06:31.647  INFO 26456 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1923 ms
+2023-10-17 11:06:32.321  INFO 26456 --- [main] c.a.d.s.b.a.DruidDataSourceAutoConfigure : Init DruidDataSource
+2023-10-17 11:06:32.412  INFO 26456 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2023-10-17 11:06:32.840  WARN 26456 --- [main] c.b.m.core.metadata.TableInfoHelper      : Can not find table primary key in Class: "com.htnova.mt.order.entity.OrderLogList".
+2023-10-17 11:06:32.840  WARN 26456 --- [main] c.b.m.core.injector.DefaultSqlInjector   : class com.htnova.mt.order.entity.OrderLogList ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-10-17 11:06:33.495  INFO 26456 --- [main] c.htnova.common.socket.SocketServerInit  : SocketIO Server starting...
+2023-10-17 11:06:33.495  INFO 26456 --- [main] c.c.socketio.SocketIOServer              : Session store / pubsub factory used: MemoryStoreFactory (local session store only)
+2023-10-17 11:06:34.287  INFO 26456 --- [nioEventLoopGroup-4-1] c.c.socketio.SocketIOServer              : SocketIO server started at port: 19688
+2023-10-17 11:06:34.579  INFO 26456 --- [main] c.c.s.a.SpringAnnotationScanner          : socketController bean listeners added
+2023-10-17 11:06:34.827  INFO 26456 --- [main] c.c.s.a.SpringAnnotationScanner          : redisManageController bean listeners added
+2023-10-17 11:06:34.879  INFO 26456 --- [main] o.f.s.b.f.FormEngineAutoConfiguration    : No deployment resources were found for autodeployment
+2023-10-17 11:06:34.904  INFO 26456 --- [main] o.f.s.b.e.EventRegistryAutoConfiguration : No deployment resources were found for autodeployment
+2023-10-17 11:06:34.939  INFO 26456 --- [main] o.f.s.b.ProcessEngineAutoConfiguration   : No deployment resources were found for autodeployment
+2023-10-17 11:06:34.948  INFO 26456 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2023-10-17 11:06:35.375  INFO 26456 --- [main] o.f.s.SpringProcessEngineConfiguration   : Found 3 Engine Configurators in total:
+2023-10-17 11:06:35.375  INFO 26456 --- [main] o.f.s.SpringProcessEngineConfiguration   : class org.flowable.eventregistry.spring.configurator.SpringEventRegistryConfigurator (priority:100000)
+2023-10-17 11:06:35.375  INFO 26456 --- [main] o.f.s.SpringProcessEngineConfiguration   : class org.flowable.form.spring.configurator.SpringFormEngineConfigurator (priority:300000)
+2023-10-17 11:06:35.375  INFO 26456 --- [main] o.f.s.SpringProcessEngineConfiguration   : class org.flowable.content.spring.configurator.SpringContentEngineConfigurator (priority:400000)
+2023-10-17 11:06:35.375  INFO 26456 --- [main] o.f.s.SpringProcessEngineConfiguration   : Executing beforeInit() of class org.flowable.eventregistry.spring.configurator.SpringEventRegistryConfigurator (priority:100000)
+2023-10-17 11:06:35.378  INFO 26456 --- [main] o.f.s.SpringProcessEngineConfiguration   : Executing beforeInit() of class org.flowable.form.spring.configurator.SpringFormEngineConfigurator (priority:300000)
+2023-10-17 11:06:35.379  INFO 26456 --- [main] o.f.s.SpringProcessEngineConfiguration   : Executing beforeInit() of class org.flowable.content.spring.configurator.SpringContentEngineConfigurator (priority:400000)
+2023-10-17 11:06:36.157  INFO 26456 --- [main] o.f.s.SpringProcessEngineConfiguration   : Executing configure() of class org.flowable.eventregistry.spring.configurator.SpringEventRegistryConfigurator (priority:100000)
+2023-10-17 11:06:38.213  INFO 26456 --- [main] liquibase.executor.jvm.JdbcExecutor      : SELECT COUNT(*) FROM submarine.FLW_EV_DATABASECHANGELOG
+2023-10-17 11:06:38.219  INFO 26456 --- [main] l.c.StandardChangeLogHistoryService      : Reading from submarine.FLW_EV_DATABASECHANGELOG
+2023-10-17 11:06:38.220  INFO 26456 --- [main] liquibase.executor.jvm.JdbcExecutor      : SELECT * FROM submarine.FLW_EV_DATABASECHANGELOG ORDER BY DATEEXECUTED ASC, ORDEREXECUTED ASC
+2023-10-17 11:06:38.244  INFO 26456 --- [main] o.f.e.impl.EventRegistryEngineImpl       : EventRegistryEngine default created
+2023-10-17 11:06:38.245  INFO 26456 --- [main] o.f.s.SpringProcessEngineConfiguration   : Executing configure() of class org.flowable.form.spring.configurator.SpringFormEngineConfigurator (priority:300000)
+2023-10-17 11:06:38.311  INFO 26456 --- [main] liquibase.executor.jvm.JdbcExecutor      : SELECT COUNT(*) FROM submarine.ACT_FO_DATABASECHANGELOG
+2023-10-17 11:06:38.313  INFO 26456 --- [main] l.c.StandardChangeLogHistoryService      : Reading from submarine.ACT_FO_DATABASECHANGELOG
+2023-10-17 11:06:38.313  INFO 26456 --- [main] liquibase.executor.jvm.JdbcExecutor      : SELECT * FROM submarine.ACT_FO_DATABASECHANGELOG ORDER BY DATEEXECUTED ASC, ORDEREXECUTED ASC
+2023-10-17 11:06:38.318  INFO 26456 --- [main] o.f.form.engine.impl.FormEngineImpl      : FormEngine default created
+2023-10-17 11:06:38.319  INFO 26456 --- [main] o.f.s.SpringProcessEngineConfiguration   : Executing configure() of class org.flowable.content.spring.configurator.SpringContentEngineConfigurator (priority:400000)
+2023-10-17 11:06:38.322  INFO 26456 --- [main] o.f.c.s.SpringContentEngineConfiguration : Content file system root : C:\Users\RISE\content
+2023-10-17 11:06:38.652  INFO 26456 --- [main] liquibase.executor.jvm.JdbcExecutor      : SELECT COUNT(*) FROM submarine.ACT_CO_DATABASECHANGELOG
+2023-10-17 11:06:38.653  INFO 26456 --- [main] l.c.StandardChangeLogHistoryService      : Reading from submarine.ACT_CO_DATABASECHANGELOG
+2023-10-17 11:06:38.653  INFO 26456 --- [main] liquibase.executor.jvm.JdbcExecutor      : SELECT * FROM submarine.ACT_CO_DATABASECHANGELOG ORDER BY DATEEXECUTED ASC, ORDEREXECUTED ASC
+2023-10-17 11:06:38.658  INFO 26456 --- [main] o.f.c.engine.impl.ContentEngineImpl      : ContentEngine default created
+2023-10-17 11:06:38.687  INFO 26456 --- [main] o.f.engine.impl.ProcessEngineImpl        : ProcessEngine default created
+2023-10-17 11:06:38.715  INFO 26456 --- [main] o.f.e.impl.cmd.ValidateV5EntitiesCmd     : Total of v5 deployments found: 0
+2023-10-17 11:06:39.058  INFO 26456 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2023-10-17 11:06:39.193  INFO 26456 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: Ant [pattern='/error'], []
+2023-10-17 11:06:39.193  INFO 26456 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: Ant [pattern='/app/**'], []
+2023-10-17 11:06:39.220  INFO 26456 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2fe12ec3, org.springframework.security.web.context.SecurityContextPersistenceFilter@34fde3a3, org.springframework.security.web.header.HeaderWriterFilter@47b72d3b, org.springframework.security.web.authentication.logout.LogoutFilter@402d45c6, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@42599b84, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5d9639bb, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@5a438c0a, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@678a7489, org.springframework.security.web.session.SessionManagementFilter@2fc7c36a, org.springframework.security.web.access.ExceptionTranslationFilter@3723de42, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@306a9cd8]
+2023-10-17 11:06:39.681  INFO 26456 --- [main] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
+2023-10-17 11:06:39.690  INFO 26456 --- [main] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2023-10-17 11:06:39.690  INFO 26456 --- [main] org.quartz.core.QuartzScheduler          : Quartz Scheduler v.2.3.2 created.
+2023-10-17 11:06:39.691  INFO 26456 --- [main] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
+2023-10-17 11:06:39.691  INFO 26456 --- [main] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.3.2) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2023-10-17 11:06:39.691  INFO 26456 --- [main] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2023-10-17 11:06:39.691  INFO 26456 --- [main] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.3.2
+2023-10-17 11:06:39.692  INFO 26456 --- [main] org.quartz.core.QuartzScheduler          : JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@18be7f57
+2023-10-17 11:06:39.900  INFO 26456 --- [main] o.s.s.c.ThreadPoolTaskScheduler          : Initializing ExecutorService
+2023-10-17 11:06:39.913  INFO 26456 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 19687 (http) with context path '/api'
+2023-10-17 11:06:39.914  INFO 26456 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2023-10-17 11:06:39.925  INFO 26456 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2023-10-17 11:06:39.944  INFO 26456 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2023-10-17 11:06:40.110  INFO 26456 --- [main] o.s.s.quartz.SchedulerFactoryBean        : Starting Quartz Scheduler now
+2023-10-17 11:06:40.110  INFO 26456 --- [main] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2023-10-17 11:06:40.731  INFO 26456 --- [main] s.a.ScheduledAnnotationBeanPostProcessor : No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
+2023-10-17 11:06:40.741  INFO 26456 --- [main] com.htnova.Application                   : Started Application in 11.593 seconds (JVM running for 12.511)
+2023-10-17 11:06:42.863  INFO 26456 --- [http-nio-19687-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-10-17 11:06:42.864  INFO 26456 --- [http-nio-19687-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2023-10-17 11:06:42.874  INFO 26456 --- [http-nio-19687-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 10 ms
+2023-10-17 11:14:10.805  INFO 26456 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2023-10-17 11:14:11.208  INFO 26456 --- [SpringContextShutdownHook] o.s.s.quartz.SchedulerFactoryBean        : Shutting down Quartz Scheduler
+2023-10-17 11:14:11.208  INFO 26456 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
+2023-10-17 11:14:11.208  INFO 26456 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2023-10-17 11:14:11.208  INFO 26456 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
+2023-10-17 11:14:11.216  INFO 26456 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2023-10-17 11:14:11.216  INFO 26456 --- [SpringContextShutdownHook] c.htnova.common.util.SpringContextUtil   : 清除SpringContextHolder中的ApplicationContext:org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@70a36a66, started on Tue Oct 17 11:06:29 CST 2023
+2023-10-17 11:14:11.216  INFO 26456 --- [SpringContextShutdownHook] c.htnova.common.socket.SocketServerInit  : SocketIO Server stopping...
+2023-10-17 11:14:15.402  INFO 26456 --- [SpringContextShutdownHook] c.c.socketio.SocketIOServer              : SocketIO server stopped
+2023-10-17 11:14:15.402  INFO 26456 --- [SpringContextShutdownHook] c.htnova.common.socket.SocketServerInit  : SocketIO Server stopped.
+2023-10-17 11:14:15.403  INFO 26456 --- [SpringContextShutdownHook] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closing ...
+2023-10-17 11:14:15.410  INFO 26456 --- [SpringContextShutdownHook] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closed

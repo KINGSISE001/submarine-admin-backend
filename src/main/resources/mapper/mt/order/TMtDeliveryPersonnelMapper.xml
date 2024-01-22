@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.htnova.mt.order.mapper.TMtDeliveryPersonnelMapper">
+
+    <resultMap id="BaseResultMap" type="com.htnova.mt.order.entity.TMtDeliveryPersonnel">
+            <result property="sig" column="sig" jdbcType="VARCHAR"/>
+            <result property="appPoiCode" column="app_poi_code" jdbcType="VARCHAR"/>
+            <result property="orderTagList" column="order_tag_list" jdbcType="VARCHAR"/>
+            <result property="mtPkgId" column="mt_pkg_id" jdbcType="VARCHAR"/>
+            <result property="dispatcherMobile" column="dispatcher_mobile" jdbcType="VARCHAR"/>
+            <result property="time" column="time" jdbcType="VARCHAR"/>
+            <result property="logisticsCode" column="logistics_code" jdbcType="VARCHAR"/>
+            <result property="orderId" column="order_id" jdbcType="VARCHAR"/>
+            <result property="appId" column="app_id" jdbcType="VARCHAR"/>
+            <result property="logisticsStatus" column="logistics_status" jdbcType="VARCHAR"/>
+            <result property="dispatcherName" column="dispatcher_name" jdbcType="VARCHAR"/>
+            <result property="timestamp" column="timestamp" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        sig,app_poi_code,order_tag_list,
+        mt_pkg_id,dispatcher_mobile,time,
+        logistics_code,order_id,app_id,
+        logistics_status,dispatcher_name,timestamp
+    </sql>
+</mapper>

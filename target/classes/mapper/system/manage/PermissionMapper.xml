@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.htnova.system.manage.mapper.PermissionMapper">
+
+    <sql id="SelectColumns">
+        a.id as `id`,
+        a.type as `type`,
+        a.name as `name`,
+        a.value as `value`,
+        a.pid as `pid`,
+        a.pids as `pids`,
+        a.remark as `remark`,
+        a.create_by as `createBy`,
+        a.creator_name as `creatorName`,
+        a.create_time as `createTime`,
+        a.update_by as `updateBy`,
+        a.update_time as `updateTime`,
+        a.del_flag as `delFlag`
+    </sql>
+
+    <!--动态检索片段-->
+    <sql id="findList">
+        SELECT
+            <include refid="SelectColumns"/>
+        FROM t_sys_permission a WHERE a.del_flag = #{permissionDto.delFlag}
+        <if test="permissionDto.name != null and permissionDto.name != ''">
+            AND a.name LIKE concat('%',#{permissionDto.name},'%')
+        </if>
+        <if test="permissionDto.type != null">
+            AND a.type = #{permissionDto.type}
+        </if>
+        <if test="permissionDto.value != null and permissionDto.value != ''">
+            AND a.value LIKE concat('%',#{permissionDto.value},'%')
+        </if>
+        <if test="permissionDto.pid != null and permissionDto.pid != ''">
+            AND a.pid = #{permissionDto.pid}
+        </if>
+        <if test="permissionDto.pids != null and permissionDto.pids != ''">
+            AND a.pids = #{permissionDto.pids}
+        </if>
+        <if test="permissionDto.creatorName != null and permissionDto.creatorName != ''">
+            AND a.creator_name LIKE concat('%',#{permissionDto.creatorName},'%')
+        </if>
+    </sql>
+
+    <!--分页查询-->
+    <select id="findPage" resultType="Permission">
+        <include refid="findList"/>
+    </select>
+
+    <!--列表查询-->
+    <select id="findList" resultType="Permission">
+        <include refid="findList"/>
+    </select>
+
+
+</mapper>

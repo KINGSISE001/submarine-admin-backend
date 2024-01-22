@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.htnova.mt.order.mapper.OrderLogListMapper">
+    <sql id="SelectColumns">
+		a.id as `id`,
+		a.order_id as `orderId`,
+		a.title as `title`,
+		a.content as `content`,
+		a.code as `code`,
+		a.created_time as createdTime
+    </sql>
+
+    <!--列表查询-->
+    <sql id="findList">
+        SELECT
+            <include refid="SelectColumns"/>
+        FROM t_order_log_list a WHERE 1=1
+
+		<if test="orderLogListDto.id != null">
+			AND a.id = #{orderLogListDto.id}
+		</if>
+		<if test="orderLogListDto.orderId != null">
+			AND a.order_id = #{orderLogListDto.orderId}
+		</if>
+		<if test="orderLogListDto.title != null and orderLogListDto.title != ''">
+			AND a.title = #{orderLogListDto.title}
+		</if>
+		<if test="orderLogListDto.content != null and orderLogListDto.content != ''">
+			AND a.content = #{orderLogListDto.content}
+		</if>
+    </sql>
+
+    <!--列表查询-->
+    <sql id="findListByOrderId">
+        SELECT
+        <include refid="SelectColumns"/>
+        FROM t_order_log_list a WHERE 1=1
+
+        <if test="orderId != null">
+            AND a.order_id = #{orderId}
+        </if>
+    </sql>
+
+    <!--分页查询-->
+    <select id="findPage" resultType="OrderLogList">
+        <include refid="findList"/>
+    </select>
+
+    <!--列表查询-->
+    <select id="findList" resultType="OrderLogList">
+        <include refid="findList"/>
+    </select>
+
+    <!--列表查询-->
+    <select id="findListByOrderId" resultType="OrderLogList">
+        <include refid="findListByOrderId"/>
+    </select>
+
+</mapper>

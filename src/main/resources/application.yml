@@ -1,0 +1,88 @@
+server:
+  port: 19687
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+    name: scaffold
+  profiles:
+    active: dev
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    timeZone: GMT+8
+  servlet:
+    multipart:
+      enabled: true
+      maxFileSize: 100MB
+      max-request-size: 100MB
+  security:
+    login-page: /login
+    login-processing-url: /auth/login
+    login-success-page: /
+    logout-url: /auth/logout
+    error-page: /error-page
+
+
+sheet:
+  info:
+     #业务类型（默认：order）
+    method: order
+     # 授权码，请到快递100页面申请企业版接口获取
+    key: nNPuyAdJ2514
+     #secret在企业管理后台获取
+    secret: 9f0ebfec2ee54291b6c5a1b65d369188
+    #	收件网点名称,由快递公司当地网点分配
+    net : cainiao
+     # 打印类型，NON：只下单不打印（默认）； IMAGE:生成图片短链；HTML:生成html短链； CLOUD:使用快递100云打印机打印，使用CLOUD时siid必填
+    printType: IMAGE
+     # 电子面单客户账户或月结账号，需贵司向当地快递公司网点申请
+    partnerId: 2211443926784
+     # 电子面单密码，需贵司向当地快递公司网点申请； 是否必填该属性，
+    partnerKey: WWdXY1FRalJjNTNZOWNIWWSvMXNSaTM3RmVBeFZXdFBndHFwaJiQ0g4STRHem9QbTdFamVaOUMOTGo1OC9CSw==
+    #电子面单密钥，需贵司向当地快递公司网点申请； 是否必填该属性，
+    partnerSecret:
+    #电子面单客户账户名称，需贵司向当地快递公司网点申请； 是否必填该属性，
+    partnerName:
+     #快递公司的编码，一律用小写字母
+    kuaidicom: youzhengguonei
+    #打印设备，通过打印机输出的设备码进行获取，printType为CLOUD时必填
+    siid:
+    #主单模板，通过管理后台的快递公司模板V2信息获取
+    tempId: 61adb9f04cb63500130195bb
+    # 中台一点通id
+    erpid : 5679
+flowable:
+  database-schema-update: false
+  async-executor-activate: false
+  dmn:
+    enabled: false
+  cmmn:
+    enabled: false
+  content:
+    enabled: true
+  app:
+    enabled: false
+  idm:
+    enabled: false
+  rest-api-enabled: false
+
+mybatis-plus:
+  mapperLocations: classpath*:mapper/**/*per.xml
+  type-aliases-package: com.htnova
+  global-config:
+    db-config:
+      update-strategy: NOT_EMPTY  # 有三种IGNORED,NOT_NULL,NOT_EMPTY,
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+
+logging:
+  file:
+    max-history: 30
+    name: ${catalina.base:.}/logs/${spring.application.name}.log
+    max-size: 100MB
+    clean-history-on-start: false
+    total-size-cap: 3000MB
+
+socket:
+  port: 19688

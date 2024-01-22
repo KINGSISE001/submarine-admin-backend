@@ -1,0 +1,46 @@
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      username: root
+      password: 123456
+      url: jdbc:mysql://127.0.0.1:3306/submarine?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&useSSL=false&nullCatalogMeansCurrent=true
+      driverClassName: com.mysql.cj.jdbc.Driver
+      validationQuery: SELECT 1
+      testWhileIdle: true
+      stat-view-servlet:
+        # 默认true 内置监控页面首页/druid/index.html
+        enabled: true
+        url-pattern: /druid/*
+        # 允许清空统计数据
+        reset-enable: true
+        login-username: root
+        login-password: 123456
+  session:
+    store-type: redis
+    timeout: 10H
+    redis:
+      flush-mode: on_save
+      namespace: springboot-session
+  redis:
+    database: 5
+    host: 127.0.0.1
+    port: 6379
+    password:
+    lettuce:
+      pool:
+        max-active: 8
+
+
+
+upload:
+  type: local
+  oss:
+    namespace: xxxx # 上传到某一个文件夹
+    endpoint: xxxx
+    viewEndpoint: xxxx
+    accessKeyId: xxxx
+    accessKeySecret: xxxx
+    bucketName: xxxx
+  local:
+    path: ./src/main/resources/public/

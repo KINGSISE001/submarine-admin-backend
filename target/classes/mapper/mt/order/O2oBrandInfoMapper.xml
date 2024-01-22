@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.htnova.mt.order.mapper.O2oBrandInfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.htnova.mt.order.entity.O2oBrandInfo">
+            <id property="appname" column="appname" jdbcType="VARCHAR"/>
+            <result property="mtappid" column="mtappid" jdbcType="INTEGER"/>
+            <result property="mtappkey" column="mtappkey" jdbcType="VARCHAR"/>
+            <result property="brandName" column="brand_name" jdbcType="VARCHAR"/>
+            <result property="brandId" column="brand_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        appname,mtappid,mtappkey,
+        brand_name,brand_id
+    </sql>
+</mapper>
