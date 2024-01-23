@@ -8,14 +8,6 @@ import com.htnova.mt.order.dto.UserPoiDto;
 import com.htnova.mt.order.mapper.UserPoiMapper;
 import com.htnova.security.entity.UserDetail;
 import com.htnova.security.exception.EmptyPermissionException;
-import java.io.IOException;
-import java.util.*;
-import javax.annotation.Resource;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.context.annotation.Bean;
@@ -53,6 +45,17 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsWebFilter;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
+
+import javax.annotation.Resource;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 
 @Slf4j
@@ -224,7 +227,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 result.put("SESSION",encodedString);
                 result.put("redirectUrl", redirectUrl);
                 result.put("userName", ((UserDetail) authentication.getPrincipal()).getUsername());
-                result.put("userid", ((UserDetail) authentication.getPrincipal()).getUser().getId());
+                result.put("userid", ((UserDetail) authentication.getPrincipal()).getUser().getId().toString());
                 UserPoiDto up = new UserPoiDto();
                 up.setUId(((UserDetail) authentication.getPrincipal()).getUser().getId());
 
