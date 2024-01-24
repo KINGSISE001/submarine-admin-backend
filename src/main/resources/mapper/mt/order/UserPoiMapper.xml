@@ -30,9 +30,6 @@
         FROM t_sys_user_poi a
 		INNER JOIN t_sys_user as b on a.u_id=b.id
         WHERE a.del_flag = #{userPoiDto.delFlag}
-		<if test="userPoiDto.id != null">
-			AND a.id = #{userPoiDto.id}
-		</if>
 		<if test="userPoiDto.uId != null">
 			AND a.u_id = #{userPoiDto.uId}
 		</if>
