@@ -1,8 +1,8 @@
 package com.htnova.mt.order.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.AllArgsConstructor;
@@ -12,8 +12,6 @@ import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -22,6 +20,7 @@ import java.util.Date;
 public class Completedorder implements Serializable {
 
     @JsonSerialize(using = ToStringSerializer.class)
+    @TableId
     private Long orderId;
 
     private String orderTagList;

@@ -201,10 +201,10 @@
     </select>
 
    <select id="findOrderStatusByPoiCode" parameterType="java.lang.String" resultType="com.htnova.mt.order.entity.OrderStatus">
-       select app_poi_code as poiCode,status as status,count(status) as count from completedorder
-    where app_poi_code=#{appPoiCode,jdbcType=VARCHAR}
+       select status,count(status) as count from completedorder
+    where (app_poi_code=#{appPoiCode,jdbcType=VARCHAR} or app_poi_code=#{appEleCode,jdbcType=VARCHAR})
       <![CDATA[ AND date >= #{startTime,jdbcType=VARCHAR} AND date <= #{endTime,jdbcType=VARCHAR} ]]>
-    GROUP BY  app_poi_code,status
+    GROUP BY status
    </select>
 
     <select id="findOrderInfoByPoiCodeAndStatus" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -213,7 +213,7 @@
         FROM completedorder as a
         INNER JOIN (
         select app_poi_code as poiCode,order_id from completedorder where
-        app_poi_code=#{appPoiCode,jdbcType=VARCHAR}
+        (app_poi_code=#{appPoiCode,jdbcType=VARCHAR} or app_poi_code=#{appEleCode,jdbcType=VARCHAR})
         <![CDATA[ AND date >= #{startTime,jdbcType=VARCHAR} AND date <= #{endTime,jdbcType=VARCHAR} ]]>
         and status=#{status,jdbcType=INTEGER}) as b on a.app_poi_code=b.poiCode and a.order_id=b.order_id
     </select>

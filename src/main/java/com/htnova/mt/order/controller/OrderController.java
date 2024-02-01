@@ -64,6 +64,7 @@ public class OrderController {
     private RedisUtil redisUtil;
 
 
+
     @ApiIgnore
     @ApiOperation(value = "已支付订单接收")
     @PostMapping(value = "/paidOrder")
@@ -103,19 +104,22 @@ public class OrderController {
         completedorder.setDetail("美团");
         completedorder.setStatus(String.valueOf(ResultStatus.ZHI_FU_ORDER.getCode()));
        String orderTagList = completedorder.getOrderTagList();
-       Set<Integer> orderTagLists =JSON.parseObject(orderTagList,Set.class);
+        Integer[] orderTagLists = JSON.parseObject(orderTagList, Integer[].class);
         for (Integer tag : orderTagLists) {
-            if (tag == 8){
-                completedorder.setOrderTagList("处方药");
-            }
-            if (tag == 23){
-                completedorder.setOrderTagList("医保药");
-            }
-            if (tag == 36){
-                completedorder.setOrderTagList("好药订单");
-            }
+            log.info("tag:{}",tag);
         }
         completedorder.setOrderTagList("普通单");
+           for (Integer tag : orderTagLists) {
+               if (tag == 8){
+                   completedorder.setOrderTagList("处方药");
+               }
+               if (tag == 23){
+                   completedorder.setOrderTagList("医保药");
+               }
+               if (tag == 36){
+                   completedorder.setOrderTagList("好药订单");
+               }
+           }
         int count1 = orderService.insertCompletedorder(completedorder);
         int count2 = orderService.insertDetail(lists);
         if (count1 > 0 && count2 > 0) {
@@ -239,7 +243,7 @@ public class OrderController {
         orderLogListService.saveOrderLogList(or);
         UserPoi user = getUserId2(app_poi_code);
         if (!(user == null)) {
-            List<SocketIOClient> list1 = SocketUtil.getClientList(user.getUId());
+            List<SocketIOClient> list1 = SocketUtil.getClientList(user.getuId());
             if (CollUtil.isNotEmpty(list1)) {
                 list1.forEach(
                         item -> {
@@ -541,7 +545,7 @@ public class OrderController {
 
         UserPoi user = getUserId2(app_poi_code);
         if (!(user == null)) {
-            List<SocketIOClient> list1 = SocketUtil.getClientList(user.getUId());
+            List<SocketIOClient> list1 = SocketUtil.getClientList(user.getuId());
             if (CollUtil.isNotEmpty(list1)) {
                 ResultStatus finalRS = RS;
                 list1.forEach(
@@ -594,17 +598,26 @@ public class OrderController {
         // SocketUtil.saveClient(authUser.getId(), client);
         Map<String, Object> maps = new LinkedHashMap<>();
         JSONObject jsonObject = JSONObject.parseObject(string);
-        // String merchant_id = jsonObject.getString("merchant_id");
-        String shop_id = jsonObject.getString("shop_id");
-        String select_type = jsonObject.getString("select_type");
-        String type = jsonObject.getString("type");
-        if (string != null) {
-            maps.put("order_count", orderService.selectOrderCountByPoi(shop_id));
-            maps.put("shop_id", shop_id);
-            maps.put("order_list", orderService.findOrderInfoByPoiCodeAndStatus(shop_id, select_type).stream().sorted(Comparator.comparing(Completedorder::getDaySeq).reversed()).collect(Collectors.toList()));
+        String merchant_id = jsonObject.getString("merchant_id");
+        UserPoi user =userPoiService.getUserPoiById(merchant_id).stream().findFirst().orElse(null);
+        if (user != null) {
+            String shop_id = jsonObject.getString("shop_id");
+            String select_type = jsonObject.getString("select_type");
+            String type = jsonObject.getString("type");
+            String mtId ="";
+            String eleId = "";
+            if (user.getPoiStatus() == 1) {
+                mtId =  user.getPoiId();
+            }
+            if (user.getEleStatus() == 1) {
+                eleId =  user.getEleId();
+            }
+            maps.put("order_count", orderService.selectOrderCountByPoi(mtId,eleId));
+            maps.put("shop_id", merchant_id);
+            maps.put("order_list", orderService.findOrderInfoByPoiCodeAndStatus(mtId,eleId, select_type).stream().sorted(Comparator.comparing(Completedorder::getDaySeq).reversed()).collect(Collectors.toList()));
             maps.put("select_type", select_type);
             maps.put("type", type);
-            maps.put("OrderNumber", orderService.findSummaryTodayRevenueOrderAmountAndNumber(shop_id, "8"));
+            maps.put("OrderNumber", orderService.findSummaryTodayRevenueOrderAmountAndNumber(mtId,eleId, "8"));
         }
         return maps;
     }
@@ -632,7 +645,7 @@ public class OrderController {
 
         UserPoi user = getUserId2(completedorder.getAppPoiCode());
         if (!(user == null)) {
-            List<SocketIOClient> list1 = SocketUtil.getClientList(user.getUId());
+            List<SocketIOClient> list1 = SocketUtil.getClientList(user.getuId());
             if (CollUtil.isNotEmpty(list1)) {
                 list1.forEach(
                         item -> {
@@ -671,12 +684,12 @@ public class OrderController {
     }
 
     public long getUserId(String poiId) {
-        UserPoi userPoi = userPoiService.getUserPoiById(poiId).stream().findFirst().orElse(new UserPoi());
-        return userPoi.getUId() == null ? 0 : userPoi.getUId();
+        UserPoi userPoi = userPoiService.getUserPoiByPoiId(poiId).stream().findFirst().orElse(new UserPoi());
+        return userPoi.getuId() == null ? 0 : userPoi.getuId();
     }
 
     public UserPoi setWorkshopPersonToProcess(String poiId) {
-        List<UserPoi> list = userPoiService.getUserPoiById(poiId);
+        List<UserPoi> list = userPoiService.getUserPoiByPoiId(poiId);
         if (list.size() > 0) {
             UserPoi userPoi = list.stream().findFirst().orElse(new UserPoi());
             log.info("userPoi:{}", JSON.toJSONString(userPoi));

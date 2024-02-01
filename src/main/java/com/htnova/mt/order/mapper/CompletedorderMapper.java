@@ -2,16 +2,13 @@ package com.htnova.mt.order.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.htnova.mt.order.entity.Completedorder;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-
 import com.htnova.mt.order.entity.OrderStatus;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface CompletedorderMapper extends BaseMapper<Completedorder> {
@@ -28,19 +25,22 @@ public interface CompletedorderMapper extends BaseMapper<Completedorder> {
 
     List<OrderStatus> findOrderStatusByPoiCode(
             @Param(value = "appPoiCode") String appPoiCode,
+            @Param(value = "appEleCode") String appEleCode,
             @Param(value = "startTime") String startTime,
             @Param(value = "endTime") String endTime);
     List<Completedorder> findOrderInfoByPoiCodeAndStatus(
             @Param(value = "appPoiCode") String appPoiCode,
+            @Param(value = "appEleCode") String appEleCode,
             @Param(value = "startTime") String startTime,
             @Param(value = "endTime") String endTime,
             @Param(value = "status") String status
     );
 
-    @Select("select app_poi_code,count(order_id) as sumOrder, sum(total) as total  from completedorder\n" +
-            "where date >=#{start_time} and date <=#{end_time} and app_poi_code=#{appPoiCode} and `status` =#{status}\n" +
-            "GROUP BY app_poi_code,`status`")
+    @Select("select detail,app_poi_code,count(order_id) as sumOrder, sum(total) as total  from completedorder " +
+            "where date >=#{start_time} and date <=#{end_time} and (app_poi_code=#{appPoiCode} or app_poi_code=#{appEleCode} ) and `status` =#{status} " +
+            "GROUP BY detail,app_poi_code,`status`")
     List<Map<String, Object>> findSummaryTodayRevenueOrderAmountAndNumber(@Param("appPoiCode") String appPoiCode,
+                                                                          @Param("appEleCode") String appEleCode,
                                                                          @Param("start_time") String start_time,
                                                                         @Param("end_time") String end_time,
                                                                         @Param("status") String status

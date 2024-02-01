@@ -1,18 +1,14 @@
 package com.htnova.mt.order.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.github.pagehelper.PageInfo;
 import com.htnova.common.dto.EasyUIDataGridResult;
 import com.htnova.mt.order.entity.Completedorder;
 import com.htnova.mt.order.entity.Detail;
-import com.htnova.mt.order.entity.OrderStatus;
 import com.htnova.mt.order.entity.SettlementInformation;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 import java.util.Map;
-
-import org.apache.ibatis.annotations.Param;
 
 public interface OrderService  {
     int insertCompletedorder(@Param("completedorder") Completedorder completedorder);
@@ -33,9 +29,9 @@ public interface OrderService  {
     EasyUIDataGridResult findDetailByOrderId(Long order);
 
 
-    Map<Integer, Integer> selectOrderCountByPoi(String poi);
+    Map<Integer, Integer> selectOrderCountByPoi(String poi,String appEleCode);
 
-    List<Completedorder> findOrderInfoByPoiCodeAndStatus(String poi, String status);
-    List<Map<String, Object>> findSummaryTodayRevenueOrderAmountAndNumber(String poi, String status);
+    List<Completedorder> findOrderInfoByPoiCodeAndStatus(String poi ,String appEleCode, String status);
+    List<Map<String, Object>> findSummaryTodayRevenueOrderAmountAndNumber(String poi,String appEleCode, String status);
 
 }

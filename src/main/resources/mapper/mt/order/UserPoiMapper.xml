@@ -5,6 +5,7 @@
 		a.id as `id`,
 		b.username as userName,
 		b.name as `name`,
+		a.store_name as storeName,
 		a.u_id as `uId`,
 		a.auto_orders as `autoOrders`,
 		a.poi_id as `poiId`,

@@ -133,11 +133,11 @@ public class OrderServicelmpl implements OrderService {
     }
 
     @Override
-    public Map<Integer, Integer> selectOrderCountByPoi(String poi) {
+    public Map<Integer, Integer> selectOrderCountByPoi(String poi,String appEleCode) {
         List<String> today = com.htnova.common.util.DateUtil.getToday();
         String startTime = today.get(0);
         String endTime = today.get(1);
-        List<OrderStatus> orderStatuses = completedorderMapper.findOrderStatusByPoiCode(poi, startTime, endTime);
+        List<OrderStatus> orderStatuses = completedorderMapper.findOrderStatusByPoiCode(poi,appEleCode, startTime, endTime);
         int[] sta = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 13};
         Map<Integer, Integer> map = new HashMap<>();
         for (int st : sta) {
@@ -153,11 +153,11 @@ public class OrderServicelmpl implements OrderService {
     }
 
     @Override
-    public List<Completedorder> findOrderInfoByPoiCodeAndStatus(String poi, String status) {
+    public List<Completedorder> findOrderInfoByPoiCodeAndStatus(String poi,String appEleCode, String status) {
         List<String> today = com.htnova.common.util.DateUtil.getToday();
         String startTime = today.get(0);
         String endTime = today.get(1);
-        return completedorderMapper.findOrderInfoByPoiCodeAndStatus(poi, startTime, endTime, status);
+        return completedorderMapper.findOrderInfoByPoiCodeAndStatus(poi, appEleCode,startTime, endTime, status);
     }
 
 
@@ -166,11 +166,11 @@ public class OrderServicelmpl implements OrderService {
      * 今日营收订单金额和订单数汇总
      */
     @Override
-    public List<Map<String, Object>> findSummaryTodayRevenueOrderAmountAndNumber(String poi, String status) {
+    public List<Map<String, Object>> findSummaryTodayRevenueOrderAmountAndNumber(String poi,String appEleCode, String status) {
         List<String> today = com.htnova.common.util.DateUtil.getToday();
         String startTime = today.get(0);
         String endTime = today.get(1);
-        return completedorderMapper.findSummaryTodayRevenueOrderAmountAndNumber(poi, startTime, endTime, status);
+        return completedorderMapper.findSummaryTodayRevenueOrderAmountAndNumber(poi,appEleCode, startTime, endTime, status);
 
 
     }

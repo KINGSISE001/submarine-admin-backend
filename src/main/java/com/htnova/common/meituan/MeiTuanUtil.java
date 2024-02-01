@@ -4,16 +4,17 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.htnova.common.constant.ResultStatus;
 import com.htnova.common.dto.Result;
 import com.htnova.mt.order.controller.OrderController;
 import com.htnova.mt.order.entity.Completedorder;
 import com.htnova.mt.order.entity.SettlementInformation;
 import com.htnova.mt.order.entity.UserPoi;
+import com.htnova.mt.order.mapper.CompletedorderMapper;
 import com.htnova.mt.order.mapper.SettlementInformationMapper;
 import com.htnova.mt.order.service.OrderService;
 import com.htnova.mt.order.service.UserPoiService;
+import com.htnova.mt.order.service.impl.MeEleServiceImpl;
 import com.htnova.mt.order.service.impl.O2oBrandInfoServiceImpl;
 import com.sankuai.meituan.shangou.open.sdk.domain.SystemParam;
 import com.sankuai.meituan.shangou.open.sdk.exception.SgOpenException;
@@ -48,6 +49,12 @@ public class MeiTuanUtil {
     @Resource
     OrderService orderService;
 
+    @Resource
+    CompletedorderMapper completedorderMapper;
+
+    @Resource
+    MeEleServiceImpl meEleServiceImpl;
+
     public SystemParam getSystemParam(String order_no) {
         SettlementInformation appId = settlementInformationMapper.selectById(order_no);
         if (appId == null) {
@@ -57,7 +64,7 @@ public class MeiTuanUtil {
     };
 
     public SystemParam getSystemParam2(String poi_id) {
-        List<UserPoi> appId = userPoiService.getUserPoiById(poi_id);
+        List<UserPoi> appId = userPoiService.getUserPoiByPoiId(poi_id);
         if (appId.isEmpty()) {
             return null;
         }
@@ -84,30 +91,40 @@ public class MeiTuanUtil {
      * @return
      */
     public Result orderConfirm(String order_id) {
-        SystemParam systemParam = getSystemParam(order_id);
-        log.info("orderConfirm systemParam:{}", systemParam);
-        if (systemParam == null) {
-            return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR);
-        }
-        OrderConfirmRequest orderConfirmRequest = new OrderConfirmRequest(systemParam);
-        orderConfirmRequest.setOrder_id(order_id);
-        SgOpenResponse sgOpenResponse;
-        try {
-            sgOpenResponse = orderConfirmRequest.doRequest();
-        } catch (SgOpenException e) {
-            e.printStackTrace();
-            return Result.build(HttpStatus.OK, ResultStatus.SERVER_ERROR);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Result.build(HttpStatus.OK, ResultStatus.SERVER_ERROR);
-        }
-        //发起请求时的sig，用来联系美团员工排查问题时使用
-        String requestSig = sgOpenResponse.getRequestSig();
-        System.out.println(requestSig);
-        //请求返回的结果，按照官网的接口文档自行解析即可
-        String requestResult = sgOpenResponse.getRequestResult();
-        System.out.println(requestResult);
-        return Result.build(HttpStatus.OK, ResultStatus.REQUEST_SUCCESS, requestResult);
+      Completedorder com =  completedorderMapper.selectById(order_id);
+      if (com != null) {
+          if (com.getDetail().equals("饿了么")) {
+            return  meEleServiceImpl.orderConfirm (order_id);
+          } else if (com.getDetail().equals("美团")) {
+              SystemParam systemParam = getSystemParam(order_id);
+              log.info("orderConfirm systemParam:{}", systemParam);
+              if (systemParam == null) {
+                  return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR);
+              }
+              OrderConfirmRequest orderConfirmRequest = new OrderConfirmRequest(systemParam);
+              orderConfirmRequest.setOrder_id(order_id);
+              SgOpenResponse sgOpenResponse;
+              try {
+                  sgOpenResponse = orderConfirmRequest.doRequest();
+              } catch (SgOpenException e) {
+                  e.printStackTrace();
+                  return Result.build(HttpStatus.OK, ResultStatus.SERVER_ERROR);
+              } catch (Exception e) {
+                  e.printStackTrace();
+                  return Result.build(HttpStatus.OK, ResultStatus.SERVER_ERROR);
+              }
+              //发起请求时的sig，用来联系美团员工排查问题时使用
+              String requestSig = sgOpenResponse.getRequestSig();
+              System.out.println(requestSig);
+              //请求返回的结果，按照官网的接口文档自行解析即可
+              String requestResult = sgOpenResponse.getRequestResult();
+              System.out.println(requestResult);
+              return Result.build(HttpStatus.OK, ResultStatus.REQUEST_SUCCESS, requestResult);
+          }else {
+              return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR);
+          }
+      }
+        return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR);
     }
 
     /**

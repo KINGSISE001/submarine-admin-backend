@@ -7,12 +7,12 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.htnova.mt.order.dto.UserPoiDto;
 import com.htnova.mt.order.entity.UserPoi;
 import com.htnova.mt.order.mapper.UserPoiMapper;
-import java.util.List;
-import javax.annotation.Resource;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -21,7 +21,7 @@ public class UserPoiService extends ServiceImpl<UserPoiMapper, UserPoi> {
     private UserPoiMapper userPoiMapper;
 
     @Transactional(readOnly = true)
-    public IPage<UserPoi> findUserPoiList(UserPoiDto userPoiDto, IPage<Void> xPage) {
+    public IPage<UserPoi> findUserPoiList(UserPoi userPoiDto, IPage<Void> xPage) {
         return userPoiMapper.findPage(xPage, userPoiDto);
     }
 
@@ -45,7 +45,14 @@ public class UserPoiService extends ServiceImpl<UserPoiMapper, UserPoi> {
         super.removeById(id);
     }
 
-    public List<UserPoi> getUserPoiById(String poiId){
+    public List<UserPoi> getUserPoiById(String Id){
+        QueryWrapper<UserPoi> userPoi = Wrappers.query();
+        userPoi.eq("id",Id);
+        userPoi.last("LIMIT 1");
+        return userPoiMapper.selectList(userPoi);
+    };
+
+    public List<UserPoi> getUserPoiByPoiId(String poiId){
         QueryWrapper<UserPoi> userPoi = Wrappers.query();
         userPoi.eq("poi_id",poiId);
         userPoi.last("LIMIT 1");

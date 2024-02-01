@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface UserPoiMapper extends BaseMapper<UserPoi> {
-    IPage<UserPoi> findPage(IPage<Void> xPage, @Param("userPoiDto") UserPoiDto userPoiDto);
+    IPage<UserPoi> findPage(IPage<Void> xPage, @Param("userPoiDto") UserPoi userPoiDto);
 
 
     List<UserPoi> findList(@Param("userPoiDto") UserPoiDto userPoiDto);

@@ -1,13 +1,13 @@
 package com.htnova.common.util;
 
 import com.alibaba.fastjson.JSON;
-import java.util.concurrent.TimeUnit;
-import javax.annotation.Resource;
-
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.data.redis.core.*;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
@@ -44,7 +44,7 @@ public class RedisUtil {
         try {
             return Boolean.TRUE.equals(redisTemplate.hasKey(key));
         } catch (Exception e) {
-            e.printStackTrace();
+            // e.printStackTrace();
             return false;
         }
     }
