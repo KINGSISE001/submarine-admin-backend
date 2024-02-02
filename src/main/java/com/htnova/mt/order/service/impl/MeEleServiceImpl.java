@@ -6,6 +6,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.ocean.rawsdk.ApiExecutor;
 import com.alibaba.ocean.rawsdk.common.BizResultWrapper;
+import com.alibaba.ocean.rawsdk.util.MD5Utils;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.htnova.common.constant.EleStatus;
 import com.htnova.common.constant.ResultStatus;
@@ -14,6 +16,7 @@ import com.htnova.common.dto.Result;
 import com.htnova.common.util.RedisUtil;
 import com.htnova.common.util.SocketUtil;
 import com.htnova.mt.order.entity.*;
+import com.htnova.mt.order.mapper.CompletedorderMapper;
 import com.htnova.mt.order.service.OrderLogListService;
 import com.htnova.mt.order.service.OrderService;
 import com.htnova.mt.order.service.TMtDeliveryPersonnelService;
@@ -45,6 +48,9 @@ public class MeEleServiceImpl {
 
     @Resource
     private TMtDeliveryPersonnelService tMtDeliveryPersonnelService;
+
+    @Resource
+    CompletedorderMapper completedorderMapper;
 
 
     /**
@@ -80,37 +86,193 @@ public class MeEleServiceImpl {
         }
     }
 
-   public Result orderConfirm(String orderId){
-       String appkey = el.getAppkey();
-       String secKey = el.getSecKey();
-       ApiExecutor apiExecutor = new ApiExecutor<>(appkey, secKey);
-       OrderConfirmParam param = new OrderConfirmParam();
-       param.setTicket(UUID.randomUUID().toString().toUpperCase());
-       MeEleRetailOrderConfirmInputParam body
-               = new MeEleRetailOrderConfirmInputParam();
-       body.setOrder_id(orderId);
-       param.setBody(body);
-       try {
-           BizResultWrapper result = apiExecutor.send(param);
-           System.out.println("Result:" +
-                   JSON.toJSONString(result));
-           JSONObject resultJSON = JSON.parseObject(JSON.toJSONString(result));
-           JSONObject JSONbody = resultJSON.getJSONObject("body");
-           Boolean JSONdata = JSONbody.getBooleanValue("data");
-           if (!(String.valueOf(JSONbody.getString("errno")).equals("0"))) {
-               System.out.println("--请求结果失败--");
-               return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR, JSONdata);
-           } else {
-               return Result.build(HttpStatus.OK, ResultStatus.REQUEST_SUCCESS, JSONdata);
-           }
-       } catch (Exception var8) {
-           System.out.println("请求失败，请求异常");
-           System.out.println(var8);
-       }
-       return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR,"未知错误");
-   };
+    /**
+     * 确认订单
+     *
+     * @param orderId
+     * @return
+     */
+    public Result orderConfirm(String orderId) {
+        String appkey = el.getAppkey();
+        String secKey = el.getSecKey();
+        ApiExecutor apiExecutor = new ApiExecutor<>(appkey, secKey);
+        OrderConfirmParam param = new OrderConfirmParam();
+        param.setTicket(UUID.randomUUID().toString().toUpperCase());
+        MeEleRetailOrderConfirmInputParam body
+                = new MeEleRetailOrderConfirmInputParam();
+        body.setOrder_id(orderId);
+        param.setBody(body);
+        try {
+            BizResultWrapper result = apiExecutor.send(param);
+            System.out.println("Result:" +
+                    JSON.toJSONString(result));
+            JSONObject resultJSON = JSON.parseObject(JSON.toJSONString(result));
+            JSONObject JSONbody = resultJSON.getJSONObject("body");
+            Boolean JSONdata = JSONbody.getBooleanValue("data");
+            if (!(String.valueOf(JSONbody.getString("errno")).equals("0"))) {
+                System.out.println("--请求结果失败--");
+                return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR, JSONdata);
+            } else {
+                return Result.build(HttpStatus.OK, ResultStatus.REQUEST_SUCCESS, JSONdata);
+            }
+        } catch (Exception var8) {
+            System.out.println("请求失败，请求异常");
+            System.out.println(var8);
+        }
+        return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR, "未知错误");
+    }
 
 
+    /**
+     * 完成拣货
+     * @param orderId
+     * @return
+     */
+    public Result orderPickcomplete(String orderId) {
+        String appkey = el.getAppkey();
+        String secKey = el.getSecKey();
+        ApiExecutor apiExecutor = new ApiExecutor<>(appkey, secKey);
+        OrderPickcompleteParam param = new OrderPickcompleteParam();
+        param.setTicket(UUID.randomUUID().toString().toUpperCase());
+        MeEleRetailOrderPickcompleteInputParam body
+                = new MeEleRetailOrderPickcompleteInputParam();
+        body.setOrder_id(orderId);
+        param.setBody(body);
+        try {
+            BizResultWrapper result = apiExecutor.send(param);
+            System.out.println("Result:" +
+                    JSON.toJSONString(result));
+            JSONObject resultJSON = JSON.parseObject(JSON.toJSONString(result));
+            JSONObject JSONbody = resultJSON.getJSONObject("body");
+            Boolean JSONdata = JSONbody.getBooleanValue("data");
+            if (!(String.valueOf(JSONbody.getString("errno")).equals("0"))) {
+                System.out.println("--请求结果失败--");
+                return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR, JSONbody);
+            } else {
+                return Result.build(HttpStatus.OK, ResultStatus.REQUEST_SUCCESS, JSONbody);
+            }
+        } catch (Exception var8) {
+            System.out.println("请求失败，请求异常");
+            System.out.println(var8);
+        }
+        return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR, "未知错误");
+    }
+
+
+    /**
+     * 取消订单
+     *
+     * @param order_id    订单id
+     * @param reason_code 取消原因代码
+     * @param reason      取消原因
+     * @return Result 方法
+     */
+    public Result orderCancel(String order_id, Integer reason_code, String reason) {
+        String appkey = el.getAppkey();
+        String secKey = el.getSecKey();
+        ApiExecutor apiExecutor = new ApiExecutor<>(appkey, secKey);
+        OrderReverseApplyParam param = new OrderReverseApplyParam();
+        param.setTicket(UUID.randomUUID().toString().toUpperCase());
+        MeEleNewretailOrderApiClientModelReqOrderApplyRefundReqDTO body
+                = new MeEleNewretailOrderApiClientModelReqOrderApplyRefundReqDTO();
+        body.setOrder_id(order_id);
+        if (reason_code == null) {
+            body.setReason_code("7001");
+        } else {
+            switch (reason_code) {
+                case 2009:
+                    body.setReason_code("7015");
+                    break;
+                case 2010:
+                    body.setReason_code("7017");
+                    break;
+                case 2012:
+                    body.setReason_code("7054");
+                    break;
+                case 2011:
+                    body.setReason_code("7018");
+                    break;
+                case 2016:
+                    body.setReason_code("7053");
+                    break;
+                default:
+                    body.setReason_code("7001");
+            }
+        }
+        body.setIdempotent_id(UUID.randomUUID().toString());
+        body.setReason_remarks(reason);
+        body.setRefund_type("1");
+        param.setBody(body);
+        try {
+            BizResultWrapper result = apiExecutor.send(param);
+            System.out.println("Result:" +
+                    JSON.toJSONString(result));
+            JSONObject resultJSON = JSON.parseObject(JSON.toJSONString(result));
+            JSONObject JSONbody = resultJSON.getJSONObject("body");
+            Boolean JSONdata = JSONbody.getBooleanValue("data");
+            if (!(String.valueOf(JSONbody.getString("errno")).equals("0"))) {
+                System.out.println("--请求结果失败--");
+                return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR, JSONdata);
+            } else {
+                return Result.build(HttpStatus.OK, ResultStatus.REQUEST_SUCCESS, JSONdata);
+            }
+        } catch (Exception var8) {
+            System.out.println("请求失败，请求异常");
+            System.out.println(var8);
+        }
+        return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR, "未知错误");
+
+    }
+    /**
+     * 客户取消订单确认或拒绝
+     *
+     * @param order_id    订单id
+     * @param reason      取消原因
+     * @return Result 方法
+     */
+    public Result OrderReverseProcess(String order_id,String  Action_type, String reason) {
+        String appkey = el.getAppkey();
+        String secKey = el.getSecKey();
+        ApiExecutor apiExecutor = new ApiExecutor<>(appkey, secKey);
+        OrderReverseProcessParam param = new OrderReverseProcessParam();
+        param.setTicket(UUID.randomUUID().toString().toUpperCase());
+        MeEleNewretailOrderApiClientModelReqOrderReverseReviewReqDTO body
+                = new MeEleNewretailOrderApiClientModelReqOrderReverseReviewReqDTO();
+        body.setOrder_id(order_id);
+        body.setIdempotent_id(MD5Utils.getMd5(order_id));
+        body.setReason_code("7001");
+        Completedorder selected = completedorderMapper.selectById(order_id);//查逆向单id
+        body.setReverse_order_id(selected.getPoiReceiveDetail());//查逆向单id
+        body.setIdempotent_id(UUID.randomUUID().toString());
+        body.setAction_type(Action_type);
+        body.setReason_remarks(reason);
+        param.setBody(body);
+        try {
+            BizResultWrapper result = apiExecutor.send(param);
+            System.out.println("Result:" +
+                    JSON.toJSONString(result));
+            JSONObject resultJSON = JSON.parseObject(JSON.toJSONString(result));
+            JSONObject JSONbody = resultJSON.getJSONObject("body");
+            Boolean JSONdata = JSONbody.getBooleanValue("data");
+            if (!(String.valueOf(JSONbody.getString("errno")).equals("0"))) {
+                System.out.println("--请求结果失败--");
+                return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR, JSONbody);
+            } else {
+                return Result.build(HttpStatus.OK, ResultStatus.REQUEST_SUCCESS, JSONdata);
+            }
+        } catch (Exception var8) {
+            System.out.println("请求失败，请求异常");
+            System.out.println(var8);
+        }
+        return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR, "未知错误");
+
+    }
+
+    /**
+     * 插入订单
+     *
+     * @param data 订单数据
+     */
     public void insertOrders(MeEleNopDoaApiDtoOrderGetOrderGetDataResultDataDto data) {
         if (data != null) {
             Completedorder o = new Completedorder();
@@ -317,40 +479,44 @@ public class MeEleServiceImpl {
         String platform_shop_id = body.getString("platform_shop_id");
         String order_id = body.getString("order_id");//正常单号
         String refund_order_id = body.getString("refund_order_id");//逆向单号
+        LambdaUpdateWrapper<Completedorder> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.eq(Completedorder::getOrderId, Long.parseLong(order_id))
+                .set(Completedorder::getPoiReceiveDetail, refund_order_id);//poi_receive_detail
+        completedorderMapper.update(null, updateWrapper);
         String cur_reverse_event = body.getString("cur_reverse_event");
         log.error(JSON.toJSONString(cur_reverse_event));
         CurReverseEvent curReverseEvent = JSON.parseObject(JSON.parseObject(cur_reverse_event).toJSONString(), CurReverseEvent.class);
         //逆向单操作前的逆向单状态：0-初始化，10-申请，20-拒绝，30-仲裁，40-关闭，50-成功，60-失败
         //https://open-retail.ele.me/#/msgdoc/detail?topicName=order.reverse.push&aopApiCategory=order_msg_group&type=push_menu
-       String Operator_role ="";
+        String Operator_role = "";
         switch (curReverseEvent.getOperator_role()) { //逆向单操作者角色：10 用户 ,20商户,30客服 ,25 API商家代客发起,40系统
             case 10:
                 log.info("用户发起逆向单");
-                Operator_role="用户";
+                Operator_role = "用户";
                 break;
             case 20:
                 log.info("商户发起逆向单");
-                Operator_role="商户";
+                Operator_role = "商户";
                 break;
             case 30:
                 log.info("客服发起逆向单");
-                Operator_role="客服";
+                Operator_role = "客服";
                 break;
             case 25:
                 log.info("API商家代客发起逆向单");
-                Operator_role="API商家代客";
+                Operator_role = "API商家代客";
                 break;
             case 40:
                 log.info("系统发起逆向单");
-                Operator_role="系统";
+                Operator_role = "系统";
                 break;
             default:
                 log.info("其他操作者发起逆向单");
-                Operator_role="其他操作者";
+                Operator_role = "其他操作者";
                 break;
         }
         String reason_content = EleStatus.getValue(curReverseEvent.getReason_code()); //逆向单操作原因对应
-        String last_refund_content =get_refund_status(curReverseEvent.getLast_refund_status());//逆向单操作前的逆向单状态
+        String last_refund_content = get_refund_status(curReverseEvent.getLast_refund_status());//逆向单操作前的逆向单状态
         String refund_content = get_refund_status(curReverseEvent.getRefund_status());//逆向单操作后的逆向单后状态
         // String last_return_goods_status =get_goods_status(curReverseEvent.getLast_return_goods_status());//逆向单操作前的退货状态
         // String return_goods_status= get_goods_status(curReverseEvent.getReturn_goods_status());//逆向单操作后的退货状态
@@ -365,10 +531,16 @@ public class MeEleServiceImpl {
                 .append("操作原因:")
                 .append(reason_content)
                 .append(curReverseEvent.getReason_content());
-        log.info("订单退款/退货：{}",s.toString());
-        updateEleOrderStatus(Long.parseLong(order_id),platform_shop_id, ResultStatus.TUI_DAN, s.toString());
+        log.info("订单退款/退货：{}", s.toString());
+        updateEleOrderStatus(Long.parseLong(order_id), platform_shop_id, ResultStatus.TUI_DAN, s.toString());
     }
 
+    /**
+     * 保存骑手信息
+     *
+     * @param orderId orderId
+     *                eleId
+     */
     public void getOrderRefundDelivery(String orderId, String eleId) {
         String appkey = el.getAppkey();
         String secKey = el.getSecKey();
@@ -522,7 +694,7 @@ public class MeEleServiceImpl {
                 return "失败";
             default:
                 return "未知状态";
-            }
         }
+    }
 }
 

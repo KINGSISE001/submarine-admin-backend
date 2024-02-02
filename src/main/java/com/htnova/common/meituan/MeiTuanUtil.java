@@ -153,34 +153,45 @@ public class MeiTuanUtil {
      * @return
      */
     public Result orderCancel(String order_id, Integer reason_code, String reason) {
-        SystemParam systemParam = getSystemParam(order_id);
-        if (systemParam == null) {
+        Completedorder com =  completedorderMapper.selectById(order_id);
+        if (com == null) {
             return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR);
+        }else {
+            if (com.getDetail().equals("饿了么")) {
+                return  meEleServiceImpl.orderCancel (order_id, reason_code, reason);
+            } else if (com.getDetail().equals("美团")) {
+
+                SystemParam systemParam = getSystemParam(order_id);
+                if (systemParam == null) {
+                    return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR);
+                }
+                OrderCancelRequest orderCancelRequest = new OrderCancelRequest(systemParam);
+                orderCancelRequest.setOrder_id(order_id);
+                orderCancelRequest.setReason(reason);
+                orderCancelRequest.setReason_code(reason_code);
+                SgOpenResponse sgOpenResponse;
+                try {
+                    sgOpenResponse = orderCancelRequest.doRequest();
+                } catch (SgOpenException e) {
+                    e.printStackTrace();
+                    return Result.build(HttpStatus.OK, ResultStatus.SERVER_ERROR);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return Result.build(HttpStatus.OK, ResultStatus.SERVER_ERROR);
+                }
+                //请求返回的结果，按照官网的接口文档自行解析即可
+                String requestResult = sgOpenResponse.getRequestResult();
+                System.out.println(requestResult);
+                SettlementInformation appId = settlementInformationMapper.selectById(order_id);
+                Completedorder completedorder = new Completedorder();
+                completedorder.setOrderId(Long.valueOf(order_id));
+                completedorder.setAppPoiCode(appId.getAppPoiCode());
+                orderController.logListStatus(completedorder,ResultStatus.QU_XIAO_ORDER,"商家自主取消订单:"+reason);
+                orderService.updateStatus(Long.parseLong(order_id), String.valueOf(ResultStatus.QU_XIAO_ORDER.getCode()));
+                return Result.build(HttpStatus.OK, ResultStatus.REQUEST_SUCCESS, requestResult);
+            }
         }
-        OrderCancelRequest orderCancelRequest = new OrderCancelRequest(systemParam);
-        orderCancelRequest.setOrder_id(order_id);
-        orderCancelRequest.setReason(reason);
-        orderCancelRequest.setReason_code(reason_code);
-        SgOpenResponse sgOpenResponse;
-        try {
-            sgOpenResponse = orderCancelRequest.doRequest();
-        } catch (SgOpenException e) {
-            e.printStackTrace();
-            return Result.build(HttpStatus.OK, ResultStatus.SERVER_ERROR);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Result.build(HttpStatus.OK, ResultStatus.SERVER_ERROR);
-        }
-        //请求返回的结果，按照官网的接口文档自行解析即可
-        String requestResult = sgOpenResponse.getRequestResult();
-        System.out.println(requestResult);
-        SettlementInformation appId = settlementInformationMapper.selectById(order_id);
-        Completedorder completedorder = new Completedorder();
-        completedorder.setOrderId(Long.valueOf(order_id));
-        completedorder.setAppPoiCode(appId.getAppPoiCode());
-        orderController.logListStatus(completedorder,ResultStatus.QU_XIAO_ORDER,"商家自主取消订单:"+reason);
-        orderService.updateStatus(Long.parseLong(order_id), String.valueOf(ResultStatus.QU_XIAO_ORDER.getCode()));
-        return Result.build(HttpStatus.OK, ResultStatus.REQUEST_SUCCESS, requestResult);
+        return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR,"未知错误！");
     }
 
     /**
@@ -188,34 +199,43 @@ public class MeiTuanUtil {
      * 当商家收到用户发起的部分或全额退款申请，如商家同意退款，可调用此接口操作确认退款申请
      * 注意：部分退款成功后不影响订单当前的订单状态；全额退款成功后，订单状态会变更为“订单已取消”(status=9)。
      *
-     * @return
+     * @return  OrderReverseProcess
      */
     public Result orderRefundAgree(String order_id, String reason) {
-        SystemParam systemParam = getSystemParam(order_id);
-        if (systemParam == null) {
+        Completedorder com =  completedorderMapper.selectById(order_id);
+        if (com == null) {
             return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR);
+        }else {
+            if (com.getDetail().equals("饿了么")) {
+                return  meEleServiceImpl.OrderReverseProcess(order_id,"1", reason);
+            } else if (com.getDetail().equals("美团")) {
+                SystemParam systemParam = getSystemParam(order_id);
+                if (systemParam == null) {
+                    return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR);
+                }
+                OrderRefundAgreeRequest request = new OrderRefundAgreeRequest(systemParam);
+                request.setOrder_id(order_id);
+                request.setReason(reason);
+                SgOpenResponse sgOpenResponse;
+                try {
+                    sgOpenResponse = request.doRequest();
+                } catch (SgOpenException e) {
+                    e.printStackTrace();
+                    return Result.build(HttpStatus.OK, ResultStatus.SERVER_ERROR);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return Result.build(HttpStatus.OK, ResultStatus.SERVER_ERROR);
+                }
+                //发起请求时的sig，用来联系美团员工排查问题时使用
+                String requestSig = sgOpenResponse.getRequestSig();
+                System.out.println(requestSig);
+                //请求返回的结果，按照官网的接口文档自行解析即可
+                String requestResult = sgOpenResponse.getRequestResult();
+                System.out.println(requestResult);
+                return Result.build(HttpStatus.OK, ResultStatus.REQUEST_SUCCESS, requestResult);
+            }
         }
-        OrderRefundAgreeRequest request = new OrderRefundAgreeRequest(systemParam);
-        request.setOrder_id(order_id);
-        request.setReason(reason);
-        SgOpenResponse sgOpenResponse;
-        try {
-            sgOpenResponse = request.doRequest();
-        } catch (SgOpenException e) {
-            e.printStackTrace();
-            return Result.build(HttpStatus.OK, ResultStatus.SERVER_ERROR);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Result.build(HttpStatus.OK, ResultStatus.SERVER_ERROR);
-        }
-        //发起请求时的sig，用来联系美团员工排查问题时使用
-        String requestSig = sgOpenResponse.getRequestSig();
-        System.out.println(requestSig);
-        //请求返回的结果，按照官网的接口文档自行解析即可
-        String requestResult = sgOpenResponse.getRequestResult();
-        System.out.println(requestResult);
-        return Result.build(HttpStatus.OK, ResultStatus.REQUEST_SUCCESS, requestResult);
-
+        return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR,"未知错误！");
     }
 
     /**
@@ -230,30 +250,42 @@ public class MeiTuanUtil {
      * @return
      */
     public Result orderRefundReject(String order_id, String reason) {
-        SystemParam systemParam = getSystemParam(order_id);
-        if (systemParam == null) {
+
+        Completedorder com =  completedorderMapper.selectById(order_id);
+        if (com == null) {
             return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR);
+        }else {
+            if (com.getDetail().equals("饿了么")) {
+                return  meEleServiceImpl.OrderReverseProcess(order_id,"2", reason);
+            } else if (com.getDetail().equals("美团")) {
+                SystemParam systemParam = getSystemParam(order_id);
+                if (systemParam == null) {
+                    return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR);
+                }
+                OrderRefundRejectRequest request = new OrderRefundRejectRequest(systemParam);
+                request.setOrder_id(order_id);
+                request.setReason(reason);
+                SgOpenResponse sgOpenResponse;
+                try {
+                    sgOpenResponse = request.doRequest();
+                } catch (SgOpenException e) {
+                    e.printStackTrace();
+                    return Result.build(HttpStatus.OK, ResultStatus.SERVER_ERROR);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return Result.build(HttpStatus.OK, ResultStatus.SERVER_ERROR);
+                }
+                //发起请求时的sig，用来联系美团员工排查问题时使用
+                String requestSig = sgOpenResponse.getRequestSig();
+                System.out.println(requestSig);
+                //请求返回的结果，按照官网的接口文档自行解析即可
+                String requestResult = sgOpenResponse.getRequestResult();
+                System.out.println(requestResult);
+                return Result.build(HttpStatus.OK, ResultStatus.REQUEST_SUCCESS, requestResult);
+            }
         }
-        OrderRefundRejectRequest request = new OrderRefundRejectRequest(systemParam);
-        request.setOrder_id(order_id);
-        request.setReason(reason);
-        SgOpenResponse sgOpenResponse;
-        try {
-            sgOpenResponse = request.doRequest();
-        } catch (SgOpenException e) {
-            e.printStackTrace();
-            return Result.build(HttpStatus.OK, ResultStatus.SERVER_ERROR);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Result.build(HttpStatus.OK, ResultStatus.SERVER_ERROR);
-        }
-        //发起请求时的sig，用来联系美团员工排查问题时使用
-        String requestSig = sgOpenResponse.getRequestSig();
-        System.out.println(requestSig);
-        //请求返回的结果，按照官网的接口文档自行解析即可
-        String requestResult = sgOpenResponse.getRequestResult();
-        System.out.println(requestResult);
-        return Result.build(HttpStatus.OK, ResultStatus.REQUEST_SUCCESS, requestResult);
+        return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR,"未知错误！");
+
     }
 
     /**
@@ -264,34 +296,43 @@ public class MeiTuanUtil {
      * 4.若是美团配送订单，商家接单时间小于美团预设备货时间（目前为1分钟，预订单为预订单到时提醒时间+1分钟），调用此接口返回值中会报错“商家接单后1分钟内不能确认已完成出货”。
      * 5.若商家在商家端后台已操作发货，再调用此接口时会报错"商家已完成备货，不能重复备货”。
      * 6.医药B2C商家不适用于该接口。
-     *
      * @return
      */
     public Result orderPreparationMealComplete(String order_id) {
-        SystemParam systemParam = getSystemParam(order_id);
-        if (systemParam == null) {
+        Completedorder com =  completedorderMapper.selectById(order_id);
+        if (com == null) {
             return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR);
+        }else {
+            if (com.getDetail().equals("饿了么")) {
+                return  meEleServiceImpl.orderPickcomplete(order_id);
+            } else if(com.getDetail().equals("美团")) {
+                SystemParam systemParam = getSystemParam(order_id);
+                if (systemParam == null) {
+                    return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR);
+                }
+                OrderPreparationMealCompleteRequest request = new OrderPreparationMealCompleteRequest(systemParam);
+                request.setOrder_id(order_id);
+                SgOpenResponse sgOpenResponse;
+                try {
+                    sgOpenResponse = request.doRequest();
+                } catch (SgOpenException e) {
+                    e.printStackTrace();
+                    return Result.build(HttpStatus.OK, ResultStatus.SERVER_ERROR);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return Result.build(HttpStatus.OK, ResultStatus.SERVER_ERROR);
+                }
+                //发起请求时的sig，用来联系美团员工排查问题时使用
+                String requestSig = sgOpenResponse.getRequestSig();
+                System.out.println(requestSig);
+                //请求返回的结果，按照官网的接口文档自行解析即可
+                String requestResult = sgOpenResponse.getRequestResult();
+                System.out.println(requestResult);
+                return Result.build(HttpStatus.OK, ResultStatus.REQUEST_SUCCESS, requestResult);
+                }
+            }
+        return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR,"未知错误");
         }
-        OrderPreparationMealCompleteRequest request = new OrderPreparationMealCompleteRequest(systemParam);
-        request.setOrder_id(order_id);
-        SgOpenResponse sgOpenResponse;
-        try {
-            sgOpenResponse = request.doRequest();
-        } catch (SgOpenException e) {
-            e.printStackTrace();
-            return Result.build(HttpStatus.OK, ResultStatus.SERVER_ERROR);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Result.build(HttpStatus.OK, ResultStatus.SERVER_ERROR);
-        }
-        //发起请求时的sig，用来联系美团员工排查问题时使用
-        String requestSig = sgOpenResponse.getRequestSig();
-        System.out.println(requestSig);
-        //请求返回的结果，按照官网的接口文档自行解析即可
-        String requestResult = sgOpenResponse.getRequestResult();
-        System.out.println(requestResult);
-        return Result.build(HttpStatus.OK, ResultStatus.REQUEST_SUCCESS, requestResult);
-    }
 
     /**
      * 门店的营业状态，取值范围：1-可配送；3-休息中。 设置门店恢复营业状态的角色的权限需要与上一次设置门店置休的角色的权限一致。
