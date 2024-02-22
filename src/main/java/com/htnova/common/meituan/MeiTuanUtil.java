@@ -1,6 +1,7 @@
 package com.htnova.common.meituan;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
@@ -61,7 +62,9 @@ public class MeiTuanUtil {
             return null;
         }
         return new SystemParam(appId.getAppId(), o2oBrandInfoService.getById(appId.getAppId()).getMtappkey());
-    };
+    }
+
+    ;
 
     public SystemParam getSystemParam2(String poi_id) {
         List<UserPoi> appId = userPoiService.getUserPoiByPoiId(poi_id);
@@ -69,18 +72,20 @@ public class MeiTuanUtil {
             return null;
         }
         return new SystemParam(String.valueOf(appId.get(0).getAppId()), o2oBrandInfoService.getById(appId.get(0).getAppId()).getMtappkey());
-    };
+    }
+
+    ;
 
     public Result<Object> updateAutoOrders(String poi_id, int auto) {
         LambdaUpdateWrapper<UserPoi> updateWrapper = new LambdaUpdateWrapper<>();
-        updateWrapper.eq(UserPoi::getPoiId, poi_id);
+        updateWrapper.eq(UserPoi::getId, poi_id);
         updateWrapper.set(UserPoi::getAutoOrders, auto);
-       boolean update = userPoiService.update(updateWrapper);
-       if (update) {
-           return Result.build(HttpStatus.OK, ResultStatus.EDIT_SUCCESS, "成功了，刷新下");
-       }else {
-           return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR, "没成功(⊙o⊙)");
-       }
+        boolean update = userPoiService.update(updateWrapper);
+        if (update) {
+            return Result.build(HttpStatus.OK, ResultStatus.EDIT_SUCCESS, "成功了，刷新下");
+        } else {
+            return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR, "没成功(⊙o⊙)");
+        }
 
     }
 
@@ -91,39 +96,39 @@ public class MeiTuanUtil {
      * @return
      */
     public Result orderConfirm(String order_id) {
-      Completedorder com =  completedorderMapper.selectById(order_id);
-      if (com != null) {
-          if (com.getDetail().equals("饿了么")) {
-            return  meEleServiceImpl.orderConfirm (order_id);
-          } else if (com.getDetail().equals("美团")) {
-              SystemParam systemParam = getSystemParam(order_id);
-              log.info("orderConfirm systemParam:{}", systemParam);
-              if (systemParam == null) {
-                  return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR);
-              }
-              OrderConfirmRequest orderConfirmRequest = new OrderConfirmRequest(systemParam);
-              orderConfirmRequest.setOrder_id(order_id);
-              SgOpenResponse sgOpenResponse;
-              try {
-                  sgOpenResponse = orderConfirmRequest.doRequest();
-              } catch (SgOpenException e) {
-                  e.printStackTrace();
-                  return Result.build(HttpStatus.OK, ResultStatus.SERVER_ERROR);
-              } catch (Exception e) {
-                  e.printStackTrace();
-                  return Result.build(HttpStatus.OK, ResultStatus.SERVER_ERROR);
-              }
-              //发起请求时的sig，用来联系美团员工排查问题时使用
-              String requestSig = sgOpenResponse.getRequestSig();
-              System.out.println(requestSig);
-              //请求返回的结果，按照官网的接口文档自行解析即可
-              String requestResult = sgOpenResponse.getRequestResult();
-              System.out.println(requestResult);
-              return Result.build(HttpStatus.OK, ResultStatus.REQUEST_SUCCESS, requestResult);
-          }else {
-              return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR);
-          }
-      }
+        Completedorder com = completedorderMapper.selectById(order_id);
+        if (com != null) {
+            if (com.getDetail().equals("饿了么")) {
+                return meEleServiceImpl.orderConfirm(order_id);
+            } else if (com.getDetail().equals("美团")) {
+                SystemParam systemParam = getSystemParam(order_id);
+                log.info("orderConfirm systemParam:{}", systemParam);
+                if (systemParam == null) {
+                    return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR);
+                }
+                OrderConfirmRequest orderConfirmRequest = new OrderConfirmRequest(systemParam);
+                orderConfirmRequest.setOrder_id(order_id);
+                SgOpenResponse sgOpenResponse;
+                try {
+                    sgOpenResponse = orderConfirmRequest.doRequest();
+                } catch (SgOpenException e) {
+                    e.printStackTrace();
+                    return Result.build(HttpStatus.OK, ResultStatus.SERVER_ERROR);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return Result.build(HttpStatus.OK, ResultStatus.SERVER_ERROR);
+                }
+                //发起请求时的sig，用来联系美团员工排查问题时使用
+                String requestSig = sgOpenResponse.getRequestSig();
+                System.out.println(requestSig);
+                //请求返回的结果，按照官网的接口文档自行解析即可
+                String requestResult = sgOpenResponse.getRequestResult();
+                System.out.println(requestResult);
+                return Result.build(HttpStatus.OK, ResultStatus.REQUEST_SUCCESS, requestResult);
+            } else {
+                return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR);
+            }
+        }
         return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR);
     }
 
@@ -153,12 +158,12 @@ public class MeiTuanUtil {
      * @return
      */
     public Result orderCancel(String order_id, Integer reason_code, String reason) {
-        Completedorder com =  completedorderMapper.selectById(order_id);
+        Completedorder com = completedorderMapper.selectById(order_id);
         if (com == null) {
             return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR);
-        }else {
+        } else {
             if (com.getDetail().equals("饿了么")) {
-                return  meEleServiceImpl.orderCancel (order_id, reason_code, reason);
+                return meEleServiceImpl.orderCancel(order_id, reason_code, reason);
             } else if (com.getDetail().equals("美团")) {
 
                 SystemParam systemParam = getSystemParam(order_id);
@@ -186,12 +191,12 @@ public class MeiTuanUtil {
                 Completedorder completedorder = new Completedorder();
                 completedorder.setOrderId(Long.valueOf(order_id));
                 completedorder.setAppPoiCode(appId.getAppPoiCode());
-                orderController.logListStatus(completedorder,ResultStatus.QU_XIAO_ORDER,"商家自主取消订单:"+reason);
+                orderController.logListStatus(completedorder, ResultStatus.QU_XIAO_ORDER, "商家自主取消订单:" + reason);
                 orderService.updateStatus(Long.parseLong(order_id), String.valueOf(ResultStatus.QU_XIAO_ORDER.getCode()));
                 return Result.build(HttpStatus.OK, ResultStatus.REQUEST_SUCCESS, requestResult);
             }
         }
-        return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR,"未知错误！");
+        return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR, "未知错误！");
     }
 
     /**
@@ -199,15 +204,15 @@ public class MeiTuanUtil {
      * 当商家收到用户发起的部分或全额退款申请，如商家同意退款，可调用此接口操作确认退款申请
      * 注意：部分退款成功后不影响订单当前的订单状态；全额退款成功后，订单状态会变更为“订单已取消”(status=9)。
      *
-     * @return  OrderReverseProcess
+     * @return OrderReverseProcess
      */
     public Result orderRefundAgree(String order_id, String reason) {
-        Completedorder com =  completedorderMapper.selectById(order_id);
+        Completedorder com = completedorderMapper.selectById(order_id);
         if (com == null) {
             return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR);
-        }else {
+        } else {
             if (com.getDetail().equals("饿了么")) {
-                return  meEleServiceImpl.OrderReverseProcess(order_id,"1", reason);
+                return meEleServiceImpl.OrderReverseProcess(order_id, com.getAppPoiCode(), "1", reason);
             } else if (com.getDetail().equals("美团")) {
                 SystemParam systemParam = getSystemParam(order_id);
                 if (systemParam == null) {
@@ -235,7 +240,7 @@ public class MeiTuanUtil {
                 return Result.build(HttpStatus.OK, ResultStatus.REQUEST_SUCCESS, requestResult);
             }
         }
-        return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR,"未知错误！");
+        return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR, "未知错误！");
     }
 
     /**
@@ -251,12 +256,12 @@ public class MeiTuanUtil {
      */
     public Result orderRefundReject(String order_id, String reason) {
 
-        Completedorder com =  completedorderMapper.selectById(order_id);
+        Completedorder com = completedorderMapper.selectById(order_id);
         if (com == null) {
             return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR);
-        }else {
+        } else {
             if (com.getDetail().equals("饿了么")) {
-                return  meEleServiceImpl.OrderReverseProcess(order_id,"2", reason);
+                return meEleServiceImpl.OrderReverseProcess(order_id, com.getAppPoiCode(), "2", reason);
             } else if (com.getDetail().equals("美团")) {
                 SystemParam systemParam = getSystemParam(order_id);
                 if (systemParam == null) {
@@ -284,7 +289,7 @@ public class MeiTuanUtil {
                 return Result.build(HttpStatus.OK, ResultStatus.REQUEST_SUCCESS, requestResult);
             }
         }
-        return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR,"未知错误！");
+        return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR, "未知错误！");
 
     }
 
@@ -296,16 +301,17 @@ public class MeiTuanUtil {
      * 4.若是美团配送订单，商家接单时间小于美团预设备货时间（目前为1分钟，预订单为预订单到时提醒时间+1分钟），调用此接口返回值中会报错“商家接单后1分钟内不能确认已完成出货”。
      * 5.若商家在商家端后台已操作发货，再调用此接口时会报错"商家已完成备货，不能重复备货”。
      * 6.医药B2C商家不适用于该接口。
+     *
      * @return
      */
     public Result orderPreparationMealComplete(String order_id) {
-        Completedorder com =  completedorderMapper.selectById(order_id);
+        Completedorder com = completedorderMapper.selectById(order_id);
         if (com == null) {
             return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR);
-        }else {
+        } else {
             if (com.getDetail().equals("饿了么")) {
-                return  meEleServiceImpl.orderPickcomplete(order_id);
-            } else if(com.getDetail().equals("美团")) {
+                return meEleServiceImpl.orderPickcomplete(order_id);
+            } else if (com.getDetail().equals("美团")) {
                 SystemParam systemParam = getSystemParam(order_id);
                 if (systemParam == null) {
                     return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR);
@@ -329,86 +335,64 @@ public class MeiTuanUtil {
                 String requestResult = sgOpenResponse.getRequestResult();
                 System.out.println(requestResult);
                 return Result.build(HttpStatus.OK, ResultStatus.REQUEST_SUCCESS, requestResult);
-                }
             }
-        return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR,"未知错误");
         }
+        return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR, "未知错误");
+    }
 
     /**
-     * 门店的营业状态，取值范围：1-可配送；3-休息中。 设置门店恢复营业状态的角色的权限需要与上一次设置门店置休的角色的权限一致。
+     * third_platform_id : 三方平台类型ID ：1-美团 ，2-饿了么 ，3-京东到家
+     * 门店的营业状态，取值范围：1-可配送；3-休息中。
+     * 设置门店恢复营业状态的角色的权限需要与上一次设置门店置休的角色的权限一致。
      * 所以，即使当前门店是营业状态，但是这个门店上次置休的时候是总部（商家总账号）操作的，所以再次设置营业状态时仍需要总部设置才可以。
      * 如使用接口操作，会返回没有权限的提示。B2C医药门店，暂不支持设置休息中。
+     *
      * @param poi_id
      * @param open_level 3-将门店设置为休息状态 1-将门店设置为营业状态；
      */
-    public  Result poiOpenOrClose (String poi_id, int open_level){
-        SystemParam systemParam = getSystemParam2(poi_id);
-        SgOpenResponse sgOpenResponse = null;
-        try {
-        //组建请求参数
-        if(open_level == 3 ){
-            PoiCloseRequest poiCloseRequest = new PoiCloseRequest(systemParam);
-            poiCloseRequest.setApp_poi_code(poi_id);
-            sgOpenResponse = poiCloseRequest.doRequest();
-        }else if(open_level == 1){
-            PoiOpenRequest request = new PoiOpenRequest(systemParam);
-            request.setApp_poi_code(poi_id);
-            sgOpenResponse = request.doRequest();
-        }else{
-            return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR);
+    public Result<Object> poiOpenOrClose(String poi_id, int open_level, int third_platform_id) {
+        if (third_platform_id == 1) {
+            SystemParam systemParam = getSystemParam2(poi_id);
+            SgOpenResponse sgOpenResponse;
+            try {
+                //组建请求参数
+                if (open_level == 3) {
+                    PoiCloseRequest poiCloseRequest = new PoiCloseRequest(systemParam);
+                    poiCloseRequest.setApp_poi_code(poi_id);
+                    sgOpenResponse = poiCloseRequest.doRequest();
+                } else if (open_level == 1) {
+                    PoiOpenRequest request = new PoiOpenRequest(systemParam);
+                    request.setApp_poi_code(poi_id);
+                    sgOpenResponse = request.doRequest();
+                } else {
+                    return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR, "参数错误");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return Result.build(HttpStatus.OK, ResultStatus.SERVER_ERROR, e.getMessage());
+            }
+            //发起请求时的sig，用来联系美团员工排查问题时使用
+            String requestSig = sgOpenResponse.getRequestSig();
+            System.out.println(requestSig);
+            //请求返回的结果，按照官网的接口文档自行解析即可
+            String requestResult = sgOpenResponse.getRequestResult();
+            System.out.println(requestResult);
+            return Result.build(HttpStatus.OK, ResultStatus.REQUEST_SUCCESS, requestResult);
+        } else if (third_platform_id == 2) {
+            if (open_level == 3) {
+                return meEleServiceImpl.ShopClose(poi_id);
+            } else if (open_level == 1) {
+                return meEleServiceImpl.ShopOpen(poi_id);
+            }
+        } else if (third_platform_id == 3) {
+            return Result.build(HttpStatus.OK, ResultStatus.REQUEST_SUCCESS, "未开发");
+        }else {
+            return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR, "参数错误");
         }
-        } catch (SgOpenException e) {
-            e.printStackTrace();
-            return Result.build(HttpStatus.OK, ResultStatus.SERVER_ERROR);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Result.build(HttpStatus.OK, ResultStatus.SERVER_ERROR);
-        }
-        //发起请求时的sig，用来联系美团员工排查问题时使用
-        String requestSig = sgOpenResponse.getRequestSig();
-        System.out.println(requestSig);
-        //请求返回的结果，按照官网的接口文档自行解析即可
-        String requestResult = sgOpenResponse.getRequestResult();
-        System.out.println(requestResult);
-        return Result.build(HttpStatus.OK, ResultStatus.REQUEST_SUCCESS, requestResult);
+
+        return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR,"未知错误");
     }
 
-    /**
-     * 门店上下线状态，取值范围：0-下线，1-上线
-     * B2C医药门店，暂不支持设置为下线。
-     * @param is_online 0-下线，1-上线
-     */
-    public Result poiOfflineOrOnline (String poi_id ,int is_online){
-       /* SystemParam systemParam = getSystemParam2(poi_id);
-        SgOpenResponse sgOpenResponse = null;
-        try {
-            //组建请求参数
-            if(is_online == 0){
-                PoiOfflineRequest request = new PoiOfflineRequest(systemParam);
-                request.setApp_poi_code(poi_id);
-                sgOpenResponse = request.doRequest();
-            }else if(is_online == 1){
-                PoiOnlineRequest poiOnlineRequest = new PoiOnlineRequest(systemParam);
-                poiOnlineRequest.setApp_poi_code(poi_id);
-                sgOpenResponse = poiOnlineRequest.doRequest();
-            }else{
-                return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR);
-            }
-        } catch (SgOpenException e) {
-            e.printStackTrace();
-            return Result.build(HttpStatus.OK, ResultStatus.SERVER_ERROR);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Result.build(HttpStatus.OK, ResultStatus.SERVER_ERROR);
-        }
-        //发起请求时的sig，用来联系美团员工排查问题时使用
-        String requestSig = sgOpenResponse.getRequestSig();-
-        System.out.println(requestSig);
-        //请求返回的结果，按照官网的接口文档自行解析即可
-        String requestResult = sgOpenResponse.getRequestResult();
-        System.out.println(requestResult);*/
-        return Result.build(HttpStatus.OK, ResultStatus.REQUEST_SUCCESS);
-    }
 
     /**
      * 更新门店营业时间
@@ -418,25 +402,33 @@ public class MeiTuanUtil {
      * (3)若只上传一个时间段，则表示7天营业时间相同
      * (4)注意格式:每个时段之间不能存在交集。
      */
-    public Result<Object> poiUpdateShippingtime (String poi_id, String time){
-        SystemParam systemParam = getSystemParam2(poi_id);
-        PoiShippingTimeUpdateRequest  request = new PoiShippingTimeUpdateRequest(systemParam);
-        request.setApp_poi_code(poi_id);
-        request.setShipping_time(time);
-        SgOpenResponse sgOpenResponse;
-        try {
-            sgOpenResponse = request.doRequest();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Result.build(HttpStatus.OK, ResultStatus.SERVER_ERROR,e.getMessage());
+    public Result<Object> poiUpdateShippingtime(String poi_id, String time, int third_platform_id) {
+        if (third_platform_id == 1) {
+            SystemParam systemParam = getSystemParam2(poi_id);
+            PoiShippingTimeUpdateRequest request = new PoiShippingTimeUpdateRequest(systemParam);
+            request.setApp_poi_code(poi_id);
+            request.setShipping_time(time);
+            SgOpenResponse sgOpenResponse;
+            try {
+                sgOpenResponse = request.doRequest();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return Result.build(HttpStatus.OK, ResultStatus.SERVER_ERROR, e.getMessage());
+            }
+            //发起请求时的sig，用来联系美团员工排查问题时使用
+            String requestSig = sgOpenResponse.getRequestSig();
+            System.out.println(requestSig);
+            //请求返回的结果，按照官网的接口文档自行解析即可
+            String requestResult = sgOpenResponse.getRequestResult();
+            System.out.println(requestResult);
+            return Result.build(HttpStatus.OK, ResultStatus.REQUEST_SUCCESS, requestResult);
+        } else if (third_platform_id == 2) {
+            return meEleServiceImpl.ShopUpdate(poi_id,time);
+        } else if (third_platform_id == 3) {
+            return Result.build(HttpStatus.OK, ResultStatus.REQUEST_SUCCESS,"未开发");
+        }else{
+            return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR, "未知状态");
         }
-        //发起请求时的sig，用来联系美团员工排查问题时使用
-        String requestSig = sgOpenResponse.getRequestSig();
-        System.out.println(requestSig);
-        //请求返回的结果，按照官网的接口文档自行解析即可
-        String requestResult = sgOpenResponse.getRequestResult();
-        System.out.println(requestResult);
-        return Result.build(HttpStatus.OK, ResultStatus.REQUEST_SUCCESS, requestResult);
     }
 
     /**
@@ -445,7 +437,9 @@ public class MeiTuanUtil {
      * @param poi_id
      * @return
      */
-    public Result getPoiInfo(String poi_id) {
+    public Result<Object> getPoiInfo(String poi_id) {
+
+
         SystemParam systemParam = getSystemParam2(poi_id);
         if (systemParam == null) {
             return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR, "系统参数为空或错误");
@@ -466,14 +460,19 @@ public class MeiTuanUtil {
         String requestSig = sgOpenResponse.getRequestSig();
         //请求返回的结果，按照官网的接口文档自行解析即可
         String requestResult = sgOpenResponse.getRequestResult();
+        JSONArray jsonArray = JSON.parseObject(requestResult).getJSONArray("data");
+
+        if (jsonArray.size() == 0) {
+            return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR, "门店信息为空");
+        }
 
         LambdaQueryWrapper<UserPoi> LQW = new LambdaQueryWrapper<>();
         LQW.eq(UserPoi::getPoiId, poi_id);
         UserPoi userPoi = userPoiService.getOne(LQW);
 
-        JSONObject jsonObject = JSON.parseObject(requestResult).getJSONArray("data").getJSONObject(0);
-        jsonObject.put("auto_order",userPoi.getAutoOrders());
-        return Result.build(HttpStatus.OK, ResultStatus.REQUEST_SUCCESS,jsonObject);
+        JSONObject jsonObject = jsonArray.getJSONObject(0);
+        jsonObject.put("auto_order", userPoi.getAutoOrders());
+        return Result.build(HttpStatus.OK, ResultStatus.REQUEST_SUCCESS, jsonObject);
     }
 
 }

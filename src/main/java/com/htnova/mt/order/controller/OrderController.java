@@ -583,7 +583,7 @@ public class OrderController {
      * 拉取订单统计信息
      */
     @ApiOperation(value = "拉取订单统计信息", notes = "" +
-            "merchant_id : 用户id\n" +
+            "merchant_id : 用户主id\n" +
             "\n" +
             "shop_id : 门店id\n" +
             "\n" +

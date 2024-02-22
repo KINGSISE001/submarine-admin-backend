@@ -36,7 +36,7 @@ spring:
 dev:
   validator:
     enable: true
-
+  # 26843883  JW53DmDe1W  ,  37439618  jlbxvCiMUG (沙盒)
 ele:
   info:
     appkey: 37439618

@@ -3,12 +3,14 @@ package com.htnova.mt.order.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.ocean.rawsdk.ApiExecutor;
 import com.alibaba.ocean.rawsdk.common.BizResultWrapper;
 import com.alibaba.ocean.rawsdk.util.MD5Utils;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.corundumstudio.socketio.SocketIOClient;
+import com.google.common.base.Strings;
 import com.htnova.common.constant.EleStatus;
 import com.htnova.common.constant.ResultStatus;
 import com.htnova.common.dev.config.EleConfig;
@@ -39,19 +41,15 @@ public class MeEleServiceImpl {
     @Resource
     OrderLogListService orderLogListService;
     @Resource
+    CompletedorderMapper completedorderMapper;
+    @Resource
     private OrderService orderService;
     @Resource
     private RedisUtil redisUtil;
-
     @Resource
     private UserPoiService userPoiService;
-
     @Resource
     private TMtDeliveryPersonnelService tMtDeliveryPersonnelService;
-
-    @Resource
-    CompletedorderMapper completedorderMapper;
-
 
     /**
      * 获取饿了么订单
@@ -86,13 +84,59 @@ public class MeEleServiceImpl {
         }
     }
 
+
+    /**
+     * 查询商户的营业状态。
+     */
+    public Result<Object> getShopBusstatus(String Shop_id) {
+        String appkey = el.getAppkey();
+        String secKey = el.getSecKey();
+        ApiExecutor apiExecutor = new ApiExecutor<>(appkey, secKey);
+        ShopBusstatusGetParam param = new ShopBusstatusGetParam();
+        param.setTicket(UUID.randomUUID().toString().toUpperCase());
+        MeEleRetailShopBusstatusGetInputParam body
+                = new MeEleRetailShopBusstatusGetInputParam();
+        body.setShop_id(Shop_id);
+        body.setPlatformFlag("1");
+        param.setBody(body);
+        MeEleRetailShopBusstatusGetData data = null;
+        try {
+            BizResultWrapper result = apiExecutor.send(param);
+            System.out.println("Result:" +
+                    JSON.toJSONString(result));
+            JSONObject resultJSON = JSON.parseObject(JSON.toJSONString(result));
+            JSONObject JSONbody = resultJSON.getJSONObject("body");
+            JSONObject JSONdata = JSONbody.getJSONObject("data");
+            if (!(String.valueOf(JSONbody.getString("errno")).equals("0"))) {
+                System.out.println("--请求结果失败--");
+                return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR, JSONbody);
+            } else {
+                System.out.println("请求成功");
+                data = JSON.parseObject(JSONdata.toJSONString(), MeEleRetailShopBusstatusGetData.class);
+               int shop_busstatus= data.getShop_busstatus();
+               if (shop_busstatus == 1|| shop_busstatus == 4) {
+                    return Result.build(HttpStatus.OK, ResultStatus.REQUEST_SUCCESS,3);
+                } else if (shop_busstatus == 3) {
+                    return Result.build(HttpStatus.OK, ResultStatus.REQUEST_SUCCESS,1);
+                } else {
+                   return Result.build(HttpStatus.OK, ResultStatus.REQUEST_SUCCESS,3);
+               }
+
+            }
+        } catch (Exception var8) {
+            System.out.println("请求失败，请求异常");
+            System.out.println(var8.getMessage());
+        }
+        return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR, data);
+    }
+
     /**
      * 确认订单
      *
      * @param orderId
-     * @return
+     * @return Result<Object> 返回的对象
      */
-    public Result orderConfirm(String orderId) {
+    public Result<Object> orderConfirm(String orderId) {
         String appkey = el.getAppkey();
         String secKey = el.getSecKey();
         ApiExecutor apiExecutor = new ApiExecutor<>(appkey, secKey);
@@ -117,7 +161,7 @@ public class MeEleServiceImpl {
             }
         } catch (Exception var8) {
             System.out.println("请求失败，请求异常");
-            System.out.println(var8);
+            System.out.println(var8.getMessage());
         }
         return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR, "未知错误");
     }
@@ -125,6 +169,7 @@ public class MeEleServiceImpl {
 
     /**
      * 完成拣货
+     *
      * @param orderId
      * @return
      */
@@ -153,11 +198,250 @@ public class MeEleServiceImpl {
             }
         } catch (Exception var8) {
             System.out.println("请求失败，请求异常");
-            System.out.println(var8);
+            System.out.println(var8.getMessage());
         }
         return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR, "未知错误");
     }
 
+
+    /**
+     * 获取门店信息
+     *
+     * @param shop_id 门店ID
+     * @return
+     */
+    public Result<String> GetShopInfo(String shop_id) {
+        String appkey = el.getAppkey();
+        String secKey = el.getSecKey();
+        ApiExecutor<ShopGetResult> apiExecutor = new ApiExecutor<>(appkey, secKey);
+        ShopGetParam param = new ShopGetParam();
+        param.setTicket(UUID.randomUUID().toString().toUpperCase());
+        MeEleRetailShopGetInputParam body
+                = new MeEleRetailShopGetInputParam();
+        body.setBaidu_shop_id(shop_id);
+        param.setBody(body);
+        try {
+            BizResultWrapper<ShopGetResult> result = apiExecutor.send(param);
+            ShopGetResult ShopGetResult = JSON.parseObject(JSON.toJSONString(result.getBody()), ShopGetResult.class);
+            if (!(ShopGetResult.getErrno().equals("0"))) {
+                System.out.println("--请求结果失败--");
+                return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR, JSON.toJSONString(result.getBody()));
+            } else {
+                JSONObject business_time2 = JSON.parseObject(JSON.toJSONString(result.getBody())).getJSONObject("data").getJSONObject("business_time2");
+                JSONArray business_time_list = business_time2.getJSONArray("normal_business_time_list");
+                StringBuilder s = new StringBuilder();
+                int size = business_time_list.size();
+                Map<Integer, String> map = new HashMap<>();
+                business_time_list.forEach((business_time) -> {
+                    JSONObject business_hour_list = JSON.parseObject(JSON.toJSONString(business_time));
+                    JSONObject business_hour = business_hour_list.getJSONObject("business_hour");
+                    String week = business_hour.getJSONArray("weeks").get(0).toString();
+
+                    JSONArray ranges = business_hour.getJSONArray("ranges");
+                    StringBuffer time = new StringBuffer();
+                    ranges.forEach((range) -> {
+                        JSONObject range2 = JSON.parseObject(JSON.toJSONString(range));
+                        String start_time = range2.getString("start_time");
+                        String end_time = range2.getString("end_time");
+                        time.append(start_time).append("-").append(end_time).append(",");
+                    });
+                    if (!Strings.isNullOrEmpty(time.toString())) {
+                        if (size==1){
+                            map.put(1, time.toString());
+                        } else {
+                            map.put(Integer.valueOf(week), time.substring(0, time.length() - 1));
+                        }
+
+                    }
+                });
+
+               if (size == 1) {
+                    s.append(map.get(1));
+                } else {
+                   int[] weekss = {1, 2, 3, 4, 5, 6, 7};
+                   for (int week1 : weekss) {
+                       if (map.get(week1) != null) {
+                           s.append(map.get(week1)).append(";");
+                       } else {
+                           s.append(";");
+                       }
+                   }
+                }
+
+
+                return Result.build(HttpStatus.OK, ResultStatus.REQUEST_SUCCESS, s.substring(0, s.length() - 1));
+            }
+        } catch (Exception var8) {
+            System.out.println("请求失败，请求异常");
+            System.out.println(var8.getMessage());
+        }
+        return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR, "未知错误");
+    }
+
+
+    /**
+     * 关闭门店
+     *
+     * @param shop_id 门店ID
+     * @return
+     */
+    public Result<Object> ShopClose(String shop_id) {
+        String appkey = el.getAppkey();
+        String secKey = el.getSecKey();
+        ApiExecutor apiExecutor = new ApiExecutor<>(appkey, secKey);
+        ShopCloseParam param = new ShopCloseParam();
+        param.setTicket(UUID.randomUUID().toString().toUpperCase());
+        MeEleRetailShopCloseInputParam body
+                = new MeEleRetailShopCloseInputParam();
+        body.setBaidu_shop_id(shop_id);
+        param.setBody(body);
+        try {
+            BizResultWrapper result = apiExecutor.send(param);
+            System.out.println("Result:" +
+                    JSON.toJSONString(result));
+            JSONObject resultJSON = JSON.parseObject(JSON.toJSONString(result));
+            JSONObject JSONbody = resultJSON.getJSONObject("body");
+            Boolean JSONdata = JSONbody.getBooleanValue("data");
+            if (!(String.valueOf(JSONbody.getString("errno")).equals("0"))) {
+                System.out.println("--请求结果失败--");
+                return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR, JSONbody);
+            } else {
+                return Result.build(HttpStatus.OK, ResultStatus.REQUEST_SUCCESS, JSONbody);
+            }
+        } catch (Exception var8) {
+            System.out.println("请求失败，请求异常");
+            System.out.println(var8.getMessage());
+        }
+        return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR, "未知错误");
+    }
+
+
+    /**
+     * 打开门店
+     *
+     * @param shop_id 门店ID
+     * @return
+     */
+    public Result<Object> ShopOpen(String shop_id) {
+        String appkey = el.getAppkey();
+        String secKey = el.getSecKey();
+        ApiExecutor apiExecutor = new ApiExecutor<>(appkey, secKey);
+        ShopOpenParam param = new ShopOpenParam();
+        param.setTicket(UUID.randomUUID().toString().toUpperCase());
+        MeEleRetailShopOpenInputParam body
+                = new MeEleRetailShopOpenInputParam();
+        body.setBaidu_shop_id(shop_id);
+        param.setBody(body);
+        try {
+            BizResultWrapper result = apiExecutor.send(param);
+            System.out.println("Result:" +
+                    JSON.toJSONString(result));
+            JSONObject resultJSON = JSON.parseObject(JSON.toJSONString(result));
+            JSONObject JSONbody = resultJSON.getJSONObject("body");
+            Boolean JSONdata = JSONbody.getBooleanValue("data");
+            if (!(String.valueOf(JSONbody.getString("errno")).equals("0"))) {
+                System.out.println("--请求结果失败--");
+                return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR, JSONbody);
+            } else {
+                return Result.build(HttpStatus.OK, ResultStatus.REQUEST_SUCCESS, JSONbody);
+            }
+        } catch (Exception var8) {
+            System.out.println("请求失败，请求异常");
+            System.out.println(var8.getMessage());
+        }
+        return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR, "未知错误");
+    }
+
+
+    /**
+     * 更新门店信息
+     *
+     * @param shop_id 门店ID
+     * @return
+     */
+    public Result<Object> ShopUpdate(String shop_id, String business_time) {
+        String appkey = el.getAppkey();
+        String secKey = el.getSecKey();
+        ApiExecutor apiExecutor = new ApiExecutor<>(appkey, secKey);
+        ShopUpdateParam param = new ShopUpdateParam();
+        param.setTicket(UUID.randomUUID().toString().toUpperCase());
+        MeEleRetailShopUpdateInputParam body
+                = new MeEleRetailShopUpdateInputParam();
+        body.setBaidu_shop_id(shop_id);
+
+        String[] timeWeeks = business_time.split(";");
+        MeEleNewretailStoreBusinessTimeVO business_time2 = new MeEleNewretailStoreBusinessTimeVO();
+        MeEleNewretailNormalBusinessTimeVO[] normal_business_time = new MeEleNewretailNormalBusinessTimeVO[timeWeeks.length];
+
+        log.info("timeWeeks.length={}",timeWeeks.length);
+        if (timeWeeks.length == 1) {
+            MeEleNewretailBusinessHourVO business_hour = new MeEleNewretailBusinessHourVO();
+            business_hour.setType(2);//枚举值（1:24小时, 2:自定义, 3:歇业）
+            int[] weeks = {1,2,3,4,5,6,7};//归属的周，(星期一 到 星期日）,范围 1~7
+            business_hour.setWeeks(weeks);
+
+            String[] weekdays = timeWeeks[0].split(",");
+            MeEleNewretailHourRangeVO[] ranges = new MeEleNewretailHourRangeVO[weekdays.length];
+            for (int j = 0; j < weekdays.length; j++) {
+                String[] weekdays2 = weekdays[j].split("-");
+                MeEleNewretailHourRangeVO range = new MeEleNewretailHourRangeVO();
+                range.setStart_time(weekdays2[0]);
+                range.setEnd_time(weekdays2[1]);
+                ranges[j] = range;
+            }
+            business_hour.setRanges(ranges);
+            MeEleNewretailNormalBusinessTimeVO business_hour2 = new MeEleNewretailNormalBusinessTimeVO();
+            business_hour2.setBusiness_hour(business_hour);
+            normal_business_time[0] = business_hour2;
+        } else {
+            for (int i = 0; i < timeWeeks.length; i++) {
+//  ------------------------
+                MeEleNewretailBusinessHourVO business_hour = new MeEleNewretailBusinessHourVO();
+                business_hour.setType(2);//枚举值（1:24小时, 2:自定义, 3:歇业）
+                int[] weeks = new int[1];//归属的周，(星期一 到 星期日）,范围 1~7
+                weeks[0] = i + 1;
+                business_hour.setWeeks(weeks);
+
+                String[] weekdays = timeWeeks[i].split(",");
+                MeEleNewretailHourRangeVO[] ranges = new MeEleNewretailHourRangeVO[weekdays.length];
+                for (int j = 0; j < weekdays.length; j++) {
+                    String[] weekdays2 = weekdays[j].split("-");
+                    MeEleNewretailHourRangeVO range = new MeEleNewretailHourRangeVO();
+                    range.setStart_time(weekdays2[0]);
+                    range.setEnd_time(weekdays2[1]);
+                    ranges[j] = range;
+                }
+                business_hour.setRanges(ranges);
+                MeEleNewretailNormalBusinessTimeVO business_hour2 = new MeEleNewretailNormalBusinessTimeVO();
+                business_hour2.setBusiness_hour(business_hour);
+                normal_business_time[i] = business_hour2;
+// -----------------------
+            }
+        }
+
+
+        business_time2.setNormal_business_time_list(normal_business_time);
+        body.setBusiness_time2(business_time2);
+        param.setBody(body);
+        try {
+            BizResultWrapper result = apiExecutor.send(param);
+            System.out.println("Result:" +
+                    JSON.toJSONString(result));
+            JSONObject resultJSON = JSON.parseObject(JSON.toJSONString(result));
+            JSONObject JSONbody = resultJSON.getJSONObject("body");
+            // Boolean JSONdata = JSONbody.getBooleanValue("data");
+            if (!(String.valueOf(JSONbody.getString("errno")).equals("0"))) {
+                System.out.println("--请求结果失败--");
+                return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR, JSONbody);
+            } else {
+                return Result.build(HttpStatus.OK, ResultStatus.REQUEST_SUCCESS, JSONbody);
+            }
+        } catch (Exception var8) {
+            System.out.println("请求失败，请求异常");
+            System.out.println(var8.getMessage());
+        }
+        return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR, "未知错误");
+    }
 
     /**
      * 取消订单
@@ -167,7 +451,7 @@ public class MeEleServiceImpl {
      * @param reason      取消原因
      * @return Result 方法
      */
-    public Result orderCancel(String order_id, Integer reason_code, String reason) {
+    public Result<Object> orderCancel(String order_id, Integer reason_code, String reason) {
         String appkey = el.getAppkey();
         String secKey = el.getSecKey();
         ApiExecutor apiExecutor = new ApiExecutor<>(appkey, secKey);
@@ -218,19 +502,20 @@ public class MeEleServiceImpl {
             }
         } catch (Exception var8) {
             System.out.println("请求失败，请求异常");
-            System.out.println(var8);
+            System.out.println(var8.getMessage());
         }
         return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR, "未知错误");
 
     }
+
     /**
      * 客户取消订单确认或拒绝
      *
-     * @param order_id    订单id
-     * @param reason      取消原因
+     * @param order_id 订单id
+     * @param reason   取消原因
      * @return Result 方法
      */
-    public Result OrderReverseProcess(String order_id,String  Action_type, String reason) {
+    public Result<Object> OrderReverseProcess(String order_id, String eleid, String Action_type, String reason) {
         String appkey = el.getAppkey();
         String secKey = el.getSecKey();
         ApiExecutor apiExecutor = new ApiExecutor<>(appkey, secKey);
@@ -258,11 +543,14 @@ public class MeEleServiceImpl {
                 System.out.println("--请求结果失败--");
                 return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR, JSONbody);
             } else {
+                if (Action_type.equals("1")) {
+                    logListStatus(Long.parseLong(order_id), eleid, ResultStatus.QU_XIAO_ORDER, "同意退货");
+                }
                 return Result.build(HttpStatus.OK, ResultStatus.REQUEST_SUCCESS, JSONdata);
             }
         } catch (Exception var8) {
             System.out.println("请求失败，请求异常");
-            System.out.println(var8);
+            System.out.println(var8.getMessage());
         }
         return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR, "未知错误");
 
@@ -336,6 +624,16 @@ public class MeEleServiceImpl {
             int count2 = orderService.insertDetail(lists);
             if (count2 > 0) {
                 log.info("订单详情插入成功");
+                //自动接单（0接单，1不接单）
+                log.info("JSON:{}", JSON.toJSONString(getUserId2(data.getShop().getBaidu_shop_id())));
+
+                UserPoi user = getUserId2(data.getShop().getBaidu_shop_id());
+                if (!(user == null)) {
+                    int id = user.getAutoOrders();
+                    if (id == 0) {
+                        orderConfirm(String.valueOf(data.getOrder().getOrder_id()));
+                    }
+                }
             }
 
         }
@@ -389,7 +687,7 @@ public class MeEleServiceImpl {
      * 半日达专用物流状态：30:生成物流单;31:物流接单;32:物流分配运力;33:开始揽收;34:物流已揽收;35:物流到达站点;36:物流开始配送;37:物流送达;38:物流失败。
      * 快递发货专用物流状态：100:商家已接单;101:商家拣货完成;102:商家已发货;103:快递部分揽收;104:快递全部揽收;105:快递中转;106:开始配送;107:部分签收;108:全部签收;109:部分拒收;110:全部拒收;111:物流取消;112:商家发货异常（超时）;113:商家发货失败（底层失败）。
      *
-     * @param body
+     * @param body body
      */
     public void deliveryStatusPush(JSONObject body) {
         String order_id = body.getString("order_id");
@@ -488,7 +786,7 @@ public class MeEleServiceImpl {
         CurReverseEvent curReverseEvent = JSON.parseObject(JSON.parseObject(cur_reverse_event).toJSONString(), CurReverseEvent.class);
         //逆向单操作前的逆向单状态：0-初始化，10-申请，20-拒绝，30-仲裁，40-关闭，50-成功，60-失败
         //https://open-retail.ele.me/#/msgdoc/detail?topicName=order.reverse.push&aopApiCategory=order_msg_group&type=push_menu
-        String Operator_role = "";
+        String Operator_role;
         switch (curReverseEvent.getOperator_role()) { //逆向单操作者角色：10 用户 ,20商户,30客服 ,25 API商家代客发起,40系统
             case 10:
                 log.info("用户发起逆向单");
@@ -531,7 +829,7 @@ public class MeEleServiceImpl {
                 .append("操作原因:")
                 .append(reason_content)
                 .append(curReverseEvent.getReason_content());
-        log.info("订单退款/退货：{}", s.toString());
+        log.info("订单退款/退货：{}", s);
         updateEleOrderStatus(Long.parseLong(order_id), platform_shop_id, ResultStatus.TUI_DAN, s.toString());
     }
 
@@ -578,8 +876,6 @@ public class MeEleServiceImpl {
             log.error("异常【{}】", e.getMessage());
         }
     }
-
-    ;
 
     public void updateEleOrderStatus(long order_id, String eleId, ResultStatus Status, String Content) {
         orderService.updateStatus(order_id, String.valueOf(Status.getCode()));

@@ -6,6 +6,7 @@ import cn.hutool.core.util.RandomUtil;
 import cn.hutool.extra.qrcode.QrCodeUtil;
 import cn.hutool.extra.qrcode.QrConfig;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Strings;
 import com.htnova.common.constant.ResultStatus;
 import com.htnova.common.dev.config.PayConfig;
@@ -16,7 +17,10 @@ import com.htnova.common.util.SignUtil;
 import com.htnova.common.util.SocketUtil;
 import com.htnova.common.util.SpringContextUtil;
 import com.htnova.mt.order.entity.TSysKxPay;
+import com.htnova.mt.order.entity.UserPoi;
 import com.htnova.mt.order.service.TSysKxPayService;
+import com.htnova.mt.order.service.UserPoiService;
+import com.htnova.mt.order.service.impl.MeEleServiceImpl;
 import com.htnova.security.entity.AuthUser;
 import com.htnova.system.manage.entity.User;
 import com.htnova.system.manage.mapper.UserMapper;
@@ -24,6 +28,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -33,7 +38,9 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -54,6 +61,12 @@ public class MeiTuanController {
 
     @Resource
     UserMapper userMapper;
+
+    @Resource
+    UserPoiService userPoiService;
+
+    @Resource
+    MeEleServiceImpl meEleService;
 
 
     @ApiOperation(value = "美团订单确认", notes = "1.美团向商家推送新订单消息后，商家可调用此接口确认订单，即接单。接单后订单状态将变更为“商家已确认”(status=4)。\n" +
@@ -191,20 +204,23 @@ public class MeiTuanController {
     @GetMapping("/poiOpenOrClose")
     @ApiOperation(value = "门店的营业状态", notes = "接口说明：\n" +
             "1. 本接口用于商家将门店设置为营业状态。\n" +
-            "取值范围：1-可配送；3-休息中。\n" +
+            "open_level: 1-可配送；3-休息中。\n" +
+            "third_platform_id : 三方平台类型ID ：1-美团 ，2-饿了么 ，3-京东到家\n" +
             "2. 设置门店恢复营业状态的角色的权限需要与上一次设置门店置休的角色的权限一致。" +
             "所以，即使当前门店是营业状态，但是这个门店上次置休的时候是总部（商家总账号）操作的，" +
             "所以再次设置营业状态时仍需要总部设置才可以。如使用接口操作，会返回没有权限的提示。")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "poi_id", value = "门店id", required = true, dataTypeClass = String.class),
-            @ApiImplicitParam(name = "open_level", value = "1-可配送；3-休息中", required = true, dataTypeClass = Integer.class)
+            @ApiImplicitParam(name = "poi_id", value = "门店id(不单指美团ID)", required = true, dataTypeClass = String.class),
+            @ApiImplicitParam(name = "open_level", value = "1-可配送；3-休息中", required = true, dataTypeClass = Integer.class),
+            @ApiImplicitParam(name = "third_platform_id", value = "三方平台类型ID ：1-美团 ，2-饿了么 ，3-京东到家", required = true, dataTypeClass = Integer.class)
     })
     @ResponseBody
-    public Result updatePoiOpenOrClose(@RequestParam(value = "poi_id") String poi_id,
-                                       @RequestParam(value = "open_level") int open_level) {
-        return mt.poiOpenOrClose(poi_id, open_level);
+    public Result<Object> updatePoiOpenOrClose(@RequestParam(value = "poi_id") String poi_id,
+                                       @RequestParam(value = "open_level") int open_level,
+                                       @RequestParam(value = "third_platform_id") int third_platform_id) {
+        return mt.poiOpenOrClose(poi_id, open_level,third_platform_id);
     }
-
+/*
     @GetMapping("/poiOfflineOrOnline")
     @ApiOperation(value = "门店的营业状态", notes = "接口说明：\n" +
             "门店上下线状态，取值范围：0-下线，1-上线:。\n" +
@@ -216,12 +232,14 @@ public class MeiTuanController {
     @ResponseBody
     public Result updatePoiOfflineOrOnline(String poi_id, int is_online) {
         return Result.build(HttpStatus.OK, ResultStatus.FORBIDDEN, "sss");//mt.poiOfflineOrOnline(poi_id,is_online);
-    }
+    }*/
 
     @GetMapping("/poiUpdateShippingtime")
     @ApiOperation(value = "门店的营业时间", notes = "接口说明：本接口用于商家修改门店的营业时间\n" +
             "B2C医药门店，暂不支持修改门店营业时间。" +
             "门店营业时间 \n" +
+            "poi_id : 那个类型的门店就传那个门店的id \n" +
+            "third_platform_id : 三方平台类型ID ：1-美团 ，2-饿了么 ，3-京东到家\n" +
             "(1)一天中的营业时间支持传多个时段,以英文逗号分隔。 \n" +
             "(2)一周的营业时间，支持按周一至周日的顺序分别设置营业时间，以英文分号隔开；支持通过上传空值操作门店当天不营业，不支持全为空。\n" +
             "(3)若只上传一个时间段，则表示7天营业时间相同 \n" +
@@ -229,59 +247,69 @@ public class MeiTuanController {
             "例如：\"07:00-12:00,12:30-23:00;06:00-22:00;07:00-12:00;07:00-12:00;07:00-12:00;08:00-23:00;07:00-12:00\"")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "poi_id", value = "门店id", required = true, dataTypeClass = String.class),
-            @ApiImplicitParam(name = "time", value = "营业时间", required = true, dataTypeClass = String.class)
+            @ApiImplicitParam(name = "time", value = "营业时间", required = true, dataTypeClass = String.class),
+            @ApiImplicitParam(name = "third_platform_id", value = "三方平台类型ID ：1-美团 ，2-饿了么 ，3-京东到家", required = true, dataTypeClass = Integer.class)
     })
     @ResponseBody
-    public Result poiUpdateShippingtime(String poi_id, String time) {
-        return mt.poiUpdateShippingtime(poi_id, time);
+    public Result<Object> poiUpdateShippingtime(String poi_id, String time,Integer third_platform_id) {
+        return mt.poiUpdateShippingtime(poi_id, time,third_platform_id);
     }
 
 
     @GetMapping("/getPoiInfo")
     @ApiOperation(value = "获取门店详细信息", notes = "本接口用于获取门店详细信息。" +
-            "app_poi_code\tAPP方门店ID\n" +
-            "name\t门店名称\n" +
-            "address\t门店地址\n" +
-            "latitude\t门店纬度，美团使用的是高德坐标系\n" +
-            "longitude\t门店经度，美团使用的是高德坐标系。。\n" +
-            "pic_url\t门店图片地址\n" +
-            "pic_url_large\t门店图片地址\n" +
-            "phone\t客服电话号码\n" +
-            "standby_tel\t门店电话号码(已废弃)\n" +
-            "shipping_fee\t每个订单的配送费，单位是元。\n" +
-            "shipping_time\t门店营业时间：同一天的多个时间段之间以英文逗号分隔；周一至周日每天之间用英文分号分隔，如不营业则无时间段，例如“00:00-01:00,01:05-23:59;;;;00:00-01:00,01:05-23:59;;”表示只有周一和周五营业，每天营业时间为00:00-01:00,01:05-23:59\n" +
-            "promotion_info\t门店公告信息\n" +
-            "invoice_support\t门店是否支持发票，参考值：1-支持；0-不支持。\n" +
-            "invoice_min_price\t门店支持开发票的最小订单价，单位是元。\n" +
-            "invoice_description\t发票相关说明\n" +
-            "open_level\t门店的营业状态，参考值：1-可配送；3-休息中。\n" +
-            "auto_order \t门店自动接单设置，值：0-不接单，1-接单。\n" +
-            "is_online\t门店上下线状态，参考值：0-下线；1-上线；2-上单中；3-审核通过可上线。\n" +
-            "ctime\t门店创建时间，\n" +
-            "utime\t门店最近一次更新时间\n" +
-            "third_tag_name\t门店经营品类，多个品类信息以英文逗号分隔。\n" +
-            "pre_book\t是否支持营业时间范围外预下单，参考值：1-支持；0-不支持。\n" +
-            "time_select\t是否支持营业时间范围内预下单，参考值：1-支持；0-不支持。\n" +
-            "logistics_codes\t门店的配送方式,参考值： 门店的配送方式,参考值： 1003-美团跑腿（众包） 1001-专送（加盟） 1002-专送（自建） 1004-城市代理 2002-快送 2010-全城送 0000-商家自配 3001-混合送（专送+快送) 30011002-混合自建 30011001-混合加盟 30012002-混合快送 0002-趣生活美食配送 0016-达达快递 0033-E_代送 4015-企客远距离（全城送）\n" +
-            "pre_book_min_days\t商家接受预订日期的最早日期，范围：0-7。最早日期是指用户最少需要提前下单的天数，如果不选“当天”（传0），则用户不能下要求今日送达的订单。例如：最早日期为“隔天”（传1），则用户今日最快只能下明天备货配送的订单。\n" +
-            "pre_book_max_days\t商家接受预订日期的最长日期，取值范围：0-7。最长日期是指用户可要求送达的最多天数。例如：最长日期为“隔天”（传1），则用户今日可下要求明天配送的订单，不可下要求后天配送的订单。\n")
-    @ApiImplicitParam(name = "poi_id", value = "门店id", required = true, dataTypeClass = String.class)
+            "third_platform_id: 三方平台类型ID ：1-美团 ，2-饿了么 ，3-京东到家 \n"+
+            "poi_id ：对应门店id \n"+
+            "hours :营业时间 \n"+
+            "status :门店状态 ,1-可配送；3-休息中\n")
+    @ApiImplicitParam(name = "merchant_id", value = "门店主id", required = true, dataTypeClass = String.class)
     @ResponseBody
-    public Result getPoiInfo(String poi_id) {
-        return mt.getPoiInfo(poi_id);
+    public Result<Object> getPoiInfo(String merchant_id) {
+        UserPoi user =userPoiService.getUserPoiById(merchant_id).stream().findFirst().orElse(null);
+        List<bussiness_hours> bussiness_hours = new ArrayList<>();
+        if (user != null) {
+            bussiness_hours b1 = new bussiness_hours();
+            String mt_id = user.getPoiId();
+            Result<Object> mt_result = mt.getPoiInfo(mt_id);
+            if (mt_result.getCode() != ResultStatus.BIND_ERROR.getCode()) {
+                JSONObject json = JSON.parseObject(JSON.toJSONString(mt_result.getData()));
+                b1.setStatus(json.getString("open_level"));
+                b1.setHours(json.getString("shipping_time"));
+            }
+            b1.setPoi_id(mt_id);
+            b1.setThird_platform_id("1");
+            bussiness_hours.add(b1);
+            bussiness_hours b2 = new bussiness_hours();
+            String ele_id = user.getEleId();
+            Result<Object> me_result = meEleService.getShopBusstatus(ele_id);
+            b2.setStatus(String.valueOf(me_result.getData()));
+            b2.setHours(meEleService.GetShopInfo(ele_id).getData());
+            b2.setPoi_id(ele_id);
+            b2.setThird_platform_id("2");
+            bussiness_hours.add(b2);
+            return Result.build(HttpStatus.OK,ResultStatus.REQUEST_SUCCESS,bussiness_hours);
+        }
+        return Result.build(HttpStatus.OK,ResultStatus.BIND_ERROR,"门店不存在");
     }
 
+    @Data
+    static class bussiness_hours {
+       String  third_platform_id;
+        String  poi_id;
+        String  hours;
+        String  status;
+    }
 
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "poi_id", value = "门店id", required = true, dataTypeClass = String.class),
+            @ApiImplicitParam(name = "merchant_id", value = "门店主id", required = true, dataTypeClass = String.class),
             @ApiImplicitParam(name = "auto", value = "0-接单，1-不接单", required = true, dataTypeClass = Integer.class)
     })
     @GetMapping("/updateAutoOrders")
     @ApiOperation(value = "是否自动接单", notes = "自动接单（0-接单，1-不接单）")
     @ResponseBody
-    public Result updateAutoOrders(@RequestParam(value = "poi_id") String poi_id,
+    public Result updateAutoOrders(@RequestParam(value = "merchant_id") String merchant_id,
                                    @RequestParam(value = "auto", defaultValue = "0") int auto) {
-        return mt.updateAutoOrders(poi_id, auto);
+        return mt.updateAutoOrders(merchant_id, auto);
     }
 
     @GetMapping("/getQrCode/{height}/{width}/{pay_type}/{money}")

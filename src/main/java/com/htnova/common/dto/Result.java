@@ -67,6 +67,15 @@ public class Result<E> {
             .data(data)
             .build();
     }
+    public static <E> Result<E> build(HttpStatus httpStatus, ResultStatus resultStatus, E data) {
+        return Result
+                .<E>builder()
+                .status(httpStatus.value())
+                .code(resultStatus.getCode())
+                .msg(resultStatus.getMsg())
+                .data(data)
+                .build();
+    }
 
     /** 用于接收前端拼接的 msg 数组 */
     public static Result<Object> build(ResultStatus resultStatus, Object... data) {
