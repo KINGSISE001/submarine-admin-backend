@@ -2,7 +2,7 @@
   <img width="180" src="https://cdn.jsdelivr.net/gh/goldsubmarine/cdn@master/blog/20200817032045.png">
 </p>
 
-# Submarine 后台管理系统
+#电商 后台管理系统
 
 <p>
   <a href="#">
@@ -18,13 +18,10 @@
 
 ## 项目简介
 
-🔥 submarine 是一个前后端分离的后台管理系统，配后前端项目 [submarine-admin-frontend](https://github.com/GoldSubmarine/submarine-admin-frontend) 可快速开发后台项目。
 
 致力于使用最流行最主流的前后端技术，对于各种使用场景都有相应的解决方案，对需求的变化充满信心。
 
 ## 文档
-
-🗒️ 技术选型和使用[文档](https://goldsubmarine.github.io/submarine-admin-doc/)
 
 ## 技术选型
 
