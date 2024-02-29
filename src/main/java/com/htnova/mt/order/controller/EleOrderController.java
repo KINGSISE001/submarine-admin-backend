@@ -1,6 +1,7 @@
 package com.htnova.mt.order.controller;
 
 
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.URLUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -60,7 +61,7 @@ public class EleOrderController {
             switch (cmd) {
                 case "order.create":
                     log.info("ele:【订单创建通知】 : {}", order_id);
-                    if (completedorderMapper.selectById(order_id) == null){
+                    if (!ObjectUtil.isNotEmpty(completedorderMapper.selectById(order_id))){
                         meEleService.getEleOrder(order_id);
                     }
                     return EleResult.ok(order_id);

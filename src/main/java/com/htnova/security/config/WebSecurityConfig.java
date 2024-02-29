@@ -139,6 +139,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 "/order/**",
                 "/mt/**",
                 "/ele/**",
+                "/jd/**",
                 "/swagger*//**",
                 "/v2/api-docs",
                 "/webjars*//**",
