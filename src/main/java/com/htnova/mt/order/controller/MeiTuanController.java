@@ -302,6 +302,26 @@ public class MeiTuanController {
 
     @ApiImplicitParams({
             @ApiImplicitParam(name = "merchant_id", value = "门店主id", required = true, dataTypeClass = String.class),
+    })
+    @GetMapping("/getAutoOrders")
+    @ApiOperation(value = "是否自动接单", notes = "自动接单（autoOrders）（0-接单，1-不接单）")
+    @ResponseBody
+    public Result<Object> getAutoOrders(@RequestParam(value = "merchant_id") String merchant_id ){
+        Map<String, Object> map = new HashMap<>();
+       UserPoi userPoi = userPoiService.getUserById(merchant_id);
+       if (userPoi != null){
+            map.put("merchant_id",merchant_id);
+            map.put("autoOrders",userPoi.getAutoOrders());
+            return Result.build(HttpStatus.OK,ResultStatus.REQUEST_SUCCESS,map);
+        }else {
+           map.put("merchant_id",merchant_id);
+           map.put("autoOrders","门店不存在");
+           return Result.build(HttpStatus.OK,ResultStatus.BIND_ERROR,map);
+       }
+    }
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "merchant_id", value = "门店主id", required = true, dataTypeClass = String.class),
             @ApiImplicitParam(name = "auto", value = "0-接单，1-不接单", required = true, dataTypeClass = Integer.class)
     })
     @GetMapping("/updateAutoOrders")

@@ -12,6 +12,8 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class UserPoiDto extends BaseDto {
     @JsonSerialize(using = ToStringSerializer.class)
+    private Long Id;
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long uId;
     private String userName;
     private String name;
@@ -24,6 +26,15 @@ public class UserPoiDto extends BaseDto {
     private String eleName;
     private Integer eleStatus;
     private Integer autoOrders;
+
+    @JsonSerialize(using = ToStringSerializer.class)
+    public Long getId() {
+        return Id;
+    }
+
+    public void setId(Long id) {
+        Id = id;
+    }
 
     public String getStoreName() {
         return storeName;

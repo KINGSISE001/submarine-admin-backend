@@ -14,7 +14,7 @@ import lombok.experimental.SuperBuilder;
 @TableName("t_sys_user_poi")
 public class UserPoi extends BaseEntity {
 
-
+    private Long Id;
     private Long uId;
     private String userName;
     private String name;
@@ -31,6 +31,15 @@ public class UserPoi extends BaseEntity {
     private Integer eleStatus;
 
     private Integer autoOrders;
+
+    @JsonSerialize(using = ToStringSerializer.class)
+    public Long getId() {
+        return Id;
+    }
+
+    public void setId(Long id) {
+        Id = id;
+    }
 
     public String getStoreName() {
         return storeName;

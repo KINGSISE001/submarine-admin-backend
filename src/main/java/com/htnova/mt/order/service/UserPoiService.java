@@ -65,6 +65,10 @@ public class UserPoiService extends ServiceImpl<UserPoiMapper, UserPoi> {
         userPoi.last("LIMIT 1");
         return userPoiMapper.selectList(userPoi);
     };
+    public UserPoi getUserById(String merchant_id){
+
+        return  userPoiMapper.selectById(merchant_id);
+    };
 
 
 
