@@ -23,6 +23,7 @@ public enum ResultStatus {
     FORMAT_ERROR(10006, "格式化错误"),
     NO_ERROR(10007, "No errors"),
     REQUEST_SUCCESS(10008, "请求成功"),
+    REQUEST_ERROR(10009, "请求失败"),
 
     // ===============认证授权相关(11)=============
 

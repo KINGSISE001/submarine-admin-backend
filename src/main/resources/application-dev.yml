@@ -3,8 +3,10 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       username: root
-      password: ibXCziJp6ExmmJPd
-      url: jdbc:p6spy:mysql://124.222.190.65:3306/submarine?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&useSSL=false&nullCatalogMeansCurrent=true
+      password: 93bed72517ff68bf
+      #93bed72517ff68bf
+      # 101.200.33.145  //  serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&useSSL=false&nullCatalogMeansCurrent=true
+      url: jdbc:p6spy:mysql://cs.91ikang.com:6603/submarine?useUnicode=true&characterEncoding=UTF-8&useSSL=false&nullCatalogMeansCurrent=true
       driverClassName: com.p6spy.engine.spy.P6SpyDriver
       validationQuery: SELECT 1
       testWhileIdle: true
@@ -39,8 +41,8 @@ dev:
   # 26843883  JW53DmDe1W  ,  37439618  jlbxvCiMUG (沙盒)
 ele:
   info:
-    appkey: 26843883
-    secKey: JW53DmDe1W
+    appkey: 37439618
+    secKey: jlbxvCiMUG
 
 
 

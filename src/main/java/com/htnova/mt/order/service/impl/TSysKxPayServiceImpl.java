@@ -1,15 +1,17 @@
 package com.htnova.mt.order.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.RandomUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.corundumstudio.socketio.SocketIOClient;
 import com.htnova.common.dev.config.PayConfig;
 import com.htnova.common.util.HttpRequestUtil;
 import com.htnova.common.util.SignUtil;
+import com.htnova.common.util.SocketUtil;
 import com.htnova.mt.order.entity.TSysKxPay;
 import com.htnova.mt.order.mapper.TSysKxPayMapper;
 import com.htnova.mt.order.service.TSysKxPayService;
@@ -20,10 +22,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author RISE
@@ -60,7 +59,8 @@ public class TSysKxPayServiceImpl extends ServiceImpl<TSysKxPayMapper, TSysKxPay
         }
     }
 
-    public void getPayStatus(String orderNo, long userId , int payType) {
+    @Override
+    public TSysKxPay getPayStatus(String orderNo, long userId, int payType) {
 
         Map<String, String> map = new HashMap<>();
         map.put("service", "pay.comm.query_order");
@@ -74,6 +74,8 @@ public class TSysKxPayServiceImpl extends ServiceImpl<TSysKxPayMapper, TSysKxPay
         TSysKxPay KxPay = JSON.parseObject(JSON.parse(sr).toString(), TSysKxPay.class);
         KxPay.setUserId(userId);
         KxPay.setPayType(payType);
+        //支付状态：1 支付成功 ，0待付款，2付款失败
+        socketMsg( orderNo,userId,payType, Integer.parseInt(KxPay.getPaystatus()));
         if (ObjectUtils.isNotEmpty(KxPay)) {
             if (KxPay.getStatus() != 10000) {
                 TSysKxPay Pay = new TSysKxPay();
@@ -90,12 +92,20 @@ public class TSysKxPayServiceImpl extends ServiceImpl<TSysKxPayMapper, TSysKxPay
             } else if (KxPay.getPaystatus().equals("1") && KxPay.getStatus() == 10000) {
                 User user = userMapper.selectById(userId);
                 if (user.getMerchantBalance() == null) {
-                    if (payType == 1){userMapper.updateMerchantBalance(KxPay.getUserId(), BigDecimal.ZERO.add(BigDecimal.valueOf(KxPay.getPriPaymoney())));}
-                    if (payType == 2){userMapper.updateFreightBalance(KxPay.getUserId(), BigDecimal.ZERO.add(BigDecimal.valueOf(KxPay.getPriPaymoney())));}
+                    if (payType == 1) {
+                        userMapper.updateMerchantBalance(KxPay.getUserId(), BigDecimal.ZERO.add(BigDecimal.valueOf(KxPay.getPriPaymoney())));
+                    }
+                    if (payType == 2) {
+                        userMapper.updateFreightBalance(KxPay.getUserId(), BigDecimal.ZERO.add(BigDecimal.valueOf(KxPay.getPriPaymoney())));
+                    }
                     super.getBaseMapper().updateById(KxPay);
                 } else {
-                    if (payType == 1){userMapper.updateMerchantBalance(KxPay.getUserId(), user.getMerchantBalance().add(BigDecimal.valueOf(KxPay.getPriPaymoney())));}
-                    if (payType == 2){userMapper.updateFreightBalance(KxPay.getUserId(), user.getFreightBalance().add(BigDecimal.valueOf(KxPay.getPriPaymoney())));}
+                    if (payType == 1) {
+                        userMapper.updateMerchantBalance(KxPay.getUserId(), user.getMerchantBalance().add(BigDecimal.valueOf(KxPay.getPriPaymoney())));
+                    }
+                    if (payType == 2) {
+                        userMapper.updateFreightBalance(KxPay.getUserId(), user.getFreightBalance().add(BigDecimal.valueOf(KxPay.getPriPaymoney())));
+                    }
                     super.getBaseMapper().updateById(KxPay);
                 }
             } else {
@@ -103,7 +113,26 @@ public class TSysKxPayServiceImpl extends ServiceImpl<TSysKxPayMapper, TSysKxPay
             }
 
         }
+        return KxPay;
     }
+
+    public void socketMsg( String orderNo, long userId, int payType,int payStatus) {
+            List<SocketIOClient> list1 = SocketUtil.getClientList(userId);
+            if (CollUtil.isNotEmpty(list1)) {
+                list1.forEach(
+                        item -> {
+                            Map<String, Object> info = new LinkedHashMap<>();
+                            info.put("orderNo", orderNo);
+                            info.put("userId", userId);
+                            info.put("payStatus",payStatus);
+                            info.put("payType",payType);
+                            info.put("Msg","支付信息");
+                            item.sendEvent("pay", JSON.toJSONString(info));
+                        }
+                );
+            }
+
+}
 
 }
 

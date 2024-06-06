@@ -200,6 +200,54 @@ public class MeiTuanUtil {
     }
 
     /**
+     * 1.商家接单后，如需主动发起部分退款，可调用此接口操作。
+     * 2.不支持调用此接口发起部分退款的情况有：订单未接单、订单已取消、超过退款发起时效、订单中当前仅有1件商品。
+     * 3.此接口不支持发起全部退流程，如商家需要退订单中当前全部商品，在支持商家主动取消订单的条件下，可调用接口【order/cancel 商家取消订单】操作取消订单。
+     * 4.如购买多件活动商品，其中部分享受优惠价，当发起部分退款时，此商品sku退款价格是优惠金额合计后进行等比分摊计算的结果。另外，订单维度的打包袋和配送费不参与均摊。
+     * 订单部分退款
+     * @param order_id
+     * @param reason
+     * @param food_data
+     * @return
+     */
+    public Result orderApplyPartRefund (String order_id, String reason , String food_data){
+        SystemParam systemParam = getSystemParam(order_id);
+        if (systemParam == null) {
+            return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR);
+        }
+        SgOpenResponse sgOpenResponse;
+        try {
+        OrderApplyPartRefundRequest request = new OrderApplyPartRefundRequest(systemParam);
+          String fund_data =   JSON.toJSONString(JSON.parseArray(food_data));
+          log.info(fund_data);
+        request.setOrder_id(order_id);
+        request.setReason("因"+reason+"原因部分退款");
+        request.setFood_data(fund_data);
+            sgOpenResponse = request.doRequest();
+        } catch (SgOpenException e) {
+            e.printStackTrace();
+            return Result.build(HttpStatus.OK, ResultStatus.SERVER_ERROR);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.build(HttpStatus.OK, ResultStatus.SERVER_ERROR);
+        }
+        //发起请求时的sig，用来联系美团员工排查问题时使用
+        String requestSig = sgOpenResponse.getRequestSig();
+
+        System.out.println(requestSig);
+        //请求返回的结果，按照官网的接口文档自行解析即可
+        String requestResult = sgOpenResponse.getRequestResult();
+
+        JSONObject json =JSON.parseObject(requestResult);
+        String data= json.getString("data");
+        if (data.equals("ng")){
+            String error_msg = json.getJSONObject("error").getString("msg");
+            return Result.build(HttpStatus.OK, ResultStatus.REQUEST_ERROR, error_msg);
+        }
+        return Result.build(HttpStatus.OK, ResultStatus.REQUEST_SUCCESS, requestResult);
+    }
+
+    /**
      * 订单确认退款请求
      * 当商家收到用户发起的部分或全额退款申请，如商家同意退款，可调用此接口操作确认退款申请
      * 注意：部分退款成功后不影响订单当前的订单状态；全额退款成功后，订单状态会变更为“订单已取消”(status=9)。
@@ -334,7 +382,13 @@ public class MeiTuanUtil {
                 //请求返回的结果，按照官网的接口文档自行解析即可
                 String requestResult = sgOpenResponse.getRequestResult();
                 System.out.println(requestResult);
-                return Result.build(HttpStatus.OK, ResultStatus.REQUEST_SUCCESS, requestResult);
+                JSONObject jsonObject = JSONObject.parseObject(requestResult);
+                if (jsonObject.getString("data").equals("ng")) {
+                    return Result.build(HttpStatus.OK, ResultStatus.REQUEST_SUCCESS, jsonObject.getJSONArray("error_list").getJSONObject(0).getString("msg"));
+                } else {
+                    return Result.build(HttpStatus.OK, ResultStatus.REQUEST_SUCCESS, jsonObject.getString("message"));
+                }
+
             }
         }
         return Result.build(HttpStatus.OK, ResultStatus.BIND_ERROR, "未知错误");

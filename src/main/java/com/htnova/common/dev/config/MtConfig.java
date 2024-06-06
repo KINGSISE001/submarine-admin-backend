@@ -9,8 +9,8 @@ public class MtConfig {
     private String mtkey;
 
     public MtConfig() {
-        this.mtappid = "125564";
-        this.mtkey = "c72c1d81a14417345e6908ae87fe621b";
+        this.mtappid = "5430";
+        this.mtkey = "bb971f25af7ce4d9a832d7a4500306dd";
     }
 
     public String getMtappid() {

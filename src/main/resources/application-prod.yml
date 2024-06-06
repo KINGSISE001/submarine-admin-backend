@@ -3,25 +3,30 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       username: root
-      password: 123456
-      url: jdbc:mysql://127.0.0.1:3306/submarine?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&useSSL=false&nullCatalogMeansCurrent=true
-      driverClassName: com.mysql.cj.jdbc.Driver
+      password: 93bed72517ff68bf
+      #93bed72517ff68bf
+      # 101.200.33.145  //  serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&useSSL=false&nullCatalogMeansCurrent=true
+      url: jdbc:p6spy:mysql://127.0.0.1:6603/submarine?useUnicode=true&characterEncoding=UTF-8&useSSL=false&nullCatalogMeansCurrent=true
+      driverClassName: com.p6spy.engine.spy.P6SpyDriver
       validationQuery: SELECT 1
       testWhileIdle: true
       stat-view-servlet:
-        # 默认true 内置监控页面首页/druid/index.html
+        # 默认true 内置监控页面首页 http://localhost:19687/api/druid/login.html
         enabled: true
         url-pattern: /druid/*
         # 允许清空统计数据
         reset-enable: true
         login-username: root
         login-password: 123456
+      filters: stat
+  # 开发环境session持久化，方便开发，生产环境自行决定是否持久化
   session:
     store-type: redis
     timeout: 10H
     redis:
       flush-mode: on_save
       namespace: springboot-session
+
   redis:
     database: 5
     host: 127.0.0.1
@@ -30,17 +35,23 @@ spring:
     lettuce:
       pool:
         max-active: 8
+dev:
+  validator:
+    enable: true
+  # 26843883  JW53DmDe1W  ,  37439618  jlbxvCiMUG (沙盒)
+ele:
+  info:
+    appkey: 37439618
+    secKey: jlbxvCiMUG
 
 
 
 upload:
   type: local
-  oss:
-    namespace: xxxx # 上传到某一个文件夹
-    endpoint: xxxx
-    viewEndpoint: xxxx
-    accessKeyId: xxxx
-    accessKeySecret: xxxx
-    bucketName: xxxx
   local:
     path: ./src/main/resources/public/
+
+pay:
+  doMainUrl: http://api2.lfwin.com
+  apikey: 18742301
+  signkey: 38874674

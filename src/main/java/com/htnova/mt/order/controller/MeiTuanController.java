@@ -136,7 +136,29 @@ public class MeiTuanController {
     ) {
         return mt.orderCancel(orderId, reason_code, reason);
     }
+    @ApiOperation(value = "商家主动发起部分退款", notes = "接口说明：\n" +
+            "1.商家接单后，如需主动发起部分退款，可调用此接口操作。\n" +
+            "\n" +
+            "2.不支持调用此接口发起部分退款的情况有：订单未接单、订单已取消、超过退款发起时效、订单中当前仅有1件商品。\n" +
+            "\n" +
+            "3.此接口不支持发起全部退流程，如商家需要退订单中当前全部商品，在支持商家主动取消订单的条件下，可调用接口【order/cancel 商家取消订单】操作取消订单。\n" +
+            "\n" +
+            "4.如购买多件活动商品，其中部分享受优惠价，当发起部分退款时，此商品sku退款价格是优惠金额合计后进行等比分摊计算的结果。另外，订单维度的打包袋和配送费不参与均摊。")
 
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "orderId", value = "订单id", required = true, dataTypeClass = String.class),
+            @ApiImplicitParam(name = "food_data", value = "部分退款商品数据集合的json格式数组([{\"app_food_code\":\"354654\",\"sku_id\":\"424w32t4e3t5\",\"count\":1,\"item_id\":\"\"}])", dataTypeClass = String.class),
+            @ApiImplicitParam(name = "reason", value = "取消原因", dataTypeClass = String.class)
+    })
+    @PostMapping("/orderApplyPartRefund")
+    @ResponseBody
+    public Result getOrderApplyPartRefund(
+            @RequestParam(value = "orderId") String orderId,
+            @RequestParam(value = "reason") String reason,
+            @RequestParam(value = "food_data") String food_data
+    ) {
+        return mt.orderApplyPartRefund(orderId,reason ,food_data);
+    }
 
     @GetMapping("/orderRefundAgree")
     @ApiOperation(value = "订单确认退款请求", notes = "接口说明：\n" +
@@ -353,6 +375,7 @@ public class MeiTuanController {
 
         String httpSessionId = SocketUtil.getHttpSessionId2(request.getHeader("SESSION"));
         if (!Strings.isNullOrEmpty(httpSessionId)){
+
             AuthUser authUser = SpringContextUtil.getAuthUser(httpSessionId);
             if (authUser != null) {
                 log.info("-----------------{}--客户充值---------------------", authUser.getId());
@@ -401,5 +424,47 @@ public class MeiTuanController {
         }
         return Result.build(ResultStatus.SERVER_ERROR);
     }
+
+
+
+    /** 获取充值状态 */
+    @GetMapping("/getPayStatus")
+    @ApiOperation(value = "获取充值状态", notes = "获取充值状态\n\r 请求头需携带SESSION" +
+            "\n\r //支付状态：1 支付成功 ，0待付款，2付款失败")
+    @ApiImplicitParams({
+                @ApiImplicitParam(name = "payType", value = "充值类型", required =true, dataTypeClass = Integer.class),
+                @ApiImplicitParam(name = "orderNo", value = "支付订单号", required =true, dataTypeClass = String.class)
+                }
+    )
+    @ResponseBody
+    public Result getPayStatus( HttpServletRequest request ,
+                                @RequestParam(value = "orderNo") String orderNo,
+                                @RequestParam(value = "payType") int payType) {
+        String httpSessionId = SocketUtil.getHttpSessionId2(request.getHeader("SESSION"));
+        if (!Strings.isNullOrEmpty(httpSessionId)){
+            AuthUser authUser = SpringContextUtil.getAuthUser(httpSessionId);
+            if (authUser != null) {
+                log.info("-----------------{}--客户获取充值状态---------------------", authUser.getId());
+                TSysKxPay status= PayService.getPayStatus(orderNo,authUser.getId(),payType);
+                if (status!= null) {
+                    Map<String, Object> info = new HashMap<>();
+                    info.put("orderNo", orderNo);
+                    info.put("userId", authUser.getId());
+                    info.put("payStatus",status);
+                    info.put("payType",payType);
+                    info.put("Msg","支付信息");
+                    return Result.build(ResultStatus.REQUEST_SUCCESS,info);
+                }
+            }
+        }
+        Map<String, Object> info = new HashMap<>();
+        info.put("orderNo", orderNo);
+        info.put("userId", "");
+        info.put("payStatus","99");
+        info.put("payType",payType);
+        info.put("Msg","支付已超时");
+        return Result.build(HttpStatus.OK,ResultStatus.REQUEST_SUCCESS,info);
+    }
+
 
 }

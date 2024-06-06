@@ -34,4 +34,6 @@ public interface OrderService  {
     List<Completedorder> findOrderInfoByPoiCodeAndStatus(String poi ,String appEleCode, String status);
     List<Map<String, Object>> findSummaryTodayRevenueOrderAmountAndNumber(String poi,String appEleCode, String status);
 
+    int updateRefundStatus (String refundStatus, String total_refund_price, int count_refund ,String orderId, String skuId);
+
 }

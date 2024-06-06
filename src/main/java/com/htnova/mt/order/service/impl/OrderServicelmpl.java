@@ -171,9 +171,11 @@ public class OrderServicelmpl implements OrderService {
         String startTime = today.get(0);
         String endTime = today.get(1);
         return completedorderMapper.findSummaryTodayRevenueOrderAmountAndNumber(poi,appEleCode, startTime, endTime, status);
-
-
     }
 
+    @Override
+    public int updateRefundStatus(String refundStatus, String total_refund_price, int count_refund, String orderId, String skuId) {
+        return detailMapper.updateRefundStatus(refundStatus, total_refund_price, count_refund, orderId, skuId);
+    }
 
 }

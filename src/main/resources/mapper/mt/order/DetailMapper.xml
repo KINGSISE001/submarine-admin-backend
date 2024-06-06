@@ -25,12 +25,16 @@
     <result column="weight" property="weight" jdbcType="VARCHAR" />
     <result column="weight_for_unit" property="weightForUnit" jdbcType="VARCHAR" />
     <result column="weight_unit" property="weightUnit" jdbcType="VARCHAR" />
+    <result column="if_refund" property="ifRefund" jdbcType="INTEGER" />
+    <result column="total_refund_price" property="totalRefundPrice" jdbcType="VARCHAR" />
+    <result column="count_refund" property="countRefund" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     order_id, actual_price, app_food_code, app_medicine_code, box_num, box_price, detail_extra,
     food_discount, food_name, food_property, mt_sku_id, mt_spu_id, mt_tag_id, original_price,
-    price, quantity, sku_id, spec, unit, upc, weight, weight_for_unit, weight_unit
+    price, quantity, sku_id, spec, unit, upc, weight, weight_for_unit, weight_unit,if_refund,total_refund_price,count_refund
   </sql>
+
 
   <insert id="insertDetail"  parameterType="java.util.List" useGeneratedKeys="false">
   insert into detail (
@@ -60,7 +64,10 @@
 #{it.upc},
 #{it.weight},
 #{it.weightForUnit},
-#{it.weightUnit}
+#{it.weightUnit},
+#{it.ifRefund},
+#{it.totalRefundPrice},
+#{it.countRefund}
 )
 </foreach>
  </insert>

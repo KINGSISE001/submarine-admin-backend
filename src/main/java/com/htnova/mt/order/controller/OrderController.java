@@ -298,6 +298,110 @@ public class OrderController {
         }
     }
 
+    //
+    /*
+     * 订单部分退款信息
+     * OrderRefundDetail
+     * produces = MediaType.APPLICATION_JSON_VALUE,@RequestBody String string,
+     */
+    @ApiIgnore
+    @ApiOperation(value = "订单部分退款信息接收")
+    @PostMapping(value = "/PartialRefund")
+    @ResponseBody
+    public GlobalResult PartialRefund(HttpServletRequest request) throws Exception {
+        Map<Object, Object> map = objectObjectMap(request);
+        if (map.size() == 0) {
+            System.err.println("Refund:TEST!");
+            return GlobalResult.ok("ok");
+        }
+        /*
+          {"reason":"不想要了 / 临时有事","incmp_code":"0","order_tag_list":"[]","is_appeal":"0","refund_id":"65295873034","pictures":"","res_type":"6","reason_code":"21111","sig":"f0c8c6aec3d7e49142846010dc0632a3","notify_type":"apply","app_poi_code":"5430_2701469","service_type":"0","res_reason":"商家开通极速退款服务，用户申请系统自动通过","ctime":"1702277776","incmp_modules":"[]","order_id":"2100849052260077854","app_id":"5430","timestamp":"1702277777"}
+         */
+        Long OrderId = Long.parseLong(map.get("order_id").toString());
+        String app_poi_code = map.get("app_poi_code").toString();
+        String food = map.get("food").toString();
+        log.info("food:" + food);
+        Completedorder completedorder = new Completedorder();
+        completedorder.setAppPoiCode(app_poi_code);
+        completedorder.setOrderId(OrderId);
+        String reason;
+        /*
+          退款状态类型，参考值：0-等待处理中；1-商家驳回退款请求；2-商家同意退款；3-客服驳回退款请求；
+          4-客服帮商家同意退款；5-超时未处理系统自动同意；6-系统自动确认；7-用户取消退款申请；8-用户取消退款申诉。
+          支持退货退款业务的门店，订单退款消息中notify_type和res_type字段不返回，
+          退款状态类型请参考status字段。未开通退货退款业务的门店，订单退款保持原逻辑不变
+         */
+        log.info("退款状态类型：" + map.get("res_type"));
+        int res_type = Integer.parseInt((String)map.get("res_type") ) ;
+        switch (res_type) {
+            case 0:
+                reason = "等待处理中";
+                orderService.updateStatus(OrderId, String.valueOf(ResultStatus.TUI_DAN.getCode()));
+                break;
+            case 1:
+                reason = "商家驳回退款请求";
+                updateRefundStatus("0",food,OrderId);
+                orderService.updateStatus(OrderId, String.valueOf(ResultStatus.QUE_DING_ORDER.getCode()));
+                break;
+            case 2:
+                reason = "商家同意退款";
+                updateRefundStatus("1",food,OrderId);
+                orderService.updateStatus(OrderId, String.valueOf(ResultStatus.QU_XIAO_ORDER.getCode()));
+                break;
+            case 3:
+                reason = "客服驳回退款请求";
+                updateRefundStatus("0",food,OrderId);
+                orderService.updateStatus(OrderId, String.valueOf(ResultStatus.QUE_DING_ORDER.getCode()));
+                break;
+            case 4:
+                reason = "客服帮商家同意退款";
+                orderService.updateStatus(OrderId, String.valueOf(ResultStatus.YI_QU_XIAO_ORDER.getCode()));
+                updateRefundStatus("1",food,OrderId);
+                break;
+            case 5:
+                reason = "超时未处理系统自动同意";
+                orderService.updateStatus(OrderId, String.valueOf(ResultStatus.YI_QU_XIAO_ORDER.getCode()));
+                updateRefundStatus("1",food,OrderId);
+                break;
+            case 6:
+                reason = "系统自动确认";
+                orderService.updateStatus(OrderId, String.valueOf(ResultStatus.YI_QU_XIAO_ORDER.getCode()));
+                updateRefundStatus("1",food,OrderId);
+                break;
+            case 7:
+                reason = "用户取消退款申请";
+                orderService.updateStatus(OrderId, String.valueOf(ResultStatus.QUE_DING_ORDER.getCode()));
+                updateRefundStatus("0",food,OrderId);
+                break;
+            case 8:
+                reason = "用户取消退款申诉";
+                orderService.updateStatus(OrderId, String.valueOf(ResultStatus.QUE_DING_ORDER.getCode()));
+                updateRefundStatus("0",food,OrderId);
+                break;
+            default:
+                reason = "未知";
+        }
+        reason = reason + "(" + map.get("reason").toString() + ")";
+        logListStatus(completedorder, ResultStatus.TUI_KUAN, reason);
+        return GlobalResult.ok("ok");
+    }
+
+
+    public void updateRefundStatus (String refundStatus,String food,Long orderId){
+        JSONArray foods=JSONArray.parseArray(food);
+        if (CollUtil.isNotEmpty(foods)) {
+            for (int i = 0; i < foods.size(); i++) {
+                JSONObject food1 = foods.getJSONObject(i);
+                String mt_sku_id = food1.getString("mt_sku_id");
+                String count=food1.getString("count");
+                String total_refund_price=food1.getString("total_refund_price");
+                orderService.updateRefundStatus( refundStatus,total_refund_price,Integer.parseInt(count), String.valueOf(orderId),mt_sku_id);
+            }
+        }
+
+
+    };
+
     /*
      * 订单退款信息
      * OrderRefundDetail

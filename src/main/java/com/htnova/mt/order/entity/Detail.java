@@ -62,5 +62,10 @@ public class Detail {
 
     private String weightUnit;
 
+    private int ifRefund;
+
+    private String totalRefundPrice;
+
+    private String countRefund;
 
 }

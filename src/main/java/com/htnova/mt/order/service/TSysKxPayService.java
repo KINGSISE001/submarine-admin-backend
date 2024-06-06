@@ -1,7 +1,7 @@
 package com.htnova.mt.order.service;
 
-import com.htnova.mt.order.entity.TSysKxPay;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.htnova.mt.order.entity.TSysKxPay;
 
 /**
 * @author RISE
@@ -9,5 +9,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 * @createDate 2023-12-21 16:30:00
 */
 public interface TSysKxPayService extends IService<TSysKxPay> {
+
+    public TSysKxPay getPayStatus(String orderNo, long userId, int payType);
 
 }

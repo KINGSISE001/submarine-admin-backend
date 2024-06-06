@@ -1,7 +1,6 @@
 package com.htnova.system.manage.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
@@ -10,19 +9,13 @@ import com.corundumstudio.socketio.annotation.OnDisconnect;
 import com.corundumstudio.socketio.annotation.OnEvent;
 import com.htnova.common.util.SocketUtil;
 import com.htnova.common.util.SpringContextUtil;
-import com.htnova.mt.order.service.OrderLogListService;
-import com.htnova.mt.order.service.OrderService;
 import com.htnova.security.entity.AuthUser;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import javax.annotation.Resource;
 
 @Slf4j
 @Controller
@@ -33,6 +26,11 @@ public class SocketController {
 
     // 监听前端的事件
 
+
+    @OnEvent(value = "pay")
+    public void onEvent3(SocketIOClient client, AckRequest ackRequest, String msg) {
+
+    }
 
 
     @OnEvent(value = "welcome")
