@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.htnova.mt.order.mapper.ShopMapper">
+    <sql id="SelectColumns">
+		a.id as `id`,
+		a.bma as `bma`,
+		a.mcheng as `mcheng`,
+		a.lbei as `lbei`,
+		a.hye as `hye`,
+		a.lxing as `lxing`,
+		a.dqu as `dqu`,
+		a.sheng as `sheng`,
+		a.city as `city`,
+		a.dhua as `dhua`,
+		a.ztai as `ztai`,
+		a.yyren as `yyren`,
+		a.xsren as `xsren`,
+		a.xsren1 as `xsren1`,
+		a.zwent_id as `zwentId`,
+		a.s_shop_id as `sShopId`,
+		a.yyflv as `yyflv`,
+		a.cf_lxing as `cfLxing`,
+		a.cfjia as `cfjia`,
+		a.sfjia as `sfjia`,
+		a.bzhu as `bzhu`,
+		a.fz_ztai as `fzZtai`,
+		a.fz_yyflv as `fzYyflv`,
+		a.fz_begintime as `fzBegintime`,
+		a.fz_endtime as `fzEndtime`,
+		a.t_mcheng as `tMcheng`,
+		a.ch_id as `chId`,
+		a.qdao as `qdao`,
+		a.bzhi as `bzhi`,
+		a.appname as `appname`,
+		a.fy_yyf_lxing as `fyYyfLxing`,
+		a.fy_yyfflv as `fyYyfflv`,
+		a.fy_cf_lxing as `fyCfLxing`,
+		a.fy_cfflv as `fyCfflv`,
+		a.fy_sfflv as `fySfflv`
+    </sql>
+
+    <!--列表查询-->
+    <sql id="findList">
+        SELECT
+            <include refid="SelectColumns"/>
+        FROM shop a WHERE a.del_flag = #{shopDto.delFlag}
+            
+		<if test="shopDto.id != null">
+			AND a.id = #{shopDto.id}
+		</if>
+		<if test="shopDto.bma != null and shopDto.bma != ''">
+			AND a.bma = #{shopDto.bma}
+		</if>
+		<if test="shopDto.mcheng != null and shopDto.mcheng != ''">
+			AND a.mcheng = #{shopDto.mcheng}
+		</if>
+		<if test="shopDto.lbei != null and shopDto.lbei != ''">
+			AND a.lbei = #{shopDto.lbei}
+		</if>
+		<if test="shopDto.hye != null and shopDto.hye != ''">
+			AND a.hye = #{shopDto.hye}
+		</if>
+		<if test="shopDto.lxing != null and shopDto.lxing != ''">
+			AND a.lxing = #{shopDto.lxing}
+		</if>
+		<if test="shopDto.dqu != null and shopDto.dqu != ''">
+			AND a.dqu = #{shopDto.dqu}
+		</if>
+		<if test="shopDto.sheng != null and shopDto.sheng != ''">
+			AND a.sheng = #{shopDto.sheng}
+		</if>
+		<if test="shopDto.city != null and shopDto.city != ''">
+			AND a.city = #{shopDto.city}
+		</if>
+		<if test="shopDto.dhua != null and shopDto.dhua != ''">
+			AND a.dhua = #{shopDto.dhua}
+		</if>
+		<if test="shopDto.ztai != null">
+			AND a.ztai = #{shopDto.ztai}
+		</if>
+		<if test="shopDto.yyren != null and shopDto.yyren != ''">
+			AND a.yyren = #{shopDto.yyren}
+		</if>
+		<if test="shopDto.xsren != null and shopDto.xsren != ''">
+			AND a.xsren = #{shopDto.xsren}
+		</if>
+		<if test="shopDto.xsren1 != null and shopDto.xsren1 != ''">
+			AND a.xsren1 = #{shopDto.xsren1}
+		</if>
+		<if test="shopDto.zwentId != null and shopDto.zwentId != ''">
+			AND a.zwent_id = #{shopDto.zwentId}
+		</if>
+		<if test="shopDto.sShopId != null">
+			AND a.s_shop_id = #{shopDto.sShopId}
+		</if>
+		<if test="shopDto.yyflv != null">
+			AND a.yyflv = #{shopDto.yyflv}
+		</if>
+		<if test="shopDto.cfLxing != null">
+			AND a.cf_lxing = #{shopDto.cfLxing}
+		</if>
+		<if test="shopDto.cfjia != null">
+			AND a.cfjia = #{shopDto.cfjia}
+		</if>
+		<if test="shopDto.sfjia != null">
+			AND a.sfjia = #{shopDto.sfjia}
+		</if>
+		<if test="shopDto.bzhu != null and shopDto.bzhu != ''">
+			AND a.bzhu = #{shopDto.bzhu}
+		</if>
+		<if test="shopDto.fzZtai != null">
+			AND a.fz_ztai = #{shopDto.fzZtai}
+		</if>
+		<if test="shopDto.fzYyflv != null">
+			AND a.fz_yyflv = #{shopDto.fzYyflv}
+		</if>
+		<if test="shopDto.fzBegintime != null">
+			AND a.fz_begintime = #{shopDto.fzBegintime}
+		</if>
+		<if test="shopDto.fzEndtime != null">
+			AND a.fz_endtime = #{shopDto.fzEndtime}
+		</if>
+		<if test="shopDto.tMcheng != null and shopDto.tMcheng != ''">
+			AND a.t_mcheng = #{shopDto.tMcheng}
+		</if>
+		<if test="shopDto.chId != null and shopDto.chId != ''">
+			AND a.ch_id = #{shopDto.chId}
+		</if>
+		<if test="shopDto.qdao != null and shopDto.qdao != ''">
+			AND a.qdao = #{shopDto.qdao}
+		</if>
+		<if test="shopDto.bzhi != null">
+			AND a.bzhi = #{shopDto.bzhi}
+		</if>
+		<if test="shopDto.appname != null and shopDto.appname != ''">
+			AND a.appname = #{shopDto.appname}
+		</if>
+		<if test="shopDto.fyYyfLxing != null">
+			AND a.fy_yyf_lxing = #{shopDto.fyYyfLxing}
+		</if>
+		<if test="shopDto.fyYyfflv != null">
+			AND a.fy_yyfflv = #{shopDto.fyYyfflv}
+		</if>
+		<if test="shopDto.fyCfLxing != null">
+			AND a.fy_cf_lxing = #{shopDto.fyCfLxing}
+		</if>
+		<if test="shopDto.fyCfflv != null">
+			AND a.fy_cfflv = #{shopDto.fyCfflv}
+		</if>
+		<if test="shopDto.fySfflv != null">
+			AND a.fy_sfflv = #{shopDto.fySfflv}
+		</if>
+    </sql>
+
+    <!--分页查询-->
+    <select id="findPage" resultType="Shop">
+        <include refid="findList"/>
+    </select>
+
+    <!--列表查询-->
+    <select id="findList" resultType="Shop">
+        <include refid="findList"/>
+    </select>
+
+</mapper>
