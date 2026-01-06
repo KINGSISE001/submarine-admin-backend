@@ -30,7 +30,7 @@ public class SwaggerConfig {
             .paths(PathSelectors.any())
             .build();
     }
-
+//http://127.0.0.1:19687/api/swagger-ui.html#/
     private ApiInfo apiInfo() {
         Contact contact = new Contact("测试项目", "http://dd.91ikang.com", "949092641@qq.com");
         return new ApiInfo(

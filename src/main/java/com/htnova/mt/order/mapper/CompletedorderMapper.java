@@ -1,6 +1,8 @@
 package com.htnova.mt.order.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.htnova.mt.order.dto.CompletedOrderDto;
 import com.htnova.mt.order.entity.Completedorder;
 import com.htnova.mt.order.entity.OrderStatus;
 import org.apache.ibatis.annotations.Mapper;
@@ -45,5 +47,9 @@ public interface CompletedorderMapper extends BaseMapper<Completedorder> {
                                                                         @Param("end_time") String end_time,
                                                                         @Param("status") String status
     );
+
+    IPage<Completedorder> findPage(IPage<Void> xPage, @Param("completedOrderDto") CompletedOrderDto completedOrderDto);
+
+    List<Completedorder> findList(@Param("completedOrderDto") CompletedOrderDto completedOrderDto);
 
 }

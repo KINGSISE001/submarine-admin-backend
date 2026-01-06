@@ -442,4 +442,298 @@
       order_phone_number = #{orderPhoneNumber,jdbcType=VARCHAR}
     where order_id = #{orderId,jdbcType=BIGINT}
   </update>
+    <sql id="SelectColumns">
+        a.id as `id`,
+		a.order_id as `orderId`,
+		a.order_tag_list as `orderTagList`,
+		a.wm_order_id_view as `wmOrderIdView`,
+		a.app_poi_code as `appPoiCode`,
+		a.wm_poi_name as `wmPoiName`,
+		a.wm_poi_address as `wmPoiAddress`,
+		a.wm_poi_phone as `wmPoiPhone`,
+		a.recipient_address as `recipientAddress`,
+		a.recipient_address_detail as `recipientAddressDetail`,
+		a.recipient_phone as `recipientPhone`,
+		a.backup_recipient_phone as `backupRecipientPhone`,
+		a.recipient_name as `recipientName`,
+		a.shipping_fee as `shippingFee`,
+		a.total as `total`,
+		a.original_price as `originalPrice`,
+		a.caution as `caution`,
+		a.shipper_phone as `shipperPhone`,
+		a.status as `status`,
+		a.city_id as `cityId`,
+		a.has_invoiced as `hasInvoiced`,
+		a.invoice_title as `invoiceTitle`,
+		a.taxpayer_id as `taxpayerId`,
+		a.ctime as `ctime`,
+		a.utime as `utime`,
+		a.delivery_time as `deliveryTime`,
+		a.is_third_shipping as `isThirdShipping`,
+		a.pay_type as `payType`,
+		a.pick_type as `pickType`,
+		a.latitude as `latitude`,
+		a.longitude as `longitude`,
+		a.day_seq as `daySeq`,
+		a.is_favorites as `isFavorites`,
+		a.is_poi_first_order as `isPoiFirstOrder`,
+		a.is_pre_sale_order as `isPreSaleOrder`,
+		a.dinners_number as `dinnersNumber`,
+		a.logistics_code as `logisticsCode`,
+		a.poi_receive_detail as `poiReceiveDetail`,
+		a.detail as `detail`,
+		a.extras as `extras`,
+		a.sku_benefit_detail as `skuBenefitDetail`,
+		a.user_member_info as `userMemberInfo`,
+		a.avg_send_time as `avgSendTime`,
+		a.package_bag_money as `packageBagMoney`,
+		a.estimate_arrival_time as `estimateArrivalTime`,
+		a.package_bag_money_yuan as `packageBagMoneyYuan`,
+		a.poi_receive_detail_yuan as `poiReceiveDetailYuan`,
+		a.total_weight as `totalWeight`,
+		a.incmp_code as `incmpCode`,
+		a.incmp_modules as `incmpModules`,
+		a.order_phone_number as `orderPhoneNumber`,
+		a.date as `date`,
+		a.timemillis as `timemillis`,
+		a.picking_completed as `pickingCompleted`,
+		a.je as `je`,
+		a.tkje as `tkje`,
+		a.cf_je as `cfJe`,
+		a.yyflv as `yyflv`,
+		a.yyf_je as `yyfJe`,
+		a.zji as `zji`,
+		a.fzje as `fzje`,
+		a.skje as `skje`,
+		a.tzje as `tzje`,
+		a.ch_id as `chId`,
+		a.ch_fy_cf as `chFyCf`,
+		a.ch_fy_yyf as `chFyYyf`,
+		a.ch_zji as `chZji`,
+		a.ch_tzje as `chTzje`
+    </sql>
+
+    <!--列表查询-->
+    <sql id="findList">
+        SELECT
+        <include refid="SelectColumns"/>
+        FROM completedorder a WHERE a.del_flag = #{completedOrderDto.delFlag}
+
+        <if test="completedOrderDto.id != null">
+            AND a.id = #{completedOrderDto.id}
+        </if>
+        <if test="completedOrderDto.orderId != null">
+            AND a.order_id = #{completedOrderDto.orderId}
+        </if>
+        <if test="completedOrderDto.orderTagList != null and completedOrderDto.orderTagList != ''">
+            AND a.order_tag_list = #{completedOrderDto.orderTagList}
+        </if>
+        <if test="completedOrderDto.wmOrderIdView != null">
+            AND a.wm_order_id_view = #{completedOrderDto.wmOrderIdView}
+        </if>
+        <if test="completedOrderDto.appPoiCode != null and completedOrderDto.appPoiCode != ''">
+            AND a.app_poi_code = #{completedOrderDto.appPoiCode}
+        </if>
+        <if test="completedOrderDto.wmPoiName != null and completedOrderDto.wmPoiName != ''">
+            AND a.wm_poi_name = #{completedOrderDto.wmPoiName}
+        </if>
+        <if test="completedOrderDto.wmPoiAddress != null and completedOrderDto.wmPoiAddress != ''">
+            AND a.wm_poi_address = #{completedOrderDto.wmPoiAddress}
+        </if>
+        <if test="completedOrderDto.wmPoiPhone != null and completedOrderDto.wmPoiPhone != ''">
+            AND a.wm_poi_phone = #{completedOrderDto.wmPoiPhone}
+        </if>
+        <if test="completedOrderDto.recipientAddress != null and completedOrderDto.recipientAddress != ''">
+            AND a.recipient_address = #{completedOrderDto.recipientAddress}
+        </if>
+        <if test="completedOrderDto.recipientAddressDetail != null and completedOrderDto.recipientAddressDetail != ''">
+            AND a.recipient_address_detail = #{completedOrderDto.recipientAddressDetail}
+        </if>
+        <if test="completedOrderDto.recipientPhone != null and completedOrderDto.recipientPhone != ''">
+            AND a.recipient_phone = #{completedOrderDto.recipientPhone}
+        </if>
+        <if test="completedOrderDto.backupRecipientPhone != null and completedOrderDto.backupRecipientPhone != ''">
+            AND a.backup_recipient_phone = #{completedOrderDto.backupRecipientPhone}
+        </if>
+        <if test="completedOrderDto.recipientName != null and completedOrderDto.recipientName != ''">
+            AND a.recipient_name = #{completedOrderDto.recipientName}
+        </if>
+        <if test="completedOrderDto.shippingFee != null">
+            AND a.shipping_fee = #{completedOrderDto.shippingFee}
+        </if>
+        <if test="completedOrderDto.total != null">
+            AND a.total = #{completedOrderDto.total}
+        </if>
+        <if test="completedOrderDto.originalPrice != null">
+            AND a.original_price = #{completedOrderDto.originalPrice}
+        </if>
+        <if test="completedOrderDto.caution != null and completedOrderDto.caution != ''">
+            AND a.caution = #{completedOrderDto.caution}
+        </if>
+        <if test="completedOrderDto.shipperPhone != null and completedOrderDto.shipperPhone != ''">
+            AND a.shipper_phone = #{completedOrderDto.shipperPhone}
+        </if>
+        <if test="completedOrderDto.status != null and completedOrderDto.status != ''">
+            AND a.status = #{completedOrderDto.status}
+        </if>
+        <if test="completedOrderDto.cityId != null">
+            AND a.city_id = #{completedOrderDto.cityId}
+        </if>
+        <if test="completedOrderDto.hasInvoiced != null">
+            AND a.has_invoiced = #{completedOrderDto.hasInvoiced}
+        </if>
+        <if test="completedOrderDto.invoiceTitle != null and completedOrderDto.invoiceTitle != ''">
+            AND a.invoice_title = #{completedOrderDto.invoiceTitle}
+        </if>
+        <if test="completedOrderDto.taxpayerId != null and completedOrderDto.taxpayerId != ''">
+            AND a.taxpayer_id = #{completedOrderDto.taxpayerId}
+        </if>
+        <if test="completedOrderDto.ctime != null and completedOrderDto.ctime != ''">
+            AND a.ctime = #{completedOrderDto.ctime}
+        </if>
+        <if test="completedOrderDto.utime != null and completedOrderDto.utime != ''">
+            AND a.utime = #{completedOrderDto.utime}
+        </if>
+        <if test="completedOrderDto.deliveryTime != null and completedOrderDto.deliveryTime != ''">
+            AND a.delivery_time = #{completedOrderDto.deliveryTime}
+        </if>
+        <if test="completedOrderDto.isThirdShipping != null">
+            AND a.is_third_shipping = #{completedOrderDto.isThirdShipping}
+        </if>
+        <if test="completedOrderDto.payType != null">
+            AND a.pay_type = #{completedOrderDto.payType}
+        </if>
+        <if test="completedOrderDto.pickType != null">
+            AND a.pick_type = #{completedOrderDto.pickType}
+        </if>
+        <if test="completedOrderDto.latitude != null and completedOrderDto.latitude != ''">
+            AND a.latitude = #{completedOrderDto.latitude}
+        </if>
+        <if test="completedOrderDto.longitude != null and completedOrderDto.longitude != ''">
+            AND a.longitude = #{completedOrderDto.longitude}
+        </if>
+        <if test="completedOrderDto.daySeq != null">
+            AND a.day_seq = #{completedOrderDto.daySeq}
+        </if>
+        <if test="completedOrderDto.isFavorites != null and completedOrderDto.isFavorites != ''">
+            AND a.is_favorites = #{completedOrderDto.isFavorites}
+        </if>
+        <if test="completedOrderDto.isPoiFirstOrder != null and completedOrderDto.isPoiFirstOrder != ''">
+            AND a.is_poi_first_order = #{completedOrderDto.isPoiFirstOrder}
+        </if>
+        <if test="completedOrderDto.isPreSaleOrder != null and completedOrderDto.isPreSaleOrder != ''">
+            AND a.is_pre_sale_order = #{completedOrderDto.isPreSaleOrder}
+        </if>
+        <if test="completedOrderDto.dinnersNumber != null">
+            AND a.dinners_number = #{completedOrderDto.dinnersNumber}
+        </if>
+        <if test="completedOrderDto.logisticsCode != null and completedOrderDto.logisticsCode != ''">
+            AND a.logistics_code = #{completedOrderDto.logisticsCode}
+        </if>
+        <if test="completedOrderDto.poiReceiveDetail != null and completedOrderDto.poiReceiveDetail != ''">
+            AND a.poi_receive_detail = #{completedOrderDto.poiReceiveDetail}
+        </if>
+        <if test="completedOrderDto.detail != null and completedOrderDto.detail != ''">
+            AND a.detail = #{completedOrderDto.detail}
+        </if>
+        <if test="completedOrderDto.extras != null and completedOrderDto.extras != ''">
+            AND a.extras = #{completedOrderDto.extras}
+        </if>
+        <if test="completedOrderDto.skuBenefitDetail != null and completedOrderDto.skuBenefitDetail != ''">
+            AND a.sku_benefit_detail = #{completedOrderDto.skuBenefitDetail}
+        </if>
+        <if test="completedOrderDto.userMemberInfo != null and completedOrderDto.userMemberInfo != ''">
+            AND a.user_member_info = #{completedOrderDto.userMemberInfo}
+        </if>
+        <if test="completedOrderDto.avgSendTime != null and completedOrderDto.avgSendTime != ''">
+            AND a.avg_send_time = #{completedOrderDto.avgSendTime}
+        </if>
+        <if test="completedOrderDto.packageBagMoney != null">
+            AND a.package_bag_money = #{completedOrderDto.packageBagMoney}
+        </if>
+        <if test="completedOrderDto.estimateArrivalTime != null and completedOrderDto.estimateArrivalTime != ''">
+            AND a.estimate_arrival_time = #{completedOrderDto.estimateArrivalTime}
+        </if>
+        <if test="completedOrderDto.packageBagMoneyYuan != null and completedOrderDto.packageBagMoneyYuan != ''">
+            AND a.package_bag_money_yuan = #{completedOrderDto.packageBagMoneyYuan}
+        </if>
+        <if test="completedOrderDto.poiReceiveDetailYuan != null and completedOrderDto.poiReceiveDetailYuan != ''">
+            AND a.poi_receive_detail_yuan = #{completedOrderDto.poiReceiveDetailYuan}
+        </if>
+        <if test="completedOrderDto.totalWeight != null">
+            AND a.total_weight = #{completedOrderDto.totalWeight}
+        </if>
+        <if test="completedOrderDto.incmpCode != null">
+            AND a.incmp_code = #{completedOrderDto.incmpCode}
+        </if>
+        <if test="completedOrderDto.incmpModules != null and completedOrderDto.incmpModules != ''">
+            AND a.incmp_modules = #{completedOrderDto.incmpModules}
+        </if>
+        <if test="completedOrderDto.orderPhoneNumber != null and completedOrderDto.orderPhoneNumber != ''">
+            AND a.order_phone_number = #{completedOrderDto.orderPhoneNumber}
+        </if>
+        <if test="completedOrderDto.date != null and completedOrderDto.date != ''">
+            AND a.date = #{completedOrderDto.date}
+        </if>
+        <if test="completedOrderDto.timemillis != null">
+            AND a.timemillis = #{completedOrderDto.timemillis}
+        </if>
+        <if test="completedOrderDto.pickingCompleted != null">
+            AND a.picking_completed = #{completedOrderDto.pickingCompleted}
+        </if>
+        <if test="completedOrderDto.je != null">
+            AND a.je = #{completedOrderDto.je}
+        </if>
+        <if test="completedOrderDto.tkje != null">
+            AND a.tkje = #{completedOrderDto.tkje}
+        </if>
+        <if test="completedOrderDto.cfJe != null">
+            AND a.cf_je = #{completedOrderDto.cfJe}
+        </if>
+        <if test="completedOrderDto.yyflv != null">
+            AND a.yyflv = #{completedOrderDto.yyflv}
+        </if>
+        <if test="completedOrderDto.yyfJe != null">
+            AND a.yyf_je = #{completedOrderDto.yyfJe}
+        </if>
+        <if test="completedOrderDto.zji != null">
+            AND a.zji = #{completedOrderDto.zji}
+        </if>
+        <if test="completedOrderDto.fzje != null">
+            AND a.fzje = #{completedOrderDto.fzje}
+        </if>
+        <if test="completedOrderDto.skje != null">
+            AND a.skje = #{completedOrderDto.skje}
+        </if>
+        <if test="completedOrderDto.tzje != null">
+            AND a.tzje = #{completedOrderDto.tzje}
+        </if>
+        <if test="completedOrderDto.chId != null and completedOrderDto.chId != ''">
+            AND a.ch_id = #{completedOrderDto.chId}
+        </if>
+        <if test="completedOrderDto.chFyCf != null">
+            AND a.ch_fy_cf = #{completedOrderDto.chFyCf}
+        </if>
+        <if test="completedOrderDto.chFyYyf != null">
+            AND a.ch_fy_yyf = #{completedOrderDto.chFyYyf}
+        </if>
+        <if test="completedOrderDto.chZji != null">
+            AND a.ch_zji = #{completedOrderDto.chZji}
+        </if>
+        <if test="completedOrderDto.chTzje != null">
+            AND a.ch_tzje = #{completedOrderDto.chTzje}
+        </if>
+    </sql>
+
+    <!--分页查询-->
+    <select id="findPage" resultType="CompletedOrder">
+        <include refid="findList"/>
+    </select>
+
+    <!--列表查询-->
+    <select id="findList" resultType="CompletedOrder">
+        <include refid="findList"/>
+    </select>
+
+
 </mapper>
